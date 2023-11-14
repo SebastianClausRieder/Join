@@ -1,0 +1,273 @@
+@media all and (min-width: 601px) and (max-width: 1000px) {
+    .contacts-title-contain {    
+        gap: 5%;
+    }
+
+    .contacts-title {
+        width: 33%;
+        border-right: 5px solid var(--highlighted);
+    }
+
+    .contacts-title-text {
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+    .contacts-contain {
+        width: 100%;
+        height: calc(100vh - 119px);
+    }
+
+    .contacts-contain-left1 {
+        width: 100%;
+        animation: 225ms ease-in-out;
+    }
+
+    .new-contact-contain {
+        width: 150px;
+        height: 35px;
+
+        margin-bottom: 0;
+    }
+
+    .new-contact-icon {
+        width: 20px;
+        height: 20px;
+    }
+
+    .contacts-contain-left2 {
+        height: 100%;
+    }
+
+    .file {
+        width: 90%;
+        min-height: 35px;
+    
+        padding-right: 10px;
+    }
+
+    .contact {
+        width: 90%;
+        min-height: 35px;
+    
+        gap: 10px;
+        padding-left: 10px;
+    }
+
+    .contact-initials {
+        width: 25px;
+        height: 25px;
+    
+        font-size: 14px;
+    }
+
+    /* Contact Ad Area */
+    
+    .contact-contain-right1 {
+        width: auto;
+        height: auto;
+
+        position: absolute;
+        top: 0; right: 0; bottom: 0; left: 0;
+
+        background-color: var(--main-background);
+        pointer-events: none;
+        z-index: 99;
+    }
+
+    /* Add Contact */
+    
+    .add-contact-main {
+        width: 425px;
+        height: 175px;
+    }
+
+    .add-contact-left {
+        gap: 5px;
+    }
+
+    .add-contact-left-join {
+        width: 90%;
+    }
+
+    .add-contact-join-logo {
+        width: 35px;
+    }
+
+    .add-contact-left-text1 {
+        font-size: 22px;
+    }
+
+    .add-contact-left-line {
+        height: 25px;
+    }
+
+    .add-contact-right {
+        gap: 5px;
+    }
+
+    .add-contact-right-input-area {
+        width: 90%;
+    }
+
+    .add-contact-img-contain {
+        width: 50px;
+        height: 50px;
+    }
+
+    .add-contact-img {
+        width: 35px;
+    }
+
+    .add-contact-input-fields {
+        width: 190px;
+        height: fit-content;
+    
+        gap: 3px;
+    }
+    
+    .add-contact-search-result {
+        width: 100%;
+        max-height: 100px;
+    
+        gap: 5px;    
+        top: 32px;
+    
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+
+    .result-text {
+        margin-left: 10px;
+    }
+
+    .add-contact-btn-area {
+        gap: 15px;
+    }
+
+    .add-contact-clear-btn {
+        width: 100px !important;
+        height: 35px !important;
+        
+        gap: 5px;
+    }
+
+    .add-contact-btn-img, .add-contact-btn-img-blue {
+        width: 12px;
+    }
+
+    .add-contact-clear-btn .add-contact-btn-img-blue {
+        top: 11px; right: 19px;
+    }
+
+    .add-contact-create-btn {
+        width: 150px !important;
+        height: 35px !important;
+    
+        gap: 5px;
+    }
+
+    .successfully-added {
+        font-size: 25px;
+    }
+
+    /* Contact */
+    
+    .contact-contain-right2 {
+        width: 95%;
+        height: 95%;
+    
+        gap: 5px;
+    }
+
+    .contact-name {
+        font-size: 25px;
+    }
+
+    .delete-contact {
+        width: 150px;
+        height: 25px;
+    }
+
+    .delete-contact-icon, .delete-contact-icon-blue {
+        width: 15px;
+        margin-right: 5px;
+    }
+
+    .contact-initials-bg {
+        width: 75px;
+        height: 75px;
+        font-size: 35px;
+    }
+
+    .contact-info-contain {
+        gap: 5px;
+    }
+
+    .contact-infos-left, .contact-infos-right {
+        font-size: 13px;
+    }
+
+    /* Contact Tasks */
+
+    .contact-tasks-contain1 {
+        min-height: 85px;
+        overflow: scroll;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+
+    .contact-tasks-contain2 {
+        width: fit-content;
+        gap: 10px;
+        flex: 0 0 auto;
+    }
+
+    .contact-board-tasks {
+        width: 75px;
+        height: 75px;
+    }
+
+    .contact-how-many-tasks {
+        font-size: 25px;
+    }
+
+    .contact-board-task-name, .contact-watch-text {
+        font-size: 13px;
+    }
+
+    .contact-summary-prio {
+        width: 300px;
+        height: 75px;
+    }
+
+    .contact-prio-left-img, .contact-watch-img {
+        width: 40px;
+    }
+
+    .contact-prio-date {
+        font-size: 15px;
+    }
+
+    .contact-summary-watch {
+        width: 125px;
+        height: 75px;
+    }
+
+    .contact-watch-contain {
+        width: 35%;
+        margin-left: 15px;
+    }
+
+    .contacts-back-contain {
+        width: 35px;
+        height: 35px;
+        display: flex;
+        position: absolute;
+        right: 15px; top: 15px;
+    }
+
+    .contacts-back-icon {
+        width: 20px;
+    }
+}

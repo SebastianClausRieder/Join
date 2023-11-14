@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Fonts -->
+    <link rel="stylesheet" href="css-files/font_inter.css">
+
+    <!-- embedded Files -->
+    <!-- CSS -->
+
+    <!-- Global -->
+    <link rel="stylesheet" href="css-files/global-css.css">
+    <link rel="stylesheet" href="responsive-files/601-1000/global.css">
+
+    <!-- Login -->
+    <link rel="stylesheet" href="css-files/logo-animation.css">
+    <link rel="stylesheet" href="css-files/login.css">
+    <link rel="stylesheet" href="responsive-files/350-600/login.css">
+    <link rel="stylesheet" href="responsive-files/601-1000/login.css">
+    <link rel="stylesheet" href="responsive-files/1001-1500/login.css">
+
+    <!-- Java Script -->
+    <script src="js-files/init.js"></script>
+    <script src="js-files/global-functions.js"></script>
+    <script src="js-files/storage.js"></script>
+    <script src="js-files/user-json.js"></script>
+    <script src="js-files/login.js"></script>
+    <script src="js-files/sign-up.js"></script>
+    <script src="js-files/forgot-pw.js"></script>
+    <script src="js-files/eventListener-resetPW.js"></script>
+    <script src="js-files/desktop-header.js"></script>
+
+    <!-- Title and Favicon -->
+    <link rel="shortcut icon" href="img/join-logo.png" type="image/x-icon">
+    <title>Join</title>
+
+</head>
+
+<body onload="onPageLoad()">
+    <div class="main-frame d-flex-center">
+        <div class="login-main-contain d-flex-center">
+            <div id="reset-pw" class="center-contain reset-contain d-flex-start-center-column">
+                <div class="login-title d-flex-start-center-column">
+                    <span class="login font-inter">Reset your password</span>
+                    <line class="login-line"></line>
+                </div>
+                <span class="forgot-pw-text font-inter">Change your account password</span>
+                <div class="login-fields d-flex-start-center-column">
+                    <div class="field-frame-1 d-flex-center-start-column">
+                        <div class="field-frame-2 d-flex-center">
+                            <div class="field-frame-3 d-flex-center">
+                                <input type="password" id="new-pw-input" class="input-field font-inter"
+                                    placeholder="New password">
+                                <div class="pw-icons d-flex-center">
+                                    <img src="img/icon/pw-eye.png" onclick="showPW('new-pw-input')" alt="pw eye"
+                                        class="pw-eye">
+                                    <img src="img/icon/pw-icon.png" alt="pw icon" class="pw-icon">
+                                </div>
+                            </div>
+                        </div>
+                        <span id="new-pw-request" class="request-area"></span>
+                    </div>
+                    <div class="field-frame-1 d-flex-center-start-column">
+                        <div class="field-frame-2 d-flex-center">
+                            <div class="field-frame-3 d-flex-center">
+                                <input type="password" id="confirm-pw-input" class="input-field font-inter"
+                                    placeholder="Confirm password">
+                                <div class="pw-icons d-flex-center">
+                                    <img src="img/icon/pw-eye.png" onclick="showPW('confirm-pw-input')" alt="pw eye"
+                                        class="pw-eye">
+                                    <img src="img/icon/pw-icon.png" alt="pw icon" class="pw-icon">
+                                </div>
+                            </div>
+                        </div>
+                        <span id="confirm-pw-request" class="request-area"></span>
+                    </div>
+                </div>
+                    <button class="reset-pw-btn d-flex-center" onclick="resetPW()"><span
+                            class="reset-pw-btn-text font-inter">Continue</span></button>
+                <div id="criteria-list" class="criteria-list-reset-pw d-flex-center-start-column">
+                    <li id="criteria1" class="criteria font-inter">At least 8 characters</li>
+                    <li id="criteria2" class="criteria font-inter">At least 1 capital letter</li>
+                    <li id="criteria3" class="criteria font-inter">At least 1 number</li>
+                </div>
+            </div>
+            <div id="messages" class="messages d-flex-center">
+                <div id="messages-contain" class="messages-contain d-flex-center-column">
+                </div>
+            </div>
+            <div class="join-logo-contain animated">
+                <img src="img/join-logo-animation.png" alt="Join Logo" class="join-logo animated">
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

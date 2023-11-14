@@ -1,0 +1,179 @@
+@media all and (min-width: 601px) and (max-width: 1000px) {
+    /* Add Task Beginn */
+
+    .add-task-main {
+        height: calc(100vh - 50px);
+    }
+
+    /* Formvalidation */
+    
+    .add-task-formvalidation {
+        height: fit-content;
+
+        flex-direction: column;
+    
+        margin-top: -10px;
+    }
+
+    /* Formvalidation left side */
+    
+    .formvalidation-left {
+        width: 100%;
+        height: fit-content;
+        gap: 5px;
+        border-right: 0;
+    }
+
+    /* Title */
+    
+    .input-fields {
+        gap: 4px;
+    }
+
+    .input-fields-input {
+        height: 35px;
+        margin-left: 10px;
+    }
+
+    /* Description */
+    
+    .description-input {
+        height: 40px;
+    }
+
+    /* Category */
+
+    .selector-input-contain {
+        height: 37px;
+    }
+
+    .selector-input {
+        width: calc(100% - 150px);
+        margin-left: 10px
+    }
+
+    .selector-select-contain {
+        width: 100px;
+    }
+
+    .select-color {
+        width: calc(100% - 35px);
+    }
+
+    .selector-btn {
+        width: 35px;
+        height: 37px;
+    }
+
+    .add-task-btn-img {
+        width: 15px;
+    }
+
+    .drop-down-menu {
+        max-height: 50px;
+    }
+
+    /* Assign-to */
+    
+    .selector-assign-to-input-contain {
+        height: 37px;
+    }
+
+    /* Formvalidation right side */
+    
+    .formvalidation-right {
+        width: 100%;
+        height: fit-content;
+    
+        align-items: flex-start;
+    }
+
+    .formvalidation-right-contain {
+        width: 100%;
+    
+        gap: 5px;
+    }
+
+    /* Due Date */
+    
+    .due-date-contain {
+        width: 90%;
+    }
+
+    /* Prio */
+    
+    .prio-btn-contain {
+        width: 95%;
+        height: 37px;
+    }
+
+    .prio-btn-img {
+        width: 15px;
+    }
+
+    /* Add to Task */
+    
+    .selector-add-to-task {
+        width: 90%;
+    }
+
+    .selector-add-to-task-input {
+        width: calc(100% - 90px);
+        margin-left: 15px
+    }
+
+    /* Subtasks */
+    
+    .subtask-contain {
+        width: 90%;
+    
+        justify-content: flex-start;
+    }
+
+    .subtask-check-text {
+        font-size: 12px;
+    }
+
+    .your-subtasks-contain {
+        width: 100%;
+        height: 50px;
+    }
+
+    /* Finish Buttons */
+    
+    .addTask-finish-btn-contain1 {
+        width: 100%;
+        height: fit-content;
+    }
+
+    .addTask-finish-btn-contain2 {    
+        width: 300px;
+        height: 35px;
+    }
+
+    .addTask-clear-btn {
+        width: 100px;
+        height: 35px;
+    }
+
+    .addTask-btn-img, .addTask-btn-img-blue {
+        width: 15px;
+    }
+
+    .addTask-clear-btn .addTask-btn-img-blue {
+        top: 9px; right: 16px;
+    }
+
+    .addTask-create-btn {
+        width: 150px;
+        height: 35px;
+    }
+
+    /* Add Task Message Area */
+    
+    .addTask-finish-message-area {
+        width: 200px;
+        height: 75px;
+        bottom: 3px; left: 100px;
+    }
+}

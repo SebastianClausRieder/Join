@@ -1,0 +1,570 @@
+/* Contacts Beginn */
+
+.contacts-main-contain {
+    width: 90%;
+    height: fit-content;
+}
+
+.contacts-title-contain {
+    width: 100%;
+    height: fit-content;
+
+    gap: 35px;
+}
+
+.contacts-title {
+    width: 25.4%;
+    border-right: 5px solid var(--highlighted);
+}
+
+.contacts-title-text {
+    font-size: 35px;
+    font-weight: 600;
+}
+
+.contacts-parting-line {
+    display: none;
+}
+
+.contacts-contain {
+    width: 100%;
+    height: calc(100vh - 275px);
+}
+
+.contacts-contain-left1 {
+    width: 28%;
+    height: 100%;
+
+    background-color: var(--card-color);
+
+    -moz-box-shadow: 7px 0 5px -2px var(--highlighted-shadow);
+    -webkit-box-shadow: 7px 0 5px -2px var(--highlighted-shadow);
+    box-shadow: 7px 0 5px -2px var(--highlighted-shadow);
+}
+
+.new-contact-contain {
+    width: 95%;
+    height: 50px;
+
+    background-color: var(--filled-button);
+    border-radius: 10px;
+    
+    margin-top: 5px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.new-contact-contain:hover {
+    background-color: var(--filled-button-hover);
+}
+
+.new-contact-text {
+    color: var(--dark-background-font);
+
+    gap: 15px;
+}
+
+.new-contact-icon {
+    width: 30px;
+    height: 30px;
+}
+
+.contacts-contain-left2 {
+    width: 99%;
+    height: calc(100% - 55px);
+
+    gap: 5px;
+
+    overflow: scroll;
+}
+
+.file {
+    width: 80%;
+    min-height: 50px;
+
+    justify-content: flex-end;
+
+    border-bottom: 2px solid var(--file-line);
+
+    border-radius: 10px 10px 0 0;
+
+    padding-right: 20px;
+}
+
+.contact {
+    width: 75%;
+    min-height: 55px;
+
+    gap: 25px;
+
+    border-radius: 10px;
+    padding-left: 15px;
+    cursor: pointer;
+}
+
+.contact:hover {
+    background-color: var(--highlighted);
+}
+
+.contact-initials {
+    width: 40px;
+    height: 40px;
+
+    font-size: 18px;
+    color: var(--dark-background-font);
+    border-radius: 50%;
+}
+
+/* Contact Ad Area */
+
+.contact-contain-right1 {
+    width: 72%;
+    height: 100%;
+
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+.fade-in {
+    opacity: 1;
+    transition: opacity 1s ease-in-out;
+}
+
+/* Add Contact */
+
+.add-contact-main {
+    width: 1050px;
+    height: 350px;
+
+    background: var(--login-box);
+    box-shadow: 0px 0px 14px 3px var(--login-box-shadow);
+    border-radius: 30px;
+
+    pointer-events: none;
+    z-index: 999;
+}
+
+.add-contact-left {
+    width: 35%;
+    height: 100%;
+
+    gap: 10px;
+
+    border: 1px solid var(--desktop-background);
+    background-color: var(--desktop-background);
+    border-radius: 30px 0 0 30px;
+}
+
+.add-contact-left-join {
+    width: 75%;
+    height: fit-content;
+}
+
+.add-contact-join-logo {
+    width: 50px;
+}
+
+.add-contact-left-text1 {
+    color: var(--dark-background-font);
+    font-size: 40px;
+}
+
+.add-contact-left-text2 {
+    color: var(--dark-background-font);
+}
+
+.add-contact-left-line {
+    width: 23%;
+    height: 60px;
+
+    border-top: 2px solid var(--parting-line);
+}
+
+.add-contact-right {
+    width: 65%;
+    height: 100%;
+
+    gap: 55px;
+}
+
+.add-contact-right-input-area {
+    width: 85%;
+    height: fit-content;
+
+    justify-content: space-between;
+}
+
+.add-contact-img-contain {
+    width: 100px;
+    height: 100px;
+
+    background-color: var(--add-contact);
+    border-radius: 50%;
+}
+
+.add-contact-img {
+    width: 55px;
+}
+
+.add-contact-input-fields {
+    width: fit-content;
+    height: fit-content;
+
+    gap: 10px;
+}
+
+.add-contact-search-result {
+    width: 100%;
+    max-height: 100px;
+
+    display: none;
+    gap: 10px;
+
+    position: absolute;
+    top: 52px;
+    
+    background: var(--input-background);
+    border: 1px solid var(--input-border);
+    border-radius: 10px;
+
+    padding-top: 10px;
+    padding-bottom: 10px;
+    z-index: 99;
+    overflow: scroll;
+}
+
+.result-text {
+    width: 90%;
+
+    margin-left: 20px;
+    cursor: pointer;
+}
+
+.result-text:hover {
+    background-color: var(--highlighted);
+}
+
+.add-contact-btn-area {
+    width: 100%;
+    height: fit-content;
+
+    gap: 25px;
+}
+
+.add-contact-clear-btn {
+    width: 161px;
+    height: 51px;
+    
+    gap: 15px;
+    cursor: pointer;
+
+    position: relative;
+
+    background-color: var(--unfilled-button);
+    border: 1px solid var(--unfilled-button-border);
+    border-radius: 8px;
+    
+    font-weight: 700;
+    color: var(--unfilled-button-font);
+}
+
+.add-contact-btn-img {
+    width: 20px;
+}
+
+.add-contact-btn-img-blue {
+    width: 20px;
+}
+
+.add-contact-clear-btn .add-contact-btn-img-blue {
+    display: none;
+    position: absolute;
+    top: 15px;
+    right: 26px;
+    z-index: 99;
+}
+
+.add-contact-clear-btn:hover {
+    border: 1px solid var(--unfilled-button-border-hover);
+    color: var(--unfilled-button-font-hover);
+}
+
+.add-contact-clear-btn:hover .add-contact-btn-img-blue {
+    display: inline;
+    transition: all 225ms ease-in-out;
+}
+
+.add-contact-create-btn {
+    width: 250px;
+    height: 51px;
+
+    gap: 15px;
+    cursor: pointer;
+
+    background: var(--filled-button);
+    border-radius: 8px;
+    border: 0;
+    
+    font-weight: 700;
+    color: var(--filled-button-font);
+    
+    transition: all 225ms ease-in-out;
+}
+
+.add-contact-create-btn:hover {
+    background: var(--filled-button-hover);
+    transition: all 225ms ease-in-out;
+}
+
+.successfully-added {
+    font-size: 45px;
+    text-align: center;
+}
+
+/* Contact */
+
+.contact-contain-right2 {
+    width: 90%;
+    height: 90%;
+
+    gap: 50px;
+}
+
+.contact-name-contain1 {
+    width: 100%;
+    height: fit-content;
+}
+
+.contact-name-contain-left {
+    width: 50%;
+    height: fit-content;
+}
+
+.contact-name-contain2 {
+    width: 100%;
+    height: 75px;
+}
+
+.contact-name {
+    font-size: 45px;
+    text-decoration: underline;
+    text-decoration-color: var(--highlighted);
+}
+
+.delete-contact {
+    width: 210px;
+    height: 35px;
+
+    background-color: var(--transparent);
+    border: 0;
+
+    position: relative;
+    cursor: pointer;
+}
+
+.delete-contact-icon, .delete-contact-icon-blue {
+    width: 25px;
+    margin-right: 10px;
+}
+
+.delete-contact .delete-contact-icon-blue {
+    display: none;
+    position: absolute;
+    top: 5px;
+    left: 6px;
+    z-index: 99;
+}
+
+.delete-contact:hover {
+    color: var(--highlighted-text);
+}
+
+.delete-contact:hover .delete-contact-icon-blue {
+    display: inline;
+    transition: all 225mx ease-in-out;
+}
+
+.contact-name-contain-right {
+    width: 50%;
+    height: 100%;
+}
+
+.contact-initials-bg {
+    width: 100px;
+    height: 100px;
+
+    border-radius: 50%;
+
+    font-size: 50px;
+    color: var(--dark-background-font);
+}
+
+.contact-liner {
+    width: fit-content;
+    height: 25px;
+
+    border-bottom: 2px solid var(--highlighted);
+}
+
+.contact-info-contain {
+    width: 100%;
+    height: fit-content;
+
+    gap: 10px;
+}
+
+.contact-info-title {
+    width: fit-content;
+    height: fit-content;
+
+    gap: 5px;
+}
+
+.contact-infos-left {
+    width: 75px;
+    height: 19px;
+
+    justify-content: flex-end;
+
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.contact-filled-info {
+    width: 500px;
+    height: fit-content;
+
+    gap: 5px;
+}
+
+.contact-infos-right {
+    width: fit-content;
+    height: 19px;
+
+    font-size: 18px;
+    font-weight: 400;
+}
+
+a {
+    text-decoration: none;
+    color: var(--highlighted-text);
+}
+
+/* Contact Tasks */
+
+.contact-tasks-contain1 {
+    width: 100%;
+    height: fit-content;
+}
+
+.contact-tasks-contain2 {
+    width: 100%;
+    height: fit-content;
+
+    gap: 15px;
+}
+
+.contact-board-tasks {
+    width: 125px;
+    height: 125px;
+
+    background-color: var(--card-color);
+    border: 2px solid var(--card-border);
+    border-radius: 30px;
+}
+
+.contact-how-many-tasks {
+    font-size: 35px;
+    font-weight: 800;
+}
+
+.contact-board-task-name {
+    font-size: 15px;
+    font-weight: 400;
+    text-align: center;
+}
+
+.contact-summary-prio {
+    width: 430px;
+    height: 125px;
+
+    background-color: var(--card-color);
+    border: 2px solid var(--card-border);
+    border-radius: 30px;
+}
+
+.contact-prio-left {
+    width: 35%;
+    height: 70%;
+
+    border-right: 2px solid var(--card-border);
+}
+
+.contact-prio-left-img {
+    width: 50px;
+}
+
+.contact-prio-left-contain {
+    width: 50%;
+    height: 100%;
+}
+
+.contact-prio-right {
+    width: 50%;
+    height: 70%;
+    
+    gap: 5px;
+}
+
+.contact-prio-date {
+    width: 100%;
+    height: 25%;
+
+    font-size: 22px;
+    font-weight: 800;
+    text-align: center;
+}
+
+.contact-prio-date-text {
+    width: 100%;
+    height: 25%;
+
+    font-size: 15px;
+    font-weight: 400;
+    text-align: center;
+}
+
+.contact-summary-watch {
+    width: 195px;
+    height: 125px;
+
+    background-color: var(--card-color);
+    border: 2px solid var(--card-border);
+    border-radius: 30px;
+}
+
+.contact-watch-img {
+    width: 50px;
+}
+
+.contact-watch-contain {
+    width: 25%;
+    height: 100%;
+
+    margin-left: 35px;
+}
+
+.contact-how-many-watch {
+    font-size: 40px;
+    font-weight: 800;   
+}
+
+.contact-watch-text {
+    font-size: 15px;
+    font-weight: 400;
+    text-align: center;
+}
+
+.contacts-back-contain {
+    display: none;
+}

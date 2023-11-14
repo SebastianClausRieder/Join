@@ -1,0 +1,40 @@
+@media all and (max-width: 600px) {
+    /* Font */
+
+    .font-inter {
+        font-size: 14px;
+    }
+
+    h1 {
+        font-size: 25px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+    
+        /* Remember me Check Box */
+        /* Checkbox */
+    
+        .checkbox {
+            width: 9px;
+            height: 9px;
+            
+            border: 1px solid var(--checkbox);
+            cursor: pointer;
+        }
+    
+        .checkmark {
+            width: 6px;
+        }
+
+        /* Global Contain */
+
+        .rightContent {
+            width: 100%;
+        }
+
+        .mainContainer {
+            height: calc(100vh - 175px);
+        }
+}

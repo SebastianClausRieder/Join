@@ -1,0 +1,58 @@
+@media all and (min-width: 1001px) and (max-width: 1500px) {
+    .center-contain {
+        width: 500px;
+
+        gap: 25px;
+    }
+
+    .login-title {
+        height: 75px;
+
+        gap: 20px;
+    }
+
+    .login {
+        font-size: 45px;
+    }
+
+    .login-line {
+        width: 125px;
+    }
+
+    .login-fields {
+        gap: 15px;
+    }
+
+    .field-frame-1 {
+        width: 400px;
+    }
+
+    .field-frame-2 {
+        height: 45px;
+    }
+
+    .pw-eye {
+        width: 28px;
+    }
+
+    .remember-and-forgot {
+        width: 375px;
+    }
+
+    .login-btns {
+        width: 335px;
+    }
+
+    .login-btn, .guest-btn {
+        width: 145px;
+        height: 50px;
+    }
+
+    .forgot-pw-area {
+        width: 725px;
+    }
+
+    .reset-contain {
+        width: 725px;
+    }
+}

@@ -1,0 +1,79 @@
+@media all and (min-width: 1001px) and (max-width: 1500px) {
+    .first-contain {
+        width: 100%;
+        height: 100%;
+        flex-direction: column-reverse;
+    }
+
+    /* Desktop */
+
+    .include-desktop {
+        width: 100%;
+    }
+
+    .desktop {
+        width: 100%;
+        height: 100px;
+        flex-direction: row;
+    }
+
+    .desktop-img {
+        width: 65px;
+        margin: 0;
+        margin-left: 50px;
+    }
+
+    .desktop-btn-contain-1 {
+        width: calc(100% - 350px);
+        height: 100%;
+        flex-direction: row;
+        margin: 0;
+    }
+
+    .desktop-btn-contain-2 {
+        width: 200px;
+        height: 100%;
+        flex-direction: row;
+        margin: 0;
+    }
+
+    .desktop-button-1, .desktop-button-2 {
+        width: 18%;
+        height: 100%;
+
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .desktop-button-2 {
+        width: 45%;
+    }
+
+    .desktop-icon-contain {
+        height: 50px;
+        margin: 0;
+    }
+
+    /* Header */
+
+    .headerContent {
+        height: 75px;
+    }
+
+    .header-title {
+        padding-left: 35px;
+    }
+
+    .user-menu {
+        top: 75px;
+    }
+
+    /* User Profil */
+
+    .add-contact-clear-btn .add-contact-btn-img-blue {
+        top: 14px;
+        right: 35px;
+    }
+}

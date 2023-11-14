@@ -1,0 +1,17 @@
+@media all and (min-width: 1001px) and (max-width: 1500px) {
+    .rightContent {
+        width: 100%;
+    }
+
+    .mainContainer {
+        height: calc(100vh - 175px);
+    }
+
+    .font-inter {
+        font-size: 16px;
+    }
+
+    h1 {
+        font-size: 35px;
+    }
+}

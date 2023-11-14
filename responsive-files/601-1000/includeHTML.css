@@ -1,0 +1,243 @@
+@media all and (min-width: 601px) and (max-width: 1000px) {
+
+    /* Desktop */
+
+    .desktop {
+        width: 150px;
+    }
+
+    .desktop-img {
+        width: 25px;
+        margin-top: 25px;
+    }
+
+    .desktop-btn-contain-1,
+    .desktop-btn-contain-2 {
+        gap: 5px;
+        margin: 0;
+    }
+
+    .desktop-btn-contain-2 {
+        margin-bottom: 10px;
+    }
+
+    .desktop-button-1,
+    .desktop-button-2 {
+        height: 25px;
+
+        gap: 10px;
+    }
+
+    .desktop-button-2 {
+        gap: 10px;
+    }
+
+    .desktop-icon-contain {
+        width: 25px;
+        height: 100%;
+
+        margin-left: 10px;
+    }
+
+    .desktop-icon {
+        width: 20px !important;
+        height: 20px !important;
+    }
+
+    .desktop-btn-text {
+        font-size: 12px;
+    }
+
+    /* Header */
+
+    .headerContent {
+        height: 50px;
+    }
+
+    .header-title {
+        font-size: 20px;
+        padding-left: 25px;
+    }
+
+    .headerContentUser {
+        width: 85px;
+    }
+
+    .information {
+        width: 20px;
+    }
+
+    .user {
+        width: 30px;
+        height: 30px;
+    }
+
+    .user-initials {
+        font-size: 18px;
+    }
+
+    .user-menu {
+        width: 125px;
+        top: 50px;
+        right: 25px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    .menu-contain {
+        height: 20px;
+    }
+
+    .menu-point {
+        font-size: 14px;
+    }
+
+    .power-btn {
+        width: 15px;
+    }
+
+    /* Help Center */
+
+    .help-text {
+        font-size: 15px;
+    }
+
+    li {
+        margin-left: 25px;
+    }
+
+    .join-team {
+        width: 100px;
+    }
+
+    .team-img {
+        width: 95px;
+        height: 95px;
+    }
+
+    .team-name {
+        font-size: 12px;
+    }
+
+    .closeHelp-contain {
+        width: 25px;
+        height: 25px;
+        top: 25px;
+        right: 25px;
+    }
+
+    .closeHelp-icon {
+        width: 20px;
+        height: 20px;
+    }
+
+    /* User Profil */
+
+    .user-contain1 {
+        height: 100px;
+    }
+
+    .user-profile-name {
+        font-size: 20px;
+    }
+
+    .user-profile-location {
+        font-size: 18px;
+    }
+
+    .location-icon {
+        width: 18px;
+        margin-right: 15px;
+    }
+
+    .user-edit-btn {
+        width: 85px;
+        height: 30px;
+    }
+
+    .user-image-contain {
+        width: 75px;
+        height: 75px;
+    }
+
+    .user-address-contain {
+        min-height: 25px;
+    }
+
+    .user-title {
+        width: 125px;
+        min-height: 18px;
+        font-size: 14px;
+        margin-right: 8px;
+    }
+
+    .user-info-text {
+        min-height: 18px;
+        font-size: 14px;
+    }
+
+    .leave-join-btn {
+        width: 175px;
+        height: 35px;
+        margin-top: 20px;
+    }
+
+    /* Edit Profile */
+
+    .edit-contain {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    .editor-select-color {
+        width: 75px;
+        height: 18px;
+    }
+
+    .user-input-area {
+        gap: 5px;
+    }
+
+    .user-input {
+        width: 250px;
+        height: 17px;
+    }
+
+    /* Verberge die auf und ab Pfeile im input[type="number"] */
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    .edit-profile-btn {
+        width: 150px;
+        height: 35px;
+
+        font-size: 18px;
+
+        margin-left: 2px;
+    }
+
+    .profile-edit-icon {
+        width: 18px;
+        margin-left: 10px;
+    }
+
+                .add-contact-clear-btn {
+                    width: 150px !important;
+                    height: 35px !important;
+                }
+
+    .closeUserProfile-contain {
+        width: 25px;
+        height: 25px;
+        top: 25px;
+        right: 25px;
+    }
+
+    .closeUserProfile-icon {
+        width: 20px;
+        height: 20px;
+    }
+}

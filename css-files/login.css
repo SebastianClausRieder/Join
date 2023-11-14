@@ -1,0 +1,508 @@
+/* Join Login */
+
+.main-frame {
+    width: 100%;
+    height: 100%;
+}
+
+.login-main-contain {
+    width: 100%;
+    height: 100%;
+}
+
+/* Sign up Bar */
+
+.sign-up-bar {
+    width: 300px;
+    height: 50px;
+
+    position: absolute;
+    top: 65px;
+    right: 125px;
+
+    justify-content: space-between;
+}
+
+.sign-up {
+    width: 165px;
+    height: 25px;
+
+    color: var(--main-color);
+}
+
+.login-sign-up-btn {
+    width: 100px;
+    height: 50px;
+
+    background: var(--filled-button);
+    border-radius: 10px;
+    border: 0;
+    
+    transition: all 225ms ease-in-out;
+    cursor: pointer;
+}
+
+.login-sign-up-btn:hover {
+    background: var(--filled-button-hover);
+    transition: all 225ms ease-in-out;
+}
+
+.login-sign-up-btn-text {
+    width: 75px;
+    height: fit-content;
+
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--filled-button-font);
+}
+
+/* Login */
+
+.center-contain {
+    width: 650px;
+    height: fit-content;
+
+    gap: 35px;
+
+    background: var(--login-box);
+    box-shadow: 0px 0px 14px 3px var(--login-box-shadow);
+    border-radius: 30px;
+
+    padding-top: 35px;
+    padding-bottom: 55px;
+}
+
+/* Title */
+
+.login-title {
+    width: 100%;
+    height: 100px;
+
+    gap: 25px;
+}
+
+.login {
+    width: 100%;
+    height: 75px;
+
+    font-weight: 700;
+    font-size: 60px;
+    text-align: center;
+}
+
+.login-line {
+    width: 150px;
+
+    border: 3px solid var(--parting-line);
+}
+
+/* Login Area */
+
+.login-fields {
+    width: 100%;
+    height: fit-content;
+    gap: 20px;
+}
+
+/* Input Area */
+
+.field-frame-1 {
+    width: 425px;
+    height: 75px;
+
+    gap: 8px;
+}
+
+.field-frame-2 {
+    width: 100%;
+    height: 50px;
+
+    gap: 10px;
+    position: relative;
+
+    background: var(--input-background);
+    border: 1px solid var(--input-border);
+    border-radius: 10px;
+}
+
+.field-frame-3 {
+    width: 90%;
+    height: 25px;
+
+    justify-content: space-between;
+}
+
+.input-field {
+    width: 80%;
+    height: 25px;
+
+    color: var(--input-font);
+
+    outline: none;
+    border: 0;
+}
+
+.input-field::placeholder {
+    color: var(--input-font-placeholder);
+}
+
+.input-field::placeholder {
+    /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: var(--input-font-placeholder);
+    opacity: 1;
+    /* Firefox */
+}
+
+.input-field:-ms-input-placeholder {
+    /* Internet Explorer 10-11 */
+    color: var(--input-font-placeholder);
+}
+
+.input-field::-ms-input-placeholder {
+    /* Microsoft Edge */
+    color: var(--input-font-placeholder);
+}
+
+/* Mail Icon */
+
+.mail-icon {
+    width: 20px;
+    height: 18px;
+}
+
+/* Passwort Icons */
+
+.pw-icons {
+    width: 70px;
+    height: 100%;
+
+    justify-content: space-between;
+}
+
+.pw-eye {
+    width: 30px;
+
+    cursor: pointer;
+}
+
+.pw-icon {
+    width: 18px;
+    height: 21px;
+}
+
+/* Remember me and Forgot my password */
+
+.remember-and-forgot {
+    width: 400px;
+    height: 20px;
+
+    justify-content: space-between;
+}
+
+.remember-1 {
+    width: 150px;
+    height: 20px;
+
+    justify-content: space-between;
+}
+
+/* Title */
+.remember-me {
+    width: 115px;
+    height: 19px;
+
+    font-weight: 400;
+    font-size: 16px;
+}
+
+.forgot {
+    width: 165px;
+    height: 19px;
+
+    justify-content: flex-end;
+
+    font-weight: 400;
+    font-size: 16px;
+    color: var(--highlighted-text);
+
+    cursor: pointer;
+}
+
+.forgot:hover {
+    text-decoration: underline;
+}
+
+/* Login Button's */
+
+/* Login User */
+
+.login-btns {
+    width: 365px;
+    height: 55px;
+
+    justify-content: space-between;
+}
+
+.login-btn {
+    width: 165px;
+    height: 55px;
+
+    cursor: pointer;
+
+    background: var(--filled-button);
+    border-radius: 8px;
+    border: 0;
+    
+    transition: all 225ms ease-in-out;
+}
+
+.login-btn:hover {
+    background: var(--filled-button-hover);
+    transition: all 225ms ease-in-out;
+}
+
+.login-btn-text {
+    font-weight: 700;
+    color: var(--filled-button-font);
+}
+
+/* Login Guest */
+
+.guest-btn {
+    width: 165px;
+    height: 55px;
+
+    cursor: pointer;
+
+    background-color: var(--unfilled-button);
+    border: 1px solid var(--unfilled-button-border);
+    border-radius: 8px;
+
+    transition: all 225ms ease-in-out;
+}
+
+.guest-btn:hover {
+    border: 1px solid var(--unfilled-button-border-hover);
+    transition: all 225ms ease-in-out;
+}
+
+.guest-btn-text {
+    font-weight: 700;
+    color: var(--unfilled-button-font);
+}
+
+.guest-btn-text:hover {
+    color: var(--unfilled-button-font-hover);
+    transition: all 225ms ease-in-out;    
+}
+
+/* Sign up Area */
+
+.sign-up-area {
+    display: none;
+    position: relative;
+}
+
+/* Sign up Input Filds */
+
+/* Sign up Name */
+
+.icon-box {
+    width: 20px;
+    height: 18px;
+}
+
+.sign-name-icon {
+    width: 15px;
+    height: 18px;
+}
+
+/* Back Button */
+
+.back-contain {
+    width: 40px;
+    height: 40px;
+
+    position: absolute;
+    left: 31px;
+    top: 35px;
+
+    cursor: pointer;
+}
+
+.back-icon {
+    width: 30px;
+    height: 30px;
+}
+
+/* Forgot my Password Area*/
+
+.forgot-pw-area {
+    width: 850px;
+    
+    display: none;
+    position: relative;
+}
+
+/* Forgot my Password */
+
+.forgot-pw-text {
+    width: 655px;
+    height: 50px;
+
+    text-align: center;
+}
+
+.forgot-pw-fv {
+    width: fit-content;
+    height: fit-content;
+
+    gap: 15px;
+}
+
+.forgot-pw-mail-icon {
+    width: 20px;
+    height: 18px;
+}
+
+/* Message Temps */
+
+.mail-check-contain {
+    width: 475px;
+    height: 100px;
+
+    gap: 20px;
+
+    border-radius: 20px;
+    background-color: var(--message-field);
+}
+
+.mail-check-icon {
+    width: 50px;
+    height: 50px;
+    margin-top: -7px;
+}
+
+.mail-check-text {
+    font-family: 'Inter';
+    font-size: 25px;
+    color: var(--message);
+}
+
+/* Reset my Password */
+
+.reset-contain {
+    width: 850px;
+    
+    position: relative;
+}
+
+.reset-pw-btn {
+    width: 185px;
+    height: 55px;
+
+    cursor: pointer;
+
+    background: var(--filled-button);
+    border-radius: 8px;
+    border: 0;
+    
+    transition: all 225ms ease-in-out;
+}
+
+.reset-pw-btn:hover {
+    background: var(--filled-button-hover);
+    transition: all 225ms ease-in-out;
+}
+
+.reset-pw-btn-text {
+    font-weight: 700;
+    color: var(--filled-button-font);
+}
+
+/* Criteria Field */
+
+.criteria-list-sign-up, .criteria-list-reset-pw {
+    width: 200px;
+    height: 65px;
+
+    position: absolute;
+
+    display: none;
+    padding-left: 10px;
+
+    background-color: var(--criteria);
+    border-radius: 10px;
+}
+
+.criteria-list-sign-up {
+    bottom: 155px; right: -110px;
+}
+
+.criteria-list-reset-pw {
+    top: 250px; right: -20px;
+}
+
+.criteria {
+    font-weight: 400;
+    font-size: 15px;
+    color: var(--message);
+}
+
+/* You rest your Password */
+
+.YRYPW-contain {
+    width: 550px;
+    height: 75px;
+
+    gap: 5px;
+
+    border-radius: 20px;
+    background-color: var(--message-field);
+}
+
+.YRYPW-icon {
+    width: 50px;
+    height: 50px;
+    margin-top: -7px;
+}
+
+.YRYPW-text {
+    font-family: 'Inter';
+    font-size: 23px;
+    font-weight: 400;
+    color: var(--message);
+    text-align: center;
+}
+
+/* Messages Area */
+
+.messages {
+    width: 100%;
+    height: 100%;
+
+    display: none;
+
+    background: var(main-background);
+}
+
+.messages-contain {
+    width: 655px;
+    height: 515px;
+
+    gap: 35px;
+    position: relative;
+
+    background: #FFFFFF;
+    box-shadow: 0px 0px 14px 3px var(--login-box-shadow);
+    border-radius: 30px;
+}
+
+.message-sign-up {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 30px;
+    color: var(--main-color);
+    text-align: center;
+}

@@ -1,0 +1,142 @@
+@media all and (min-width: 1001px) and (max-width: 1500px) {
+    .add-task-main {
+        width: 93%;
+        height: 100%;
+    }
+
+    .add-task-formvalidation {
+        height: fit-content;
+        margin-top: -10px;
+    }
+
+    /* Formvalidation left side */
+
+    .formvalidation-left {
+        gap: 5px;
+    }
+
+    /* Input fields */
+
+    .input-fields {
+        gap: 4px;
+    }
+
+    .input-fields-input {
+        height: 30px;
+    }
+
+    /* Description */
+
+    .description-input {
+        height: 45px;
+    }
+
+    /* Category */
+
+    .selector-input-contain {
+        height: 32px;
+    }
+
+    .selector-select-contain {
+        width: 150px;
+    }
+
+    .selector-input {
+        width: calc(100% - 155px);
+        margin-left: 15px
+    }
+
+    .selector-select-contain {
+        width: 100px;
+    }
+
+    .select-color {
+        width: calc(100% - 30px);
+    }
+
+    .selector-btn {
+        width: 30px;
+        height: 32px;
+    }
+
+    .add-task-btn-img {
+        width: 15px;
+    }
+
+    .drop-down-menu {
+        max-height: 60px;
+    }
+
+    /* Assign-to */
+
+    .selector-assign-to-input-contain {
+        height: 32px;
+    }
+    
+    /* Formvalidation right side */
+
+    .formvalidation-right-contain {
+        gap: 5px;
+    }
+
+    /* Prio */
+
+    .prio-btn-contain {
+        height: 32px;
+    }
+
+    .prio-btn {
+        gap: 5px;
+    }
+
+    .prio-btn-img {
+        width: 15px;
+    }
+
+    /* Add to Task */
+    
+    .selector-add-to-task-input {
+        width: calc(100% - 90px);
+        margin-left: 15px
+    }
+
+    /* Subtasks */
+
+    .subtask-check-text {
+        font-size: 14px;
+    }
+
+    .your-subtasks-contain {
+        height: 60px;
+    }
+
+    /* Finish Buttons */
+
+    .addTask-finish-btn-contain1 {
+        height: fit-content;
+    }
+
+    .addTask-finish-btn-contain2 {    
+        width: 300px;
+    }
+    
+    .addTask-clear-btn .addTask-btn-img-blue {
+        top: 10px; right: 23.5px;
+    }
+
+    .addTask-clear-btn {
+        width: 125px;
+        height: 40px;
+    }
+
+    .addTask-create-btn {
+        width: 150px;
+        height: 40px;
+    }
+
+    /* Add Task Message Area */
+    
+    .addTask-finish-message-area {
+        left: 300px;
+    }
+}

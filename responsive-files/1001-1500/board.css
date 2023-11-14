@@ -1,0 +1,88 @@
+@media all and (min-width: 1001px) and (max-width: 1500px) {
+
+    .board-main {
+        width: 93%;
+        height: 100%;
+    }
+
+    .dash-board {
+        height: 125px;
+    }
+
+    .search-and-add {
+        height: 60px;
+    }
+
+    /* Tasks */
+
+    .render-tasks {
+        height: calc(100vh - 305px);
+        gap: 25px;
+    }
+
+    .task-main {
+        width: 250px;
+    }
+
+    .task-title-contain {
+        width: 95%;
+    }
+
+    .board-task-contain1 {
+        gap: 15px;
+    }
+
+    .board-task-contain2 {
+        padding-top: 8px;
+        padding-bottom: 8px;
+    }
+
+    .board-task-contain3 {
+        gap: 10px;
+    }
+
+    .task-category-frame {
+        height: 30px;
+    }
+
+    /* Assign */
+
+    .board-task-assign-contact {
+        width: 30px;
+        height: 30px;
+    }
+
+    .assign-contact-font {
+        font-size: 15px;
+    }
+
+    .board-task-prio-img {
+        width: 20px;
+    }
+
+    /* Open Task */
+
+    .open-task-main-contain {
+        width: 90%;
+    }
+
+    .open-task-inside {
+        flex-direction: row;
+    }
+
+    .open-task-subtasks {
+        width: 95%;
+    }
+
+    /* Close Button */
+
+    .closeTask-contain {
+        right: 20px; top: 20px;
+    }
+
+    /* Button Contain */
+
+    .open-task-btn-contain {
+        right: 20px; bottom: 20px;
+    }
+}

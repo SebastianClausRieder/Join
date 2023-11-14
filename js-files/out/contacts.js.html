@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: contacts.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: contacts.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>// JS Contacts
+
+// Globals
+
+let myContatcsArray = [];
+
+// Funktions
+
+/**
+ * Loads the user's contacts.
+ */
+function loadContacts() {
+    const userContacts = joinUsers[userI]['userContacts']['contactName'];
+    
+    if (userContacts &amp;&amp; userContacts.length > 0) {
+        const sortedContacts = userContacts.sort();
+        myContatcsArray = groupContactsByInitial(sortedContacts);
+
+        if (element('my-contacts')) {
+            writeContactList();
+        }
+
+        if (element('drop-down-menu-assign-to')) {
+            openDropDownAssignTo();
+        }
+    }
+}
+
+/**
+ * Function to group contacts by first letter.
+ * @param {array} sortetContacts
+ * @returns // Cataloged, Alphabetically Sorted Arrays.
+ */
+function groupContactsByInitial(sortetContacts) {
+    let groupedContacts = {};
+
+    for (let contact of sortetContacts) {
+        let initial = contact[0].toUpperCase(); // First letter of the name in upper case.
+
+        if (!(initial in groupedContacts)) {
+            groupedContacts[initial] = [];
+        }
+
+        groupedContacts[initial].push(contact);
+    }
+
+    return groupedContacts;
+}
+
+/**
+ * Creates the alphabetically sorted contact list.
+ */
+function writeContactList() {
+    const contactContain = element('my-contacts');
+    contactContain.innerHTML = '';
+
+    Object.keys(myContatcsArray).forEach(file => {
+        contactContain.innerHTML += /*html */ `
+            &lt;div id="file${file}" class="file d-flex-start-center">
+                &lt;span class="font-inter">${file}&lt;/span>
+            &lt;/div>
+        `;
+
+        writeContacts(file, contactContain);
+    });
+}
+
+/**
+ * Write the corresponding contacts for each letter.
+ * @param {object} file Contains the names of a letter from the alphabet.
+ * @param {element} contactContain Div container in which the contact list is loaded.
+ */
+async function writeContacts(file, contactContain) {
+    const fileContacts = myContatcsArray[file];
+    const updatedFileContacts = [];
+
+    for (const contact of fileContacts) {
+        const contactInfos = findUserByName(contact);
+
+        if (contactInfos) {
+            const contactInitials = extractedInitials(contactInfos['userName']);
+            const contactColor = contactInfos['userColor'];
+
+            contactContain.innerHTML += /*html */ `
+                &lt;div class="contact d-flex-start-center" onclick="showclickedContact('${contact}')">
+                    &lt;div class="contact-initials d-flex-center font-inter" style="background-color: ${contactColor}">${contactInitials}&lt;/div>
+                    &lt;span class="font-inter">${contact}&lt;/span>
+                &lt;/div>
+            `;
+
+            updatedFileContacts.push(contact);
+        }
+    }
+
+    // Update the contacts array for the file
+    myContatcsArray[file] = updatedFileContacts;
+
+    // Remove the file element if there are no contacts left
+    if (updatedFileContacts.length === 0) {
+        deleteElementById(`file${file}`);
+    }
+}
+
+/**
+ * Deletes the selected contact.
+ * @param {element} elementId Container in which the contact name is written.
+ */
+function deleteElementById(elementId) {
+    const elementToDelete = element(elementId);
+
+    if (elementToDelete) {
+        elementToDelete.remove();
+    } else {
+        console.log(`Element with ID ${elementId} not found.`);
+    }
+}
+
+// Render to right side.
+
+// Global
+
+let rightSideOpen = false;
+
+// Functions
+
+// Add contact rendering.
+
+/**
+ * Opens the Add contact interface.
+ * @param {ID} ID Tells the function into which DIV container Add contact should be loaded.
+ */
+async function addNewContact(ID) {
+    const contactContainer = element(ID);
+    contactContainer.classList.remove('fade-in');
+
+    if (rightSideOpen) {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+    }
+
+    contactContainer.innerHTML = await addContactTemp(ID);
+    contactContainer.classList.add('fade-in');
+
+    element('add-contact-main').classList.add('pointer-event');
+
+    rightSideOpen = true;
+}
+
+async function addContactTemp(ID) {
+    return /*html */ `
+        &lt;div id="add-contact-main" class="add-contact-main d-flex-center">
+            &lt;div class="add-contact-left d-flex-center-column">
+                &lt;div class="add-contact-left-join d-flex-start-center">
+                    &lt;img src="img/join-logo.png" class="add-contact-join-logo">
+                &lt;/div>
+                &lt;div class="add-contact-left-join d-flex-start-center">
+                    &lt;span class="add-contact-left-text1 font-inter">Add contact&lt;/span>
+                &lt;/div>
+                &lt;div class="add-contact-left-join d-flex-start-center">
+                    &lt;span class="add-contact-left-text2 font-inter">Do your tasks as a team.&lt;/span>
+                &lt;/div>
+                &lt;div class="add-contact-left-join d-flex-start-center">
+                    &lt;div class="add-contact-left-line">&lt;/div>
+                &lt;/div>
+            &lt;/div>
+            &lt;div class="add-contact-right d-flex-center-column">
+                &lt;div class="add-contact-right-input-area d-flex-center">
+                    &lt;div class="add-contact-img-contain d-flex-center">
+                        &lt;img src="img/icon/person.png" class="add-contact-img">
+                    &lt;/div>
+                    &lt;div class="add-contact-input-fields d-flex-center-start-column">
+                        &lt;div class="field-frame-2 d-flex-center">
+                            &lt;div class="field-frame-3 d-flex-center">
+                                &lt;input id="add-contact-name-input" type="text" class="input-field font-inter" onkeyup="searchIN('userName', 'name')"
+                                    placeholder="Search by Name">
+                                &lt;div class="icon-box d-flex-center">
+                                    &lt;img src="img/icon/name-icon.png" alt="name icon" class="sign-name-icon">
+                                &lt;/div>
+                            &lt;/div>
+                            &lt;div id="add-contact-result-name" class="add-contact-search-result d-flex-start-column">&lt;/div>
+                        &lt;/div>
+                        &lt;span id="add-contact-name-request" class="request-area">&lt;/span>
+                        &lt;div class="field-frame-2 d-flex-center">
+                            &lt;div class="field-frame-3 d-flex-center">
+                                &lt;input id="add-contact-mail-input" type="email" class="input-field font-inter" onkeyup="searchIN('userMail', 'mail')"
+                                    placeholder="Search by E-Mail">
+                                &lt;img src="img/icon/mail-icon.png" alt="mail icon" class="mail-icon">
+                            &lt;/div>
+                            &lt;div id="add-contact-result-mail" class="add-contact-search-result d-flex-start-column">&lt;/div>
+                        &lt;/div>
+                        &lt;span id="add-contact-mail-request" class="request-area">&lt;/span>
+                    &lt;/div>
+                &lt;/div>
+                &lt;div class="add-contact-btn-area d-flex-center">
+                    &lt;button class="add-contact-clear-btn d-flex-center font-inter" onclick="cancelAddContact('${ID}')">Cancel 
+                        &lt;img src="img/icon/clear-mark.png" class="add-contact-btn-img">
+                        &lt;img src="img/icon/clear-mark-blue.png" class="add-contact-btn-img-blue">
+                    &lt;/button>
+                    &lt;button class="add-contact-create-btn d-flex-center font-inter" onclick="addContact('${ID}')">Create contact 
+                        &lt;img src="img/icon/check-mark3-white.png" class="add-contact-btn-img">
+                    &lt;/button>                    
+                &lt;/div>
+            &lt;/div>
+        &lt;/div>
+    `;
+}
+
+// Add Contact Globals
+
+let searchResults = [];
+let foundName;
+
+// Add Contact Functions
+
+/**
+ * Searches the joinUser array for names or emails that match the search query.
+ * @param {parameter} USER Name or email of the user.
+ * @param {Part of ID} array Gives the ID “name” or “mail” as an addition.
+ * @returns Terminates the function if the search query is empty.
+ */
+function searchIN(USER, array) {
+    const query = element(`add-contact-${array}-input`).value.toLowerCase();
+    const resultField = element(`add-contact-result-${array}`);
+
+    if (query === '') {
+        resultField.classList.remove('d-show');
+        return;
+    }
+
+    searchResults = [];
+    resultField.innerHTML = '';
+    resultField.classList.remove('d-show');
+
+    for (const contact of joinUsers) {
+        if (contact[USER].toLowerCase().includes(query)) {
+            searchResults.push({ [USER]: contact[USER] });
+            resultField.classList.add('d-show');
+            renderAddContactSearchResult(resultField, array);
+        }        
+    }
+}
+
+/**
+ * Displays the search result.
+ * @param {element} resultField Container in which the search result is displayed.
+ * @param {Part of ID} array Gives the ID “name” or “mail” as an addition.
+ */
+function renderAddContactSearchResult(resultField, array) {
+    resultField.innerHTML = ``;
+    
+    searchResults.forEach(result => {
+        for (const key in result) {
+            if (Object.hasOwnProperty.call(result, key)) {
+                resultField.innerHTML += /*html */ `
+                    &lt;span class="result-text font-inter" onclick="addToField('${array}', '${result[key]}')">${result[key]}&lt;/span>
+                `;
+            }
+        }      
+    });
+}
+
+/**
+ * Inserts the found user into the input field.
+ * @param {Part of ID} array Gives the ID “name” or “mail” as an addition.
+ * @param {result} user Found user.
+ */
+function addToField(array, user) {
+    element(`add-contact-${array}-input`).value = `${user}`;
+    element(`add-contact-result-${array}`).classList.remove('d-show');
+}
+
+/**
+ * Beginning to adds the searched contact to your contact list.
+ * @param {ID} ID Tells the function into which DIV container Add contact should be loaded.
+ */
+function addContact(ID) {
+    const newContactName = element('add-contact-name-input').value;
+    const newContactMail = element('add-contact-mail-input').value;
+
+    if (newContactName !== '' &amp;&amp; newContactMail !== '') {
+        element('add-contact-name-request').innerText = 'You can only search for a name or an mail.';
+    } else {
+        if (newContactName !== '' || newContactMail !== '') {
+            const checked = checkUserIsOnJoin(newContactName, newContactMail);
+
+            if (!checked &amp;&amp; newContactName !== '') {
+                element('add-contact-name-request').innerText = 'The name entered is not on Join.';
+                element('add-contact-mail-request').innerText = '';
+            } else if (!checked &amp;&amp; newContactMail !== '') {
+                element('add-contact-mail-request').innerText = 'The email you entered does not exist in Join.';
+                element('add-contact-name-request').innerText = '';
+            } else {
+                addToContacts(newContactName, newContactMail, ID);
+            }
+        } else {
+            element('add-contact-name-request').innerText = 'Please write a name or mail in the field.';
+        }}
+}
+
+/**
+ * Checks whether the user you are looking for is logged in to Join.
+ * @param {object} newContactName Name from User.
+ * @param {object} newContactMail Mail from User.
+ * @returns true or false
+ */
+function checkUserIsOnJoin(newContactName, newContactMail) {
+    for (let i = 0; i &lt; joinUsers.length; i++) {
+        if (joinUsers[i]['userName'] === newContactName || joinUsers[i]['userMail'] === newContactMail) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
+ * Adds the searched contact to your contact list.
+ * @param {object} newContactName Name from User.
+ * @param {object} newContactMail Mail from User.
+ * @param {ID} ID Tells the function into which DIV container Add contact should be loaded.
+ */
+async function addToContacts(newContactName, newContactMail, ID) {
+    let foundName = newContactMail ? findNewContactByMail(newContactMail) : newContactName;
+    
+    if (!getMyContactIndex(foundName)) {
+        joinUsers[userI]['userContacts']['contactName'].push(foundName);
+        clearAddContact();
+        successfullyAdded(ID);
+        loadContacts();
+        await updateTaskData();
+    } else {
+        element('add-contact-name-request').innerText = 'This Join user is already among your contacts.';
+    }
+}
+
+/**
+ * Checks if the Contact already exists in your Contacts array.
+ * @param {string} foundName // Name from Contact.
+ * @returns // Returns the result of the verification.
+ */
+function getMyContactIndex(foundName) {
+    return joinUsers[userI].userContacts.contactName.includes(foundName);
+}
+
+/**
+ * Resets “Add-Contact”.
+ */
+function clearAddContact() {
+    element(`add-contact-result-name`).classList.remove('d-show');
+    element(`add-contact-result-mail`).classList.remove('d-show');
+    element(`add-contact-result-name`).value = '';
+    element(`add-contact-result-mail`).value = '';
+    element('add-contact-name-request').innerText = '';
+    element('add-contact-mail-request').innerText = '';
+
+    if (window.innerWidth &lt;= 1000) {
+        element("add-contact-main").classList.remove('pointer-event');
+    }
+}
+
+// Contact added successfully.
+
+/**
+ * Issues confirmation for the successful addition of a new contact.
+ * @param {ID} ID Tells the function into which DIV container Add contact should be loaded.
+ */
+async function successfullyAdded(ID) {
+    const contactContainer = element(ID);
+    contactContainer.classList.remove('fade-in');
+
+    if (rightSideOpen) {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+    }
+
+    rightSideOpen = true;
+    contactContainer.innerHTML = await successfullyAddedTemp();
+
+    contactContainer.classList.add('fade-in');
+
+    await new Promise(resolve => setTimeout(() => {
+        contactContainer.classList.remove('fade-in');
+        rightSideOpen = false;
+    }, 5000));
+}
+
+async function successfullyAddedTemp() {
+    return /*html */ `        
+        &lt;div class="add-contact-main d-flex-center">
+            &lt;div class="add-contact-left d-flex-center-column">
+                &lt;div class="add-contact-left-join d-flex-start-center">
+                    &lt;img src="img/join-logo.png" class="add-contact-join-logo">
+                &lt;/div>
+                &lt;div class="add-contact-left-join d-flex-start-center">
+                    &lt;span class="add-contact-left-text1 font-inter">Add contact&lt;/span>
+                &lt;/div>
+                &lt;div class="add-contact-left-join d-flex-start-center">
+                    &lt;span class="add-contact-left-text2 font-inter">Do your tasks as a team.&lt;/span>
+                &lt;/div>
+                &lt;div class="add-contact-left-join d-flex-start-center">
+                    &lt;div class="add-contact-left-line">&lt;/div>
+                &lt;/div>
+            &lt;/div>
+            &lt;div class="add-contact-right d-flex-center-column">
+                &lt;span class="successfully-added font-inter">You have successfully&lt;br>added a new contact.&lt;/span>
+            &lt;/div>
+        &lt;/div>
+    `;
+}
+
+/**
+ * Cancels the contact addition process.
+ * @param {ID} ID Tells the function into which DIV container Add contact should be loaded.
+ */
+async function cancelAddContact(ID) {
+    clearAddContact();
+    const contactContainer = element(ID);
+    
+    contactContainer.classList.remove('fade-in');
+    rightSideOpen = false;
+    
+    if (element('open-add-contact')) {
+        await new Promise(resolve => setTimeout(() => {
+            element('open-add-contact').classList.remove('d-show');
+        }, 1000));
+    }
+}
+
+// Delete Contact
+
+/**
+ * Deletes the selected contact.
+ * @param {opject} contact Name of the selected contact.
+ */
+async function deleteContact(contact) {
+    const userContactsArray = joinUsers[userI]['userContacts']['contactName'];
+    const index = userContactsArray.indexOf(contact);
+
+    if (index !== -1) {
+        userContactsArray.splice(index, 1);
+    }
+
+    loadContacts();
+    await updateTaskData();
+    
+    const renderClickedContact = element('render-clicked-contact');
+    renderClickedContact.classList.remove('fade-in');
+    rightSideOpen = false;
+    
+    if (window.innerWidth &lt;= 1000) {
+        renderClickedContact.classList.remove('pointer-event');
+    }
+}
+
+// Contact rendering.
+
+/**
+ * Shows the clicked contact.
+ * @param {opject} contact Name of the selected contact.
+ */
+async function showclickedContact(contact) {
+    const contactContainer = element('render-clicked-contact');
+    contactContainer.classList.remove('fade-in');
+
+    if (rightSideOpen) {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+    } rightSideOpen = true;
+    
+    if (window.innerWidth &lt;= 1000) {
+        contactContainer.classList.add('pointer-event');
+    }
+
+    contactContainer.innerHTML = ``;
+    contactContainer.innerHTML = await clickedContactTemp(contact);
+
+    contactContainer.classList.add('fade-in');
+    loadWatchContacts(contact);
+}
+
+async function clickedContactTemp(contact) {
+    let contactInfos = findUserByName(contact);
+    let contactInitials = extractedInitials(contactInfos['userName']);
+    return /*html */ `
+        &lt;div class="contact-contain-right2 d-flex-start-column">
+            &lt;div class="contact-name-contain1 d-flex-start">
+                &lt;div class="contact-name-contain-left d-flex-start-column">
+                    &lt;div class="contact-name-contain2 d-flex-start-center">
+                        &lt;span class="contact-name font-inter">${contactInfos['userName']}&lt;/span>
+                    &lt;/div>
+                    &lt;button class="delete-contact font-inter d-flex-start-center" onclick="deleteContact('${contactInfos['userName']}')">&lt;img src="img/icon/delete.png" class="delete-contact-icon">&lt;img src="img/icon/delete-blue.png" class="delete-contact-icon-blue"> Delete Contact&lt;/button>
+                &lt;/div>
+                &lt;div class="contact-name-contain-right d-flex-center">
+                    &lt;div class="contact-initials-bg d-flex-center font-inter" style="background-color: ${contactInfos['userColor']};">${contactInitials}&lt;/div>
+                &lt;/div>
+            &lt;/div>
+            &lt;div class="contact-liner d-flex-start-center">
+                &lt;span class="font-inter">Contact Information&lt;/span>
+            &lt;/div>
+            &lt;div class="contact-info-contain d-flex-start">
+                &lt;div class="contact-info-title d-flex-start-column">
+                    &lt;div class="contact-infos-left font-inter d-flex-center">E-Mail:&lt;/div>
+                    &lt;div class="contact-infos-left font-inter d-flex-center">Phone:&lt;/div>
+                    &lt;div class="contact-infos-left font-inter d-flex-center">Address:&lt;/div>
+                &lt;/div>
+                &lt;div class="contact-filled-info d-flex-start-column">
+                    &lt;div class="contact-infos-right font-inter d-flex-start-center">&lt;a class="mail-to" href="mailto:${contactInfos['userMail']}">${contactInfos['userMail']}&lt;/a>&lt;/div>
+                    &lt;div class="contact-infos-right font-inter d-flex-start-center">${contactInfos['userPhone']}&lt;/div>
+                    &lt;span class="contact-infos-right font-inter d-flex-start">${contactInfos['userAddress']}&lt;/span>
+                &lt;/div>
+            &lt;/div>
+            &lt;div class="contact-liner d-flex-start-center">
+                &lt;span class="font-inter">Look if you can help&lt;/span>
+            &lt;/div>
+            &lt;div class="contact-tasks-contain1 d-flex-start-center">
+                &lt;div class="contact-tasks-contain2 d-flex-start-center">
+                    &lt;div class="contact-board-tasks d-flex-center-column">
+                        &lt;span id="how-many-tasks-on-board" class="contact-how-many-tasks font-inter">&lt;/span>
+                        &lt;span class="contact-board-task-name font-inter">Tasks on&lt;br>Board&lt;/span>
+                    &lt;/div>
+                    &lt;div class="contact-summary-prio d-flex-center">
+                        &lt;div class="contact-prio-left d-flex-center">
+                            &lt;img src="img/icon/urgent.png" class="contact-prio-left-img">
+                            &lt;div class="contact-prio-left-contain d-flex-center-column">
+                                &lt;span id="how-many-urgent-tasks" class="contact-how-many-tasks font-inter">&lt;/span>
+                                &lt;span class="contact-board-task-name font-inter">Urgent&lt;/span>
+                            &lt;/div>
+                        &lt;/div>
+                        &lt;div class="contact-prio-right d-flex-center-start-column">
+                            &lt;span id="prio-date" class="contact-prio-date font-inter">&lt;/span>
+                            &lt;span class="contact-prio-date-text font-inter">Upcoming Deadline&lt;/span>
+                        &lt;/div>
+                    &lt;/div>
+                    &lt;div class="contact-summary-watch d-flex-center">
+                        &lt;img src="img/icon/toDo.png" class="contact-watch-img">
+                        &lt;div class="contact-watch-contain d-flex-center-column">
+                            &lt;span id="how-many-tasks-todo" class="contact-how-many-tasks font-inter">&lt;/span>
+                            &lt;span class="contact-board-task-name font-inter">To-do&lt;/span>
+                        &lt;/div>
+                    &lt;/div>
+                    &lt;div class="contact-summary-watch d-flex-center">
+                        &lt;img src="img/icon/done.png" class="contact-watch-img">
+                        &lt;div class="contact-watch-contain d-flex-center-column">
+                            &lt;span id="how-many-tasks-done" class="contact-how-many-tasks font-inter">&lt;/span>
+                            &lt;span class="contact-board-task-name font-inter">Done&lt;/span>
+                        &lt;/div>
+                    &lt;/div>
+                &lt;/div>
+            &lt;/div>
+            &lt;div onclick="backContacts()" class="contacts-back-contain d-flex-center">
+                &lt;img src="img/icon/arrow-left.png" alt="arrow left" class="contacts-back-icon">
+            &lt;/div>
+        &lt;/div>
+    `;
+}
+
+/**
+ * Close Clicked Contact in Responsive.
+ */
+function backContacts() {
+    element("render-clicked-contact").classList.remove('pointer-event', 'fade-in');
+    rightSideOpen = false;
+}
+
+// Contact watch
+
+// Globals
+
+let allTasks = [];
+let urgentDeadlines = [];
+let mostUrgentDeadline;
+
+// Task Watch
+
+/**
+ * Calls up various functions to provide an overview of the clicked user's tasks.
+ * @param {opject} contact Name of the selected contact.
+ */
+function loadWatchContacts(contact) {
+    watchTasksOnBoardContact(contact, 'all', 'how-many-tasks-on-board');
+    urgentDeadlines = [];
+    watchTasksOnBoardContact(contact, 'urgent', 'how-many-urgent-tasks');
+    watchTasksOnBoardContact(contact, 'todo', 'how-many-tasks-todo');
+    watchTasksOnBoardContact(contact, 'done', 'how-many-tasks-done');
+}
+
+/**
+ * Shows tasks of the clicked contact.
+ * @param {opject} contact Name of the selected contact.
+ * @param {object} category Category to be displayed.
+ * @param {element} target Container into which the number of tasks is written.
+ */
+function watchTasksOnBoardContact(contact, category, target) {
+    const contactInfos = findUserByName(contact);
+    allTasks = [];
+    mostUrgentDeadline = undefined;
+
+    if (category === 'all' || category === 'urgent') {
+        for (const mainFolder of Object.keys(contactInfos.userTasks)) {
+            sumTasksByCategory(mainFolder, contactInfos, category, target);
+        }
+    } else {
+        const mainFolder = category;
+        sumTasksByCategory(mainFolder, contactInfos, category, target);
+    }
+}
+
+/**
+ * Sums up all tasks from the folder in question.
+ * @param {folder} mainFolder Folder from which the tasks should be displayed.
+ * @param {array} contactInfos All information about the clicked contact.
+ * @param {object} category Category to be displayed.
+ * @param {element} target Container into which the number of tasks is written.
+ */
+function sumTasksByCategory(mainFolder, contactInfos, category, target) {
+    const folderTasks = contactInfos['userTasks'][mainFolder];
+
+    for (const task of folderTasks) {
+        if (category !== 'urgent') {
+            allTasks.push(task);
+        } else if (category === 'urgent') {
+            lookForUrgentContacts(task);
+        }
+    }
+
+    if (category === 'urgent' &amp;&amp; mostUrgentDeadline === undefined) {
+        element('prio-date').innerText = 'No urgent task';
+    }
+
+    writeInContacts(target);
+}
+
+/**
+ * Searches the current task for "urgent" tasks.
+ * @param {object} task Current task.
+ */
+function lookForUrgentContacts(task) {
+    if (task['priority'] === 'img/icon/prio-urgent.png') {
+        allTasks.push(task);
+        urgentDeadlines.push(task['due-date']);
+        writeUrgentDateContacts();
+    }
+}
+
+/**
+ * Searches the array for the most urgent date.
+ * @param {array} dates Array with all "urgent" dates.
+ * @returns Ends the function if "dueDate" is in the past.
+ */
+function getMostUrgentDeadlineContacts(dates) {
+    const today = new Date();
+    let mostUrgentDate = dates[0];
+
+    dates.forEach((date) => {
+        const dueDate = new Date(date);
+        if (dueDate &lt; today) {
+            return;
+        }
+
+        if (dueDate &lt; new Date(mostUrgentDate)) {
+            mostUrgentDate = new Date(date);
+        }
+    });
+
+    return mostUrgentDate;
+}
+
+/**
+ * Writes the date of the most urgent "urgent" tasks.
+ */
+function writeUrgentDateContacts() {
+    mostUrgentDeadline = getMostUrgentDeadlineContacts(urgentDeadlines);
+    writeDate(new Date(mostUrgentDeadline));
+
+    element('prio-date').innerText = formattedDate;
+}
+
+/**
+ * Writes the number of tasks.
+ * @param {ID} ID Tells the function into which DIV container Add contact should be loaded.
+ */
+function writeInContacts(ID) {
+    let sumOfAllTasks = allTasks.length;
+    element(ID).innerText = sumOfAllTasks;
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#action">action</a></li><li><a href="global.html#addAddressToProfile">addAddressToProfile</a></li><li><a href="global.html#addContact">addContact</a></li><li><a href="global.html#addDueDate">addDueDate</a></li><li><a href="global.html#addMe">addMe</a></li><li><a href="global.html#addNameToProfile">addNameToProfile</a></li><li><a href="global.html#addNewCategory">addNewCategory</a></li><li><a href="global.html#addNewContact">addNewContact</a></li><li><a href="global.html#addNewTask">addNewTask</a></li><li><a href="global.html#addNewUserProfil">addNewUserProfil</a></li><li><a href="global.html#addSubtask">addSubtask</a></li><li><a href="global.html#addTaskToSearchArray">addTaskToSearchArray</a></li><li><a href="global.html#addToContacts">addToContacts</a></li><li><a href="global.html#addToField">addToField</a></li><li><a href="global.html#allEnabled">allEnabled</a></li><li><a href="global.html#allowDrop">allowDrop</a></li><li><a href="global.html#back">back</a></li><li><a href="global.html#backContacts">backContacts</a></li><li><a href="global.html#boardAddTask">boardAddTask</a></li><li><a href="global.html#boardAddTaskTo">boardAddTaskTo</a></li><li><a href="global.html#boardSetPrioTo">boardSetPrioTo</a></li><li><a href="global.html#boardTemp">boardTemp</a></li><li><a href="global.html#btnDisabled">btnDisabled</a></li><li><a href="global.html#cancelAddContact">cancelAddContact</a></li><li><a href="global.html#cancelEdit">cancelEdit</a></li><li><a href="global.html#changeAddTask">changeAddTask</a></li><li><a href="global.html#changeGreeting">changeGreeting</a></li><li><a href="global.html#checkDone">checkDone</a></li><li><a href="global.html#checkMailExist">checkMailExist</a></li><li><a href="global.html#checkMailToPW">checkMailToPW</a></li><li><a href="global.html#checkUserIsOnJoin">checkUserIsOnJoin</a></li><li><a href="global.html#clearAddContact">clearAddContact</a></li><li><a href="global.html#clearAddTask">clearAddTask</a></li><li><a href="global.html#clearAddToTask">clearAddToTask</a></li><li><a href="global.html#clearCategory">clearCategory</a></li><li><a href="global.html#clearDragTimer">clearDragTimer</a></li><li><a href="global.html#clearTouchDrag">clearTouchDrag</a></li><li><a href="global.html#closeAddTask">closeAddTask</a></li><li><a href="global.html#closeEditTask">closeEditTask</a></li><li><a href="global.html#closeHelpCenter">closeHelpCenter</a></li><li><a href="global.html#closeTask">closeTask</a></li><li><a href="global.html#closeUserProfile">closeUserProfile</a></li><li><a href="global.html#completeSubtask">completeSubtask</a></li><li><a href="global.html#creatGuestData">creatGuestData</a></li><li><a href="global.html#createNewTask">createNewTask</a></li><li><a href="global.html#createPossibleDropLevels">createPossibleDropLevels</a></li><li><a href="global.html#dNoneCriteria">dNoneCriteria</a></li><li><a href="global.html#deletGuestData">deletGuestData</a></li><li><a href="global.html#deletIndex">deletIndex</a></li><li><a href="global.html#deletLoginData">deletLoginData</a></li><li><a href="global.html#deletUserACC">deletUserACC</a></li><li><a href="global.html#deletUserACCmanuel">deletUserACCmanuel</a></li><li><a href="global.html#deleteContact">deleteContact</a></li><li><a href="global.html#deleteElementById">deleteElementById</a></li><li><a href="global.html#deleteOpenTask">deleteOpenTask</a></li><li><a href="global.html#deletePossibleDropLevels">deletePossibleDropLevels</a></li><li><a href="global.html#deleteRequestMessage">deleteRequestMessage</a></li><li><a href="global.html#deleteTaskbyIndex">deleteTaskbyIndex</a></li><li><a href="global.html#determineColorfromIMG">determineColorfromIMG</a></li><li><a href="global.html#determineColortoIMG">determineColortoIMG</a></li><li><a href="global.html#determineExtractedColor">determineExtractedColor</a></li><li><a href="global.html#displayUserImageOrInitials">displayUserImageOrInitials</a></li><li><a href="global.html#dragTask">dragTask</a></li><li><a href="global.html#editAddTaskTo">editAddTaskTo</a></li><li><a href="global.html#editOpenTask">editOpenTask</a></li><li><a href="global.html#editProfile">editProfile</a></li><li><a href="global.html#editTask">editTask</a></li><li><a href="global.html#element">element</a></li><li><a href="global.html#extractLocation">extractLocation</a></li><li><a href="global.html#extractedInitials">extractedInitials</a></li><li><a href="global.html#extractedWord">extractedWord</a></li><li><a href="global.html#fillAssignUser">fillAssignUser</a></li><li><a href="global.html#fillCategory">fillCategory</a></li><li><a href="global.html#fillDueDate">fillDueDate</a></li><li><a href="global.html#fillInputFields">fillInputFields</a></li><li><a href="global.html#fillLogin">fillLogin</a></li><li><a href="global.html#fillPriority">fillPriority</a></li><li><a href="global.html#fillSubtasks">fillSubtasks</a></li><li><a href="global.html#findNewContactByMail">findNewContactByMail</a></li><li><a href="global.html#findSubtasks">findSubtasks</a></li><li><a href="global.html#findUserByMail">findUserByMail</a></li><li><a href="global.html#findUserByName">findUserByName</a></li><li><a href="global.html#finishMessage">finishMessage</a></li><li><a href="global.html#forgotPW">forgotPW</a></li><li><a href="global.html#formatDate">formatDate</a></li><li><a href="global.html#getCategoryColor">getCategoryColor</a></li><li><a href="global.html#getCategoryIndex">getCategoryIndex</a></li><li><a href="global.html#getContactIndex">getContactIndex</a></li><li><a href="global.html#getEmailUrlParameter">getEmailUrlParameter</a></li><li><a href="global.html#getItem">getItem</a></li><li><a href="global.html#getMostUrgentDeadlineContacts">getMostUrgentDeadlineContacts</a></li><li><a href="global.html#getMyContactIndex">getMyContactIndex</a></li><li><a href="global.html#getSearchIndex">getSearchIndex</a></li><li><a href="global.html#getSubtaskIndex">getSubtaskIndex</a></li><li><a href="global.html#getTaskIndex">getTaskIndex</a></li><li><a href="global.html#getUser">getUser</a></li><li><a href="global.html#getuserColor">getuserColor</a></li><li><a href="global.html#goTo">goTo</a></li><li><a href="global.html#greeting">greeting</a></li><li><a href="global.html#groupContactsByInitial">groupContactsByInitial</a></li><li><a href="global.html#handleCategoryColorChange">handleCategoryColorChange</a></li><li><a href="global.html#handleUserColorChange">handleUserColorChange</a></li><li><a href="global.html#initAddTask">initAddTask</a></li><li><a href="global.html#initBoard">initBoard</a></li><li><a href="global.html#initContacts">initContacts</a></li><li><a href="global.html#initLegalNotice">initLegalNotice</a></li><li><a href="global.html#initLogin">initLogin</a></li><li><a href="global.html#initPrivacyPolicy">initPrivacyPolicy</a></li><li><a href="global.html#initSummary">initSummary</a></li><li><a href="global.html#leaveJoin">leaveJoin</a></li><li><a href="global.html#leaveJoinNOW">leaveJoinNOW</a></li><li><a href="global.html#loadAddEventListener">loadAddEventListener</a></li><li><a href="global.html#loadAddressToEdit">loadAddressToEdit</a></li><li><a href="global.html#loadAssigns">loadAssigns</a></li><li><a href="global.html#loadColorToEdit">loadColorToEdit</a></li><li><a href="global.html#loadContacts">loadContacts</a></li><li><a href="global.html#loadImageToEdit">loadImageToEdit</a></li><li><a href="global.html#loadIndexFrom">loadIndexFrom</a></li><li><a href="global.html#loadJSONfromServer">loadJSONfromServer</a></li><li><a href="global.html#loadJSONtoServer">loadJSONtoServer</a></li><li><a href="global.html#loadLoginDataFrom">loadLoginDataFrom</a></li><li><a href="global.html#loadMailToEdit">loadMailToEdit</a></li><li><a href="global.html#loadNameToEdit">loadNameToEdit</a></li><li><a href="global.html#loadPhoneToEdit">loadPhoneToEdit</a></li><li><a href="global.html#loadSearchResult">loadSearchResult</a></li><li><a href="global.html#loadTasks">loadTasks</a></li><li><a href="global.html#loadUserAddress">loadUserAddress</a></li><li><a href="global.html#loadUserColor">loadUserColor</a></li><li><a href="global.html#loadUserMail">loadUserMail</a></li><li><a href="global.html#loadUserNameAndLocation">loadUserNameAndLocation</a></li><li><a href="global.html#loadUserPhone">loadUserPhone</a></li><li><a href="global.html#loadWatch">loadWatch</a></li><li><a href="global.html#loadWatchContacts">loadWatchContacts</a></li><li><a href="global.html#loadguestDataFrom">loadguestDataFrom</a></li><li><a href="global.html#loginGuest">loginGuest</a></li><li><a href="global.html#lookForUrgentContacts">lookForUrgentContacts</a></li><li><a href="global.html#makeSmallAndNoSpaces">makeSmallAndNoSpaces</a></li><li><a href="global.html#moveTaskTo">moveTaskTo</a></li><li><a href="global.html#moveTouchTask">moveTouchTask</a></li><li><a href="global.html#noticeLoginData">noticeLoginData</a></li><li><a href="global.html#onPageLoad">onPageLoad</a></li><li><a href="global.html#openAddNewContact">openAddNewContact</a></li><li><a href="global.html#openDropDownAddTaskTo">openDropDownAddTaskTo</a></li><li><a href="global.html#openDropDownAssignTo">openDropDownAssignTo</a></li><li><a href="global.html#openDropDownCategory">openDropDownCategory</a></li><li><a href="global.html#openHelpCenter">openHelpCenter</a></li><li><a href="global.html#openProfileEditor">openProfileEditor</a></li><li><a href="global.html#openTask">openTask</a></li><li><a href="global.html#openTaskAssign">openTaskAssign</a></li><li><a href="global.html#openTaskTemp">openTaskTemp</a></li><li><a href="global.html#openUserProfile">openUserProfile</a></li><li><a href="global.html#parseInputDate">parseInputDate</a></li><li><a href="global.html#pleaseCheckFormular">pleaseCheckFormular</a></li><li><a href="global.html#populateUserProfile">populateUserProfile</a></li><li><a href="global.html#pushToArray">pushToArray</a></li><li><a href="global.html#rememberMe">rememberMe</a></li><li><a href="global.html#removeTaskFromSearchArray">removeTaskFromSearchArray</a></li><li><a href="global.html#renderAddContactSearchResult">renderAddContactSearchResult</a></li><li><a href="global.html#renderAddTask">renderAddTask</a></li><li><a href="global.html#renderAddTaskTo">renderAddTaskTo</a></li><li><a href="global.html#renderCategories">renderCategories</a></li><li><a href="global.html#renderCloseBTN">renderCloseBTN</a></li><li><a href="global.html#renderFinishBTN">renderFinishBTN</a></li><li><a href="global.html#renderSearchResult">renderSearchResult</a></li><li><a href="global.html#renderSearchedTasks">renderSearchedTasks</a></li><li><a href="global.html#renderSubtask">renderSubtask</a></li><li><a href="global.html#renderTasks">renderTasks</a></li><li><a href="global.html#resetPW">resetPW</a></li><li><a href="global.html#resetPWMail">resetPWMail</a></li><li><a href="global.html#saveGuestDataTo">saveGuestDataTo</a></li><li><a href="global.html#saveIndexTo">saveIndexTo</a></li><li><a href="global.html#saveLoginDataTo">saveLoginDataTo</a></li><li><a href="global.html#searchByInput">searchByInput</a></li><li><a href="global.html#searchForAssign">searchForAssign</a></li><li><a href="global.html#searchIN">searchIN</a></li><li><a href="global.html#searchTask">searchTask</a></li><li><a href="global.html#selectCategory">selectCategory</a></li><li><a href="global.html#selectContact">selectContact</a></li><li><a href="global.html#selectTask">selectTask</a></li><li><a href="global.html#setInitialSize">setInitialSize</a></li><li><a href="global.html#setItem">setItem</a></li><li><a href="global.html#setPrioTo">setPrioTo</a></li><li><a href="global.html#showAssign">showAssign</a></li><li><a href="global.html#showPW">showPW</a></li><li><a href="global.html#showUserMenu">showUserMenu</a></li><li><a href="global.html#showclickedContact">showclickedContact</a></li><li><a href="global.html#signUp">signUp</a></li><li><a href="global.html#startDragTimer">startDragTimer</a></li><li><a href="global.html#startTouchDrag">startTouchDrag</a></li><li><a href="global.html#subtaskCheck">subtaskCheck</a></li><li><a href="global.html#subtaskDone">subtaskDone</a></li><li><a href="global.html#subtaskReady">subtaskReady</a></li><li><a href="global.html#successfullyAdded">successfullyAdded</a></li><li><a href="global.html#sumTasksByCategory">sumTasksByCategory</a></li><li><a href="global.html#sumTasksByCategoryOnSummary">sumTasksByCategoryOnSummary</a></li><li><a href="global.html#takeCategoryColor">takeCategoryColor</a></li><li><a href="global.html#taskTemp">taskTemp</a></li><li><a href="global.html#thankYou">thankYou</a></li><li><a href="global.html#toggleHelpCenter">toggleHelpCenter</a></li><li><a href="global.html#toggleUserProfile">toggleUserProfile</a></li><li><a href="global.html#uncompleteSubtask">uncompleteSubtask</a></li><li><a href="global.html#updateSubtaskUI">updateSubtaskUI</a></li><li><a href="global.html#updateTaskData">updateTaskData</a></li><li><a href="global.html#validateFormUser">validateFormUser</a></li><li><a href="global.html#validationNewTask">validationNewTask</a></li><li><a href="global.html#watchTasksOnBoard">watchTasksOnBoard</a></li><li><a href="global.html#watchTasksOnBoardContact">watchTasksOnBoardContact</a></li><li><a href="global.html#writeContactList">writeContactList</a></li><li><a href="global.html#writeContacts">writeContacts</a></li><li><a href="global.html#writeDate">writeDate</a></li><li><a href="global.html#writeInContacts">writeInContacts</a></li><li><a href="global.html#writeTime">writeTime</a></li><li><a href="global.html#writeUrgentDateContacts">writeUrgentDateContacts</a></li><li><a href="global.html#writeUserName">writeUserName</a></li><li><a href="global.html#youReallyWantLeaveUs">youReallyWantLeaveUs</a></li><li><a href="global.html#youResetYourPW">youResetYourPW</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Tue Nov 14 2023 15:19:49 GMT+0100 (Mitteleuropäische Normalzeit)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

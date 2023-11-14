@@ -1,0 +1,116 @@
+@media all and (max-width: 600px) {
+    .board-main {
+        width: 90%;
+        height: calc(100vh - 180px);
+    }
+
+    .dash-board {
+        height: 150px;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .board-title-contain {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .search-and-add {
+        width: 100%;
+    }
+
+    .search1 {
+        width: 100%;
+    }
+
+    .add {
+        display: none;
+    }
+
+    .add-responsive {
+        width: 50px;
+        height: 100%;
+        display: flex;
+    }
+
+    .add-btn-img {
+        margin: 0;
+    }
+
+    .render-tasks {
+        height: calc(100vh - 250px);
+    }
+    
+    /* Open Task */
+
+    .open-task-main-contain {
+        width: 95%;
+        max-height: 100vh;
+        padding-bottom: 65px;
+    }
+
+    .open-task-inside {
+        gap: 10px;
+    }
+
+    .parting-container {
+        gap: 10px;
+    }
+
+    .open-task-subtasks {
+        width: 95%;
+        gap: 5px;
+        margin-top: 2px;
+    }
+
+    .loaded-subtask-contain {
+        gap: 5px;
+    }
+
+    .open-task-assign {
+        margin-top: 2px;
+        gap: 5px;
+    }
+
+    .board-task-assign-contact {
+        width: 30px;
+        height: 30px;
+    }
+
+    .assign-contact-font {
+        font-size: 15px;
+    }
+
+    /* Close Button */
+
+    .closeTask-contain {
+        width: 35px;
+        height: 35px;
+        right: 20px; top: 20px;
+    }
+
+    .closeTask-icon {
+        width: 25px;
+    }
+
+    /* Button Contain */
+
+    .open-task-btn-contain {
+        width: 90px;
+        height: 35px;
+    }
+
+    .open-task-btn-img {
+        width: 25px;
+    }
+
+    /* Delete Button */
+
+    .open-task-btn-img-blue {
+        width: 25px;
+    }
+
+    .open-task-delete-btn .open-task-btn-img-blue {
+        right: 8px; top: 5px;
+    }
+}

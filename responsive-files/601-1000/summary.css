@@ -1,0 +1,115 @@
+@media all and (min-width: 601px) and (max-width: 1000px) {
+
+    .summary-title-contain {
+        gap: 25px;
+    }
+
+    .summary-title {
+        padding-right: 25px;
+        border-right: 3px solid var(--highlighted);
+    }
+
+    .summary-title-text {
+        font-size: 15px;
+    }
+
+    .summary-contain-1 {
+        justify-content: center;
+    }
+
+    .summary-task-contain-1 {
+        width: 375px;
+        height: 375px;
+
+        gap: 15px;
+        margin-bottom: 10px;
+    }
+
+    .board-tasks {
+        width: 110px;
+        height: 110px;
+    }
+
+    .how-many-tasks {
+        font-size: 25px;
+    }
+
+    .board-task-name {
+        font-size: 14px;
+    }
+
+    .summary-prio {
+        height: 110px;
+    }
+
+    .prio-left-img {
+        width: 40px;
+    }
+
+    .prio-date {
+        font-size: 16px;
+    }
+
+    .prio-date-text {
+        font-size: 14px;
+    }
+
+    .summary-watch {
+        width: 165px;
+        height: 110px;
+    }
+
+    .watch-img {
+        width: 40px;
+    }
+
+    .watch-contain {
+        width: 30%;
+        margin-left: 25px;
+    }
+
+    .how-many-watch {
+        font-size: 25px;
+    }
+
+    .watch-text {
+        font-size: 14px;
+    }
+
+    .summary-user-contain-1 {
+        width: 100%;
+        height: 100%;
+
+        position: absolute;
+        justify-content: flex-start;
+        
+        background: var(--main-background);
+        opacity: 1;
+        animation: greetingAnimation 625ms forwards;
+        animation-delay: 3000ms;
+        pointer-events: none;
+    }
+    
+    @keyframes greetingAnimation {
+        0% {
+            opacity: 1;
+        }
+    
+        100% {
+            opacity: 0;
+        }
+    }
+
+    .user-greating, .user-full-name {
+        height: 45px;
+        font-size: 30px;
+    }
+
+    .user-greating {
+        padding-top: 25px;
+    } 
+    
+    .user-full-name {
+        font-size: 35px;
+    }
+}

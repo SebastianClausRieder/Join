@@ -1,0 +1,269 @@
+@media all and (min-width: 601px) and (max-width: 1000px) {
+    /* Join Logo */
+
+    .join-logo {
+        width: 125px;
+
+        position: absolute;
+        left: 40%;
+        right: 40%;
+        top: 20%;
+        bottom: 20%;
+    }
+
+    /* Join Logo animation */
+
+    @keyframes containerAnimation {
+        0% {
+            background: var(--main-background);
+        }
+
+        100% {
+            background: var(--main-background-zero);
+        }
+    }
+
+    @keyframes logoAnimation {
+        0% {
+            width: 125px;
+    
+            left: 40%;
+            right: 40%;
+            top: 20%;
+            bottom: 20%;
+
+            background: var(--main-background);
+        }
+
+        100% {
+            width: 60px;
+
+            left: 5.5%;
+            top: 7.5%;
+
+            background: var(--main-background-zero);
+        }
+    }
+
+    /* Sign up Bar */
+
+    .sign-up-bar {
+        width: 125px;
+        height: fit-content;
+
+        flex-direction: column;
+
+        top: 15px;
+        right: 15px;
+    }
+
+    .sign-up {
+        width: fit-content;
+        font-size: 12px;
+    }
+
+    .login-sign-up-btn {
+        width: 80px;
+        height: 30px;
+    }
+
+    .login-sign-up-btn-text {
+        font-size: 12px;
+    }
+
+    /* Login */
+
+    .center-contain {
+        width: 325px;
+
+        gap: 10px;
+
+        padding-top: 15px;
+        padding-bottom: 15px;
+    }
+
+    .login-title {
+        height: 35px;
+
+        gap: 5px;
+    }
+
+    .login {
+        height: 35px;
+        font-size: 25px;
+    }
+
+    .login-line {
+        width: 60px;
+
+        border: 2px solid var(--parting-line);
+    }
+
+    .login-fields {
+        gap: 5px;
+    }
+
+    .field-frame-1 {
+        width: 250px;
+        height: 50px;
+
+        gap: 5px;
+    }
+
+    .field-frame-2 {
+        height: 30px;
+        gap: 5px;
+    }
+
+    .field-frame-3 {
+        width: 93%;
+        height: 20px;
+    }
+
+    .input-field {
+        width: 85%;
+        height: 18px;
+    }
+
+    .mail-icon {
+        width: 16px;
+        height: 13px;
+    }
+
+    .pw-icons {
+        width: 42px;
+    }
+
+    .pw-eye {
+        width: 18px;
+    }
+
+    .pw-icon {
+        width: 13px;
+        height: 16px;
+    }
+
+    .remember-and-forgot {
+        width: 225px;
+    }
+
+    .remember-1 {
+        width: 100px;
+    }
+
+    .remember-me {
+        width: 85px;
+        height: 15px;
+        font-size: 11px;
+    }
+
+    .forgot {
+        width: 125px;
+        height: 19px;
+        font-size: 11px;
+    }
+
+    .login-btns {
+        width: 250px;
+        height: 35px;
+    }
+
+    .login-btn,
+    .guest-btn {
+        width: 100px;
+        height: 30px;
+    }
+
+    .login-btn-text,
+    .guest-btn-text {
+        font-size: 12px;
+    }
+
+    /* Sign up Area */
+
+    .icon-box {
+        width: 17px;
+        height: 15px;
+    }
+
+    .sign-name-icon {
+        width: 12px;
+        height: 15px;
+    }
+
+    /* Back Button */
+
+    .back-contain {
+        width: 20px;
+        height: 20px;
+
+        left: 20px; top: 20px;
+    }
+
+    .back-icon {
+        width: 15px;
+        height: 15px;
+    }
+    
+    /* Forgot my Password Area*/
+
+    .forgot-pw-area {
+        width: 400px;
+    }
+
+    .forgot-pw-text {
+        width: 400px;
+        height: fit-content;
+    }
+
+    .reset-contain {
+        width: 375px;
+    }
+
+    .criteria-list-sign-up, .criteria-list-reset-pw {
+        width: 135px;
+        height: fit-content;
+
+        padding-left: 5px;
+    }
+
+    .criteria-list-sign-up {
+        bottom: 63px; right: -105px;
+    }
+
+    .criteria-list-reset-pw {
+        top: 85px; right: -80px;
+    }
+
+    .criteria {
+        font-size: 11px;
+    }
+
+    /* You rest your Password */
+
+    .YRYPW-contain {
+        width: 375px;
+        height: 50px;
+    }
+
+    .YRYPW-icon {
+        width: 25px;
+        height: 25px;
+        margin-top: -3px;
+    }
+
+    .YRYPW-text {
+        font-size: 15px;
+    }
+
+    /* Messages Area */
+
+    .messages-contain {
+        width: 400px;
+        height: 200px;
+    }
+
+    .message-sign-up {
+        font-size: 20px;
+    }
+}

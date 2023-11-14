@@ -1,0 +1,111 @@
+@media all and (min-width: 1001px) and (max-width: 1500px) {
+    .contacts-main-contain {
+        width: 93%;
+    }
+
+    .contacts-title-contain {    
+        gap: 5%;
+    }
+
+    .contacts-title {
+        width: 22%;
+        border-right: 5px solid var(--highlighted);
+    }
+
+    .contacts-contain {
+        width: 100%;
+        height: calc(100vh - 264px);
+    }
+
+    .contacts-contain-left1 {
+        width: 24%;
+    }
+
+    .file {
+        width: 90%;
+    
+        padding-right: 10px;
+    }
+
+    .contact {
+        width: 90%;
+    
+        gap: 10px;
+        padding-left: 10px;
+    }
+
+    .contact-initials {
+        width: 35px;
+        height: 35px;
+    
+        font-size: 17px;
+    }
+
+    /* Contact Ad Area */
+    
+    .contact-contain-right1 {
+        width: 76%;
+    }
+
+    /* Add Contact */
+    
+    .add-contact-main {
+        width: 725px;
+        height: 275px;
+    }
+
+    .add-contact-left {
+        gap: 7px;
+    }
+
+    .add-contact-left-text1 {
+        font-size: 30px;
+    }
+
+    .add-contact-left-line {
+        height: 30px;
+    }
+
+    .add-contact-right {
+        height: 100%;
+    
+        gap: 15px;
+    }
+
+    .add-contact-clear-btn .add-contact-btn-img-blue {
+        display: none;
+        position: absolute;
+        top: 14px;
+        right: 35px;
+        z-index: 99;
+    }
+
+    /* Contact */
+    
+    .contact-contain-right2 {
+        width: 95%;
+        height: 95%;
+    
+        gap: 35px;
+    }
+
+    .contact-name {
+        font-size: 35px;
+        text-decoration: underline;
+        text-decoration-color: var(--highlighted);
+    }
+
+    /* Contact Tasks */
+
+    .contact-tasks-contain1 {
+        overflow: scroll;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+
+    .contact-tasks-contain2 {
+        width: fit-content;
+        gap: 15px;
+        flex: 0 0 auto;
+    }
+}

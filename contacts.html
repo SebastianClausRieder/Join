@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Fonts -->
+    <link rel="stylesheet" href="css-files/font_inter.css">
+
+    <!-- embedded Files -->
+    <!-- CSS -->
+
+    <!-- Global -->
+    <link rel="stylesheet" href="css-files/global-css.css">
+    <link rel="stylesheet" href="responsive-files/350-600/global.css">
+    <link rel="stylesheet" href="responsive-files/601-1000/global.css">
+    <link rel="stylesheet" href="responsive-files/1001-1500/global.css">
+
+    <!-- Header, Footer, Help Center and User Profile by IncludeHTML -->
+    <link rel="stylesheet" href="css-files/desktop-template.css">
+    <link rel="stylesheet" href="css-files/header-template.css">
+    <link rel="stylesheet" href="css-files/help-center-template.css">
+    <link rel="stylesheet" href="css-files/user-profile-template.css">
+    <link rel="stylesheet" href="responsive-files/350-600/includeHTML.css">
+    <link rel="stylesheet" href="responsive-files/601-1000/includeHTML.css">
+    <link rel="stylesheet" href="responsive-files/1001-1500/includeHTML.css">
+
+    <!-- Login -->
+    <link rel="stylesheet" href="css-files/login.css">
+    <link rel="stylesheet" href="responsive-files/350-600/login.css">
+    <link rel="stylesheet" href="responsive-files/601-1000/login.css">
+    <link rel="stylesheet" href="responsive-files/1001-1500/login.css">
+
+    <!-- Contacts -->
+    <link rel="stylesheet" href="css-files/contacts.css">
+    <link rel="stylesheet" href="responsive-files/350-600/contacts.css">
+    <link rel="stylesheet" href="responsive-files/601-1000/contacts.css">
+    <link rel="stylesheet" href="responsive-files/1001-1500/contacts.css">
+
+    <!-- Java Script -->
+    <script src="js-files/init.js"></script>
+    <script src="js-files/global-functions.js"></script>
+    <script src="js-files/storage.js"></script>
+    <script src="js-files/user-json.js"></script>
+    <script src="js-files/includeHTML.js"></script>
+    <script src="js-files/desktop-header.js"></script>
+    <script src="js-files/contacts.js"></script>
+
+    <!-- Title and Favicon -->
+    <link rel="shortcut icon" href="img/join-logo.png" type="image/x-icon">
+    <title>Join</title>
+
+</head>
+<body onload="initContacts()">
+    <div class="first-contain d-flex-center">
+        <div w3-include-html="include-templates/desktop-template.html" class="include-desktop"></div>
+        <div class="rightContent d-flex-start-center-column">
+            <div w3-include-html="include-templates/header-template.html" class="include-header"></div>
+            <div class="mainContainer d-flex-start-center-column">
+                <div id="w3-help-center" w3-include-html="include-templates/help-center-template.html"></div>
+                <div id="w3-user-profile" w3-include-html="include-templates/user-profile-template.html"></div>
+                    <div id="container" class="contacts-main-contain d-flex-start-column">
+                        <div class="contacts-title-contain d-flex-start-center">
+                            <h1 class="contacts-title">Contacts</h1>
+                            <span class="contacts-title-text font-inter">Strong together as a team.</span>
+                            <div class="contacts-parting-line"></div>
+                        </div>
+                    </div>
+                    <div id="contacts-contain" class="contacts-contain d-flex-start">
+                        <div id="my-contacts-responsive" class="contacts-contain-left1 d-flex-start-center-column">
+                            <div class="new-contact-contain d-flex-center" onclick="addNewContact('render-clicked-contact')">
+                                <span class="new-contact-text font-inter d-flex-center">New Contact <img src="img/icon/new-contact.png" class="new-contact-icon"></span>
+                            </div>
+                            <div id="my-contacts" class="contacts-contain-left2 d-flex-start-center-column"></div>
+                        </div>
+                        <div id="render-clicked-contact" class="contact-contain-right1 d-flex-center"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="master-container-area" class="master-container d-flex-center">
+        <div class="master-container-center d-flex-center-column">
+            <div class="edit-contain d-flex-center">
+                <span class="user-title font-inter d-flex-center" style="width: 100%; justify-content: center;">Do you really want to leave Join?</span>
+            </div>
+            <div class="edit-contain d-flex-center">
+                <button class="add-contact-clear-btn d-flex-center font-inter" onclick="youReallyWantLeaveUs('no')">Cancel 
+                    <img src="img/icon/clear-mark.png" class="add-contact-btn-img">
+                    <img src="img/icon/clear-mark-blue.png" class="add-contact-btn-img-blue">
+                </button>
+                <button class="edit-profile-btn font-inter d-flex-center" onclick="youReallyWantLeaveUs('yes')">Yes i want that.</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

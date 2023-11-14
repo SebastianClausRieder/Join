@@ -1,0 +1,514 @@
+/* Add Task Beginn */
+
+.add-task-main {
+    width: 90%;
+    height: calc(100vh - 100px);
+
+    position: relative;
+}
+
+/* Formvalidation */
+
+.add-task-formvalidation {
+    width: 100%;
+    height: 550px;
+
+    margin-top: -20px;
+}
+
+/* Formvalidation left side */
+
+.formvalidation-left {
+    width: 50%;
+    height: fit-content;
+
+    gap: 10px;
+
+    border-right: 5px solid var(--highlighted);
+}
+
+/* Title */
+
+.input-fields {
+    width: 100%;
+    height: fit-content;
+
+    gap: 8px;
+}
+
+.input-fields-contain {
+    width: 90%;
+    height: fit-content;
+
+    justify-content: flex-start;
+
+    background: var(--input-background);
+    border: 1px solid var(--input-border);
+    border-radius: 10px;
+    padding-left: 10px;
+}
+
+.input-fields-input {
+    width: 90%;
+    height: 50px;
+
+    font-weight: 500;
+
+    outline: none;
+    border: 0;
+    margin-left: 15px;
+}
+
+.input-fields-input::placeholder {
+    color: var(--input-font-placeholder);
+}
+
+.input-fields-input::placeholder {
+    /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: var(--input-font-placeholder);
+    opacity: 1;
+    /* Firefox */
+}
+
+.input-fields-input:-ms-input-placeholder {
+    /* Internet Explorer 10-11 */
+    color: var(--input-font-placeholder);
+}
+
+.input-fields-input::-ms-input-placeholder {
+    /* Microsoft Edge */
+    color: var(--input-font-placeholder);
+}
+
+/* Description */
+
+.description-input {
+    height: 80px;
+
+    resize: none;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+/* Category */
+
+.selector-input-contain {
+    width: 100%;
+    height: 50px;
+
+    justify-content: flex-start;
+}
+
+.selector-input {
+    width: calc(100% - 225px);
+    height: 95%;
+    margin-left: 15px
+}
+
+.selector-selected {
+    width: 87%;
+    height: 100%;
+
+    display: none;
+
+    border: 0;
+}
+
+.selector-select-contain {
+    width: 150px;
+    height: 100%;
+
+    justify-content: flex-end;
+
+    border: 0;
+}
+
+.select-color {
+    width: calc(100% - 50px);
+    height: 100%;
+
+    color: var(--input-font-placeholder);
+
+    border: 0;
+    border-left: 1px solid var(--input-border);
+}
+
+.selector-btn {
+    width: 50px;
+    height: 50px;
+
+    border-left: 1px solid var(--input-border);
+    cursor: pointer;
+}
+
+.selector-btn:hover {
+    background-color: var(--background-hover);
+}
+
+.add-task-btn-img {
+    width: 20px;
+}
+
+.drop-down-menu {
+    width: 100%;
+    max-height: 100px;
+
+    display: none;
+    gap: 5px;
+
+    border: 1px solid var(--input-border);
+    border-radius: 0px 0px 10px 10px;
+
+    overflow: scroll;
+    z-index: 9;
+    padding-top: 5px;
+    padding-left: 20px;
+}
+
+.category-contain {
+    width: 90%;
+    height: 25%;
+
+    justify-content: space-between;
+}
+
+.category-name {
+    width: 95%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.category-name:hover {
+    background-color: var(--background-hover);
+}
+
+.category-color {
+    width: 15px;
+    margin-left: 5px;
+}
+
+.clear-category {
+    width: 12px;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.clear-category:hover {
+    background-color: var(--background-hover);    
+}
+
+/* Assign-to */
+
+.selector-assign-to-input-contain {
+    width: 100%;
+    height: 50px;
+
+    justify-content: space-between;
+}
+
+.selector-assign-to-selected {
+    width: 90%;
+    height: 100%;
+
+    border: 0;
+}
+
+.assign-to-selected-text {
+    width: 90%;
+    height: 100%;
+
+    border: 0;
+
+    color: var(--input-font-placeholder);
+}
+
+.assign-to-contain {
+    width: 93%;
+    height: 25%;
+
+    justify-content: space-between;
+
+    margin-left: 25px;
+}
+
+.assign-to-name {
+    width: 95%;
+    
+    cursor: pointer;
+}
+
+.assign-to-name:hover {
+    background-color: var(--background-hover);
+}
+
+.assign-to-checked {
+    width: 15px;
+}
+
+/* Formvalidation right side */
+
+.formvalidation-right {
+    width: 50%;
+    height: fit-content;
+
+    align-items: flex-end;
+}
+
+.formvalidation-right-contain {
+    width: 90%;
+    height: fit-content;
+
+    gap: 10px;
+}
+
+/* Due Date */
+
+.due-date-contain {
+    width: 100%;
+}
+
+/* Prio */
+
+.prio-btn-contain {
+    width: 100%;
+    height: 50px;
+
+    justify-content: space-between;
+}
+
+.prio-btn {
+    width: 30%;
+    height: 100%;
+
+    gap: 10px;
+
+    background: var(--input-background);
+    border: 1px solid var(--input-border);
+    border-radius: 10px;
+
+    cursor: pointer;
+}
+
+.prio-btn:hover {
+    transform: scale(1.1);
+}
+
+.prio-btn-img {
+    width: 20px;
+}
+
+/* Add to Task */
+
+.selector-add-to-task {
+    width: 100%;
+}
+
+.selector-add-to-task-input {
+    height: 95%;
+}
+
+.add-to-task-contain {
+    width: 93%;
+    height: 25%;
+
+    justify-content: space-between;
+}
+
+.add-to-task-name {
+    width: 95%;
+    
+    cursor: pointer;
+}
+
+.add-to-task-name:hover {
+    background-color: var(--background-hover);
+}
+
+/* Subtasks */
+
+.subtask-contain {
+    width: 100%;
+
+    justify-content: flex-end;
+}
+
+.subtask-input {
+    width: 88%;
+
+    outline: none;
+    border: 0;
+}
+
+.subtask-check-contain {
+    width: 100%;
+    height: 25px;
+
+    gap: 10px;
+    position: relative;
+}
+
+.subtask-check-text {
+    font-size: 17px;
+    font-weight: 500;
+}
+
+.your-subtasks-contain {
+    width: 83%;
+    height: 100px;
+
+    display: none;
+    position: absolute;
+    top: 25px;
+
+    border: 1px solid var(--input-border);
+    border-radius: 10px;
+    background: var(--input-background);
+
+    overflow: scroll;
+    padding-top: 5px;
+    z-index: 9;
+}
+
+.your-subtask {
+    width: 90%;
+    height: 25px;
+
+    margin-left: 20px;
+}
+
+/* Finish Buttons */
+
+.addTask-finish-btn-contain1 {
+    width: 100%;
+    height: 100px;
+
+    justify-content: flex-end;
+
+    position: relative;
+    pointer-events: none;
+    padding-bottom: 15px;
+    padding-top: 15px;
+}
+
+.addTask-finish-btn-contain2 {    
+    width: 400px;
+    height: 51px;
+
+    justify-content: space-between;
+    pointer-events: all;
+}
+
+.addTask-clear-btn {
+    width: 161px;
+    height: 51px;
+    
+    gap: 15px;
+    cursor: pointer;
+
+    position: relative;
+
+    background-color: var(--unfilled-button);
+    border: 1px solid var(--unfilled-button-border);
+    border-radius: 8px;
+    
+    font-weight: 700;
+    color: var(--unfilled-button-font);
+}
+
+.addTask-btn-img {
+    width: 20px;
+}
+
+.addTask-btn-img-blue {
+    width: 20px;
+}
+
+.addTask-clear-btn .addTask-btn-img-blue {
+    display: none;
+    position: absolute;
+    top: 15px;
+    right: 34px;
+    z-index: 99;
+}
+
+.addTask-clear-btn:hover {
+    border: 1px solid var(--unfilled-button-border-hover);
+    color: var(--unfilled-button-font-hover);
+}
+
+.addTask-clear-btn:hover .addTask-btn-img-blue {
+    display: inline;
+    transition: all 225ms ease-in-out;
+}
+
+.addTask-create-btn {
+    width: 200px;
+    height: 51px;
+
+    gap: 15px;
+    cursor: pointer;
+
+    background: var(--filled-button);
+    border-radius: 8px;
+    border: 0;
+    
+    font-weight: 700;
+    color: var(--filled-button-font);
+    
+    transition: all 225ms ease-in-out;
+}
+
+.addTask-create-btn:hover {
+    background: var(--filled-button-hover);
+    transition: all 225ms ease-in-out;
+}
+
+/* Add Task Message Area */
+
+.addTask-finish-message-area {
+    width: 300px;
+    height: 100px;
+
+    position: absolute;
+    bottom: -20px;
+    left: 450px;
+
+    transform: scale(0);
+    transition: transform 225ms ease-in-out;
+}
+
+.scale {
+    transform: scale(1);
+    transition: transform 225ms ease-in-out;
+}
+
+.addTask-finish-message-contain {
+    width: 95%;
+    height: 65%;
+
+    background-color: var(--filled-button);
+    border: 3px solid var(--highlighted-button);
+    border-radius: 10px;
+}
+
+.addTask-finish-message {
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.open-add-contact {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    display: none;
+
+    background-color: var(--open-task-background);
+    z-index: 98;
+    
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}

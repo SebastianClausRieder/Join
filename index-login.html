@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Fonts -->
+    <link rel="stylesheet" href="css-files/font_inter.css">
+
+    <!-- embedded Files -->
+    <!-- CSS -->
+
+    <!-- Global -->
+    <link rel="stylesheet" href="css-files/global-css.css">
+    <link rel="stylesheet" href="responsive-files/350-600/global.css">
+    <link rel="stylesheet" href="responsive-files/601-1000/global.css">
+
+    <!-- Login -->
+    <link rel="stylesheet" href="css-files/logo-animation.css">
+    <link rel="stylesheet" href="css-files/login.css">
+    <link rel="stylesheet" href="responsive-files/350-600/login.css">
+    <link rel="stylesheet" href="responsive-files/601-1000/login.css">
+    <link rel="stylesheet" href="responsive-files/1001-1500/login.css">
+
+    <!-- Java Script -->
+    <script src="js-files/init.js"></script>
+    <script src="js-files/global-functions.js"></script>
+    <script src="js-files/storage.js"></script>
+    <script src="js-files/user-json.js"></script>
+    <script src="js-files/login.js"></script>
+    <script src="js-files/sign-up.js"></script>
+    <script src="js-files/forgot-pw.js"></script>
+    <script src="js-files/eventListener-sign-up.js"></script>
+    <script src="js-files/desktop-header.js"></script>
+
+    <!-- Title and Favicon -->
+    <link rel="shortcut icon" href="img/join-logo.png" type="image/x-icon">
+    <title>Join</title>
+
+</head>
+
+<body onload="initLogin()">
+    <div class="main-frame d-flex-center">
+        <div class="login-main-contain d-flex-center">
+            <div id="sign-up-bar" class="sign-up-bar d-flex-center font-inter">
+                <span class="sign-up">Not a Join user?</span>
+                <button class="login-sign-up-btn d-flex-center" onclick="signUp()"><span
+                        class="login-sign-up-btn-text">Sign
+                        up</span></button>
+            </div>
+            <div id="login-area" class="center-contain d-flex-start-center-column">
+                <div class="login-title d-flex-start-center-column">
+                    <span class="login font-inter">Log in</span>
+                    <line class="login-line"></line>
+                </div>
+                <div class="login-fields d-flex-start-center-column">
+                    <div class="field-frame-1 d-flex-center-start-column">
+                        <div class="field-frame-2 d-flex-center">
+                            <div class="field-frame-3 d-flex-center">
+                                <input id="mail-input" type="email" class="input-field font-inter" placeholder="E-Mail">
+                                <img src="img/icon/mail-icon.png" alt="mail icon" class="mail-icon">
+                            </div>
+                        </div>
+                        <span id="mail-request" class="request-area"></span>
+                    </div>
+                    <div class="field-frame-1 d-flex-center-start-column">
+                        <div class="field-frame-2 d-flex-center">
+                            <div class="field-frame-3 d-flex-center">
+                                <input id="login-pw-input" type="password" class="input-field font-inter"
+                                    placeholder="Password">
+                                <div class="pw-icons d-flex-center">
+                                    <img src="img/icon/pw-eye.png" onclick="showPW('login-pw-input')" alt="pw eye"
+                                        class="pw-eye">
+                                    <img src="img/icon/pw-icon.png" alt="pw icon" class="pw-icon">
+                                </div>
+                            </div>
+                        </div>
+                        <span id="pw-request" class="request-area"></span>
+                    </div>
+                </div>
+                <div class="remember-and-forgot d-flex-center-start">
+                    <div class="remember-1 d-flex-center">
+                        <div onclick="rememberMe()" id="checkbox" class="checkbox d-flex-center">
+                            <img src="" id="checkmark" class="checkmark">
+                        </div>
+                        <span class="remember-me font-inter">Remember me</span>
+                    </div>
+                    <span onclick="forgotPW()" class="forgot font-inter d-flex-center">Forgot my password</span>
+                </div>
+                <div class="login-btns d-flex-center">
+                    <button onclick="validateFormUser()" class="login-btn d-flex-center"><span
+                            class="login-btn-text font-inter">Log
+                            in</span></button>
+                    <button onclick="loginGuest()" class="guest-btn d-flex-center"><span
+                            class="guest-btn-text font-inter">Guest Log
+                            in</span></button>
+                </div>
+            </div>
+            <div id="sign-up-area" class="center-contain sign-up-area d-flex-start-center-column">
+                <div class="login-title d-flex-start-center-column">
+                    <span class="login font-inter">Sign up</span>
+                    <line class="login-line"></line>
+                </div>
+                <div class="login-fields d-flex-start-center-column">
+                    <div class="field-frame-1 d-flex-center-start-column">
+                        <div class="field-frame-2 d-flex-center">
+                            <div class="field-frame-3 d-flex-center">
+                                <input id="sign-name-input" type="text" minlength="5" class="input-field font-inter"
+                                    placeholder="Name">
+                                <div class="icon-box d-flex-center">
+                                    <img src="img/icon/name-icon.png" alt="name icon" class="sign-name-icon">
+                                </div>
+                            </div>
+                        </div>
+                        <span id="sign-name-request" class="request-area"></span>
+                    </div>
+                    <div class="field-frame-1 d-flex-center-start-column">
+                        <div class="field-frame-2 d-flex-center">
+                            <div class="field-frame-3 d-flex-center">
+                                <input id="sign-mail-input" type="email" class="input-field font-inter"
+                                    placeholder="E-Mail">
+                                <img src="img/icon/mail-icon.png" alt="mail icon" class="mail-icon">
+                            </div>
+                        </div>
+                        <span id="sign-mail-request" class="request-area"></span>
+                    </div>
+                    <div class="field-frame-1 d-flex-center-start-column">
+                        <div class="field-frame-2 d-flex-center">
+                            <div class="field-frame-3 d-flex-center">
+                                <input id="sign-pw-input" type="password" class="input-field font-inter"
+                                    placeholder="Password">
+                                <div class="pw-icons d-flex-center">
+                                    <img src="img/icon/pw-eye.png" onclick="showPW('sign-pw-input')" alt="pw eye"
+                                        class="pw-eye">
+                                    <img src="img/icon/pw-icon.png" alt="pw icon" class="pw-icon">
+                                </div>
+                            </div>
+                        </div>
+                        <span id="sign-pw-request" class="sign-pw-request"></span>
+                    </div>
+                </div>
+                <button class="login-btn d-flex-center" onclick="addNewUserProfil()"><span
+                        class="login-btn-text font-inter">Sign
+                        up</span></button>
+                <div onclick="back()" class="back-contain d-flex-center">
+                    <img src="img/icon/arrow-left.png" alt="arrow left" class="back-icon">
+                </div>
+                <div id="criteria-list" class="criteria-list-sign-up d-flex-center-start-column">
+                    <li id="criteria1" class="criteria font-inter">At least 8 characters</li>
+                    <li id="criteria2" class="criteria font-inter">At least 1 capital letter</li>
+                    <li id="criteria3" class="criteria font-inter">At least 1 number</li>
+                </div>
+            </div>
+            <div id="forgot-pw-area" class="center-contain forgot-pw-area d-flex-start-center-column">
+                <div class="login-title d-flex-start-center-column">
+                    <span class="login font-inter">I forgot my password</span>
+                    <line class="login-line"></line>
+                </div>
+                <span class="forgot-pw-text font-inter">Don't worry! We will send you an email with the instructions to
+                    reset
+                    your password.</span>
+                <form class="forgot-pw-fv d-flex-center-column" onsubmit="resetPWMail(event)">
+                    <div class="field-frame-1 d-flex-center-start-column">
+                        <div class="field-frame-2 d-flex-center">
+                            <div class="field-frame-3 d-flex-center">
+                                <input type="email" id="forgot-pw-mail-input" class="input-field font-inter"
+                                    name="email" placeholder="E-Mail">
+                                <img src="img/icon/mail-icon.png" alt="mail icon" class="forgot-pw-mail-icon">
+                            </div>
+                        </div>
+                        <span id="forgot-pw-mail-request" class="request-area"></span>
+                    </div>
+                    <button type="submit" class="login-btn d-flex-center" style="width: 275px;"><span class="login-btn-text font-inter">Send me the
+                            E-Mail</span></button>
+                </form>
+                <div onclick="back()" class="back-contain d-flex-center">
+                    <img src="img/icon/arrow-left.png" alt="arrow left" class="back-icon">
+                </div>
+            </div>
+            <div id="messages" class="messages d-flex-center">
+                <div id="messages-contain" class="messages-contain d-flex-center-column">
+                </div>
+            </div>
+            <div class="join-logo-contain animated">
+                <img src="img/join-logo-animation.png" alt="Join Logo" class="join-logo animated">
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

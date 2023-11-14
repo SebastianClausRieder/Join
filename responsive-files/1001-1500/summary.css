@@ -1,0 +1,69 @@
+@media all and (min-width: 1001px) and (max-width: 1500px) {
+    .summary-main-contain {
+        width: 95%;
+    }
+
+    .summary-title-text {
+        font-size: 23px;
+    }
+
+    .summary-contain-1 {
+        justify-content: center;
+    }
+
+    .summary-task-contain-1 {
+        width: 500px;
+        height: 500px;
+    }
+
+    .board-tasks {
+        width: 145px;
+        height: 145px;
+    }
+
+    .how-many-tasks {
+        font-size: 45px;
+    }
+
+    .board-task-name {
+        font-size: 17px;
+    }
+
+    .summary-prio {
+        height: 145px;
+    }
+
+    .summary-watch {
+        width: 225px;
+        height: 145px;
+    }
+
+    .how-many-watch {
+        font-size: 45px;
+    }
+
+    .watch-text {
+        font-size: 17px;
+    }
+
+    .summary-user-contain-1 {
+        width: 100%;
+        height: 400px;
+        position: absolute;
+        background: var(--main-background);
+        opacity: 1;
+        animation: greetingAnimation 625ms forwards;
+        animation-delay: 3000ms;
+        pointer-events: none;
+    }
+    
+    @keyframes greetingAnimation {
+        0% {
+            opacity: 1;
+        }
+    
+        100% {
+            opacity: 0;
+        }
+    }    
+}

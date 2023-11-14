@@ -1,0 +1,231 @@
+@media all and (min-width: 601px) and (max-width: 1000px) {
+    .board-main {
+        width: 95%;
+        height: calc(100vh - 50px);
+
+        padding-left: 23px;
+    }
+
+    .dash-board {
+        height: 65px;
+    }
+
+    .search-and-add {
+        width: 300px;
+        height: 50px;
+
+        gap: 10px;
+    }
+
+    .search1 {
+        width: 225px;
+    }
+
+    .search-input {
+        width: calc(90% - 20px);
+    }
+
+    .search-img-contain {
+        width: 20px;
+    }
+
+    .search-img {
+        width: 15px;
+    }
+
+    .add {
+        width: 35px;
+    }
+
+    .add-btn-text {
+        display: none;
+    }
+
+    .add-btn-img {
+        margin-left: 1px;
+    }
+
+    .render-tasks {
+        height: calc(100vh - 120px);
+
+        gap: 15px;
+    }
+
+    .task-main {
+        width: 165px;
+    }
+
+    .task-title-contain {
+        height: 16px;
+    }
+
+    .task-add {
+        width: 15px;
+        height: 15px;
+
+        border: 1px solid var(--task-add-border);
+        border-radius: 5px;
+    }
+
+    .task-add-img {
+        width: 9px;
+    }
+
+    .task-add-img-blue {
+        width: 9px;
+    }
+
+    .task-add .task-add-img-blue {
+        top: 3px;
+    }
+
+    .board-task-contain1 {
+        gap: 5px;
+    }
+
+    .board-task-contain2 {
+        border-radius: 15px;
+
+        padding-top: 7px;
+        padding-bottom: 7px;
+    }
+
+    .drop-area {
+        height: 155px;
+    }
+
+    .board-task-contain3 {
+        gap: 5px;
+    }
+
+    .task-category-frame {
+        height: 20px;
+        border-radius: 6px;
+    }
+
+    .task-category-text {
+        font-size: 15px;
+    }
+
+    .progress-bar {
+        height: 8px;
+    }
+
+    .progress-ratio {
+        font-size: 10px;
+    }
+
+    .board-task-assign {
+        width: calc(100% - 25px);
+    }
+
+    .board-task-assign-contact {
+        width: 20px;
+        height: 20px;
+
+        margin-left: -4px;
+    }
+
+    .assign-contact-font {
+        font-size: 12px;
+    }
+
+    .board-task-prio {
+        width: 25px;
+    }
+
+    .board-task-prio-img {
+        width: 17px;
+    }
+
+    /* Open Task */
+
+    .open-task-main-contain {
+        width: 85%;
+        padding-top: 15px;
+        padding-bottom: 15px;
+    }
+
+    .open-task-inside {
+        flex-direction: row;
+        gap: 5px;
+    }
+
+    .parting-container {
+        gap: 5px;
+    }
+
+    .open-task-contain {
+        gap: 5px;
+    }
+
+    .open-task-subtasks {
+        width: 95%;
+        height: 100px;
+        gap: 5px;
+
+        margin-left: 10px;
+        margin-top: 0;
+    }
+
+    .loaded-subtask-contain {
+        height: 20px;
+        gap: 5px;
+    }
+
+    .prio-contain {
+        height: 20px;
+        gap: 5px;
+
+        border-radius: 7px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .prio-text {
+        font-size: 14px;
+    }
+
+    .open-task-assign {
+        width: 95%;
+        height: 100px;
+        gap: 5px;
+
+        margin-left: 10px;
+        margin-top: 0;
+    }
+
+    /* Close Button */
+
+    .closeTask-contain {
+        width: 35px;
+        height: 35px;
+        right: 20px; top: 20px;
+    }
+
+    .closeTask-icon {
+        width: 25px;
+    }
+
+    /* Button Contain */
+
+    .open-task-btn-contain {
+        width: 60px;
+        height: 25px;
+        right: 30px; bottom: 10px;
+    }
+
+    .open-task-btn-img {
+        width: 18px;
+    }
+
+    /* Delete Button */
+
+    .open-task-btn-img-blue {
+        width: 18px;
+    }
+
+    .open-task-delete-btn .open-task-btn-img-blue {
+        right: 4px; top: 3px;
+    }
+}

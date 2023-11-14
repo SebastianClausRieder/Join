@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Fonts -->
+    <link rel="stylesheet" href="css-files/font_inter.css">
+
+    <!-- embedded Files -->
+    <!-- CSS -->
+
+    <!-- Global -->
+    <link rel="stylesheet" href="css-files/global-css.css">
+    <link rel="stylesheet" href="responsive-files/350-600/global.css">
+    <link rel="stylesheet" href="responsive-files/601-1000/global.css">
+    <link rel="stylesheet" href="responsive-files/1001-1500/global.css">
+
+    <!-- Header, Footer, Help Center and User Profile by IncludeHTML -->
+    <link rel="stylesheet" href="css-files/desktop-template.css">
+    <link rel="stylesheet" href="css-files/header-template.css">
+    <link rel="stylesheet" href="css-files/help-center-template.css">
+    <link rel="stylesheet" href="css-files/user-profile-template.css">
+    <link rel="stylesheet" href="responsive-files/350-600/includeHTML.css">
+    <link rel="stylesheet" href="responsive-files/601-1000/includeHTML.css">
+    <link rel="stylesheet" href="responsive-files/1001-1500/includeHTML.css">
+
+    <!-- Summary -->
+    <link rel="stylesheet" href="css-files/summary.css">
+    <link rel="stylesheet" href="responsive-files/350-600/summary.css">
+    <link rel="stylesheet" href="responsive-files/601-1000/summary.css">
+    <link rel="stylesheet" href="responsive-files/1001-1500/summary.css">
+
+    <!-- Login -->
+    <link rel="stylesheet" href="css-files/login.css">
+
+    <!-- Contacts -->
+    <link rel="stylesheet" href="css-files/contacts.css">
+
+    <!-- Java Script -->
+    <script src="js-files/init.js"></script>
+    <script src="js-files/global-functions.js"></script>
+    <script src="js-files/storage.js"></script>
+    <script src="js-files/user-json.js"></script>
+    <script src="js-files/includeHTML.js"></script>
+    <script src="js-files/desktop-header.js"></script>
+    <script src="js-files/summary.js"></script>
+    <script src="js-files/contacts.js"></script>
+
+    <!-- Title and Favicon -->
+    <link rel="shortcut icon" href="img/join-logo.png" type="image/x-icon">
+    <title>Join</title>
+
+</head>
+
+<body onload="initSummary()">
+    <div class="first-contain d-flex-center">
+        <div w3-include-html="include-templates/desktop-template.html" class="include-desktop"></div>
+        <div class="rightContent d-flex-start-center-column">
+            <div w3-include-html="include-templates/header-template.html" class="include-header"></div>
+            <div class="mainContainer d-flex-start-center-column">
+                <div id="w3-help-center" w3-include-html="include-templates/help-center-template.html"></div>
+                <div id="w3-user-profile" w3-include-html="include-templates/user-profile-template.html"></div>
+                    <div id="container" class="summary-main-contain d-flex-start-column">
+                        <div class="summary-title-contain d-flex-start-center">
+                            <h1 class="summary-title">Summary</h1>
+                            <span class="summary-title-text font-inter">Everything in a nutshell!</span>
+                            <div class="summary-parting-line"></div>
+                        </div>
+                        <div class="summary-contain-1 d-flex-start">
+                            <div class="summary-task-contain-1 d-flex-center-column">
+                                <div class="summary-task-contain-2 d-flex-center">
+                                    <div class="board-tasks d-flex-center-column" onclick="goTo('board.html')">
+                                        <span id="how-many-tasks-on-board" class="how-many-tasks font-inter"></span>
+                                        <span class="board-task-name font-inter">Tasks on<br>Board</span>
+                                    </div>
+                                    <div class="board-tasks d-flex-center-column" onclick="goTo('board.html')">
+                                        <span id="how-many-tasks-in-progress" class="how-many-tasks font-inter"></span>
+                                        <span class="board-task-name font-inter">Tasks in<br>Progress</span>
+                                    </div>
+                                    <div class="board-tasks d-flex-center-column" onclick="goTo('board.html')">
+                                        <span id="how-many-tasks-awaiting-feedback" class="how-many-tasks font-inter"></span>
+                                        <span class="board-task-name font-inter">Awaiting<br>Feedback</span>
+                                    </div>
+                                </div>
+                                <div class="summary-task-contain-2 d-flex-center">
+                                    <div class="summary-prio d-flex-center" onclick="goTo('board.html')">
+                                        <div class="prio-left d-flex-center">
+                                            <img src="img/icon/urgent.png" class="prio-left-img">
+                                            <div class="prio-left-contain d-flex-center-column">
+                                                <span id="how-many-urgent-tasks" class="how-many-tasks font-inter"></span>
+                                                <span class="board-task-name font-inter">Urgent</span>
+                                            </div>
+                                        </div>
+                                        <div class="prio-right d-flex-center-start-column">
+                                            <span id="prio-date" class="prio-date font-inter"></span>
+                                            <span class="prio-date-text font-inter">Upcoming Deadline</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="summary-task-contain-2 d-flex-center">
+                                    <div class="summary-watch d-flex-center" onclick="goTo('board.html')">
+                                        <img src="img/icon/toDo.png" class="watch-img">
+                                        <div class="watch-contain d-flex-center-column">
+                                            <span id="how-many-tasks-todo" class="how-many-tasks font-inter"></span>
+                                            <span class="board-task-name font-inter">To-do</span>
+                                        </div>
+                                    </div>
+                                    <div class="summary-watch d-flex-center" onclick="goTo('board.html')">
+                                        <img src="img/icon/done.png" class="watch-img">
+                                        <div class="watch-contain d-flex-center-column">
+                                            <span id="how-many-tasks-done" class="how-many-tasks font-inter"></span>
+                                            <span class="board-task-name font-inter">Done</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="summary-user-contain-1 d-flex-center-column">
+                                <span id="user-greeting" class="user-greating font-inter">Good Morning</span>
+                                <span id="user-full-name" class="user-full-name font-inter"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="master-container-area" class="master-container d-flex-center">
+        <div class="master-container-center d-flex-center-column">
+            <div class="edit-contain d-flex-center">
+                <span class="user-title font-inter d-flex-center" style="width: 100%; justify-content: center;">Do you really want to leave Join?</span>
+            </div>
+            <div class="edit-contain d-flex-center">
+                <button class="add-contact-clear-btn d-flex-center font-inter" onclick="youReallyWantLeaveUs('no')">Cancel 
+                    <img src="img/icon/clear-mark.png" class="add-contact-btn-img">
+                    <img src="img/icon/clear-mark-blue.png" class="add-contact-btn-img-blue">
+                </button>
+                <button class="edit-profile-btn font-inter d-flex-center" onclick="youReallyWantLeaveUs('yes')">Yes i want that.</button>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

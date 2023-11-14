@@ -1,0 +1,301 @@
+@media all and (max-width: 600px) {
+    .contacts-main-contain {
+        width: 95%;
+    }
+
+    .contacts-title-contain {    
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .contacts-title {
+        width: 130px;
+        border-right: 0px;
+    }
+
+    .contacts-title-text {
+        font-size: 15px;
+        font-weight: 600;
+    }
+
+    .contacts-parting-line {
+        width: 75px;
+        display: flex;
+        border-top: 5px solid var(--highlighted);
+        margin-bottom: 154px;
+    }
+
+    .contacts-contain {
+        width: 100%;
+        height: calc(100vh - 293px);
+    }
+
+    .contacts-contain-left1 {
+        width: 100%;
+        animation: 225ms ease-in-out;
+    }
+
+    .new-contact-contain {
+        width: 150px;
+        height: 35px;
+
+        margin-bottom: 0;
+    }
+
+    .new-contact-icon {
+        width: 20px;
+        height: 20px;
+    }
+
+    .contacts-contain-left2 {
+        height: 100%;
+    }
+
+    .file {
+        width: 90%;
+        min-height: 35px;
+    
+        padding-right: 10px;
+    }
+
+    .contact {
+        width: 90%;
+        min-height: 35px;
+    
+        gap: 10px;
+        padding-left: 10px;
+    }
+
+    .contact-initials {
+        width: 25px;
+        height: 25px;
+    
+        font-size: 14px;
+    }
+
+    /* Contact Ad Area */
+    
+    .contact-contain-right1 {
+        width: auto;
+        height: auto;
+
+        position: absolute;
+        top: 0; right: 0; bottom: 0; left: 0;
+
+        background-color: var(--main-background);
+        pointer-events: none;
+        z-index: 99;
+    }
+
+    /* Add Contact */
+    
+    .add-contact-main {
+        width: 325px;
+        height: 500px;
+        flex-direction: column;
+    }
+
+    .add-contact-left {
+        width: 100%;
+        height: 200px;
+        gap: 5px;
+        border-radius: 30px 30px 0 0;
+        position: relative;
+    }
+
+    .add-contact-left-join {
+        width: 90%;
+    }
+
+    .add-contact-join-logo {
+        width: 60px;
+
+        position: absolute;
+        top: 35px; right: 35px;
+    }
+
+    .add-contact-left-text1 {
+        font-size: 25px;
+    }
+
+    .add-contact-left-text2 {
+        font-size: 16px !important;
+    }
+
+    .add-contact-left-line {
+        height: 25px;
+    }
+
+    .add-contact-right {
+        width: 100%;
+        height: calc(100% - 200px);
+        gap: 5px;
+        position: relative;
+    }
+
+    .add-contact-right-input-area {
+        width: fit-content;
+    }
+
+    .add-contact-img-contain {
+        position: absolute;
+        top: -50px; left: 120px;
+    }
+
+    .add-contact-img {
+        width: 55px;
+    }
+
+    .add-contact-input-fields {
+        width: 250px;
+        height: fit-content;
+    
+        gap: 3px;
+    }
+    
+    .add-contact-search-result {
+        width: 100%;
+        max-height: 100px;
+    
+        gap: 5px;    
+        top: 32px;
+    
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+
+    .result-text {
+        margin-left: 10px;
+    }
+
+    .add-contact-btn-area {
+        gap: 15px;
+    }
+
+    .add-contact-clear-btn {
+        width: 100px !important;
+        height: 35px !important;
+        
+        gap: 5px;
+    }
+
+    .add-contact-btn-img, .add-contact-btn-img-blue {
+        width: 12px;
+    }
+
+    .add-contact-clear-btn .add-contact-btn-img-blue {
+        top: 10px; right: 18px;
+    }
+
+    .add-contact-create-btn {
+        width: 150px !important;
+        height: 35px !important;
+    
+        gap: 5px;
+    }
+
+    .successfully-added {
+        font-size: 25px;
+    }
+
+    /* Contact */
+    
+    .contact-contain-right2 {
+        width: 95%;
+        height: 95%;
+    
+        gap: 15px;
+    }
+
+    .contact-name {
+        font-size: 25px;
+    }
+
+    .delete-contact {
+        width: 150px;
+        height: 25px;
+    }
+
+    .delete-contact-icon, .delete-contact-icon-blue {
+        width: 15px;
+        margin-right: 5px;
+    }
+
+    .contact-initials-bg {
+        width: 75px;
+        height: 75px;
+        font-size: 35px;
+    }
+
+    .contact-info-contain {
+        gap: 5px;
+    }
+
+    .contact-infos-left, .contact-infos-right {
+        font-size: 13px;
+    }
+
+    /* Contact Tasks */
+
+    .contact-tasks-contain1 {
+        min-height: 85px;
+        overflow: scroll;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+
+    .contact-tasks-contain2 {
+        width: fit-content;
+        gap: 10px;
+        flex: 0 0 auto;
+    }
+
+    .contact-board-tasks {
+        width: 75px;
+        height: 75px;
+    }
+
+    .contact-how-many-tasks {
+        font-size: 25px;
+    }
+
+    .contact-board-task-name, .contact-watch-text {
+        font-size: 13px;
+    }
+
+    .contact-summary-prio {
+        width: 300px;
+        height: 75px;
+    }
+
+    .contact-prio-left-img, .contact-watch-img {
+        width: 40px;
+    }
+
+    .contact-prio-date {
+        font-size: 15px;
+    }
+
+    .contact-summary-watch {
+        width: 125px;
+        height: 75px;
+    }
+
+    .contact-watch-contain {
+        width: 35%;
+        margin-left: 15px;
+    }
+
+    .contacts-back-contain {
+        width: 35px;
+        height: 35px;
+        display: flex;
+        position: absolute;
+        right: 15px; top: 15px;
+    }
+
+    .contacts-back-icon {
+        width: 20px;
+    }
+}

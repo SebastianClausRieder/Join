@@ -1,0 +1,78 @@
+.help-center {
+    width: 100%;
+    height: 100%;
+
+    display: none;
+
+    overflow: scroll;
+}
+
+.help-contain {
+    width: 90%;
+    height: fit-content;
+
+    margin-bottom: 25px;
+}
+
+.help-text {
+    width: 95%;
+    height: fit-content;
+
+    font-size: 19px;
+
+    margin-bottom: 20px;
+}
+
+li {
+    margin-left: 50px;
+}
+
+.join-team-contain {
+    width: 100%;
+    height: fit-content;
+}
+
+.join-team {
+    width: 200px;
+    height: fit-content;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.team-img {
+    width: 150px;
+    height: 150px;
+
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 15px;
+}
+
+.team-name {
+    font-size: 19px;
+    font-weight: 600;
+}
+
+.closeHelp-contain {
+    width: 37px;
+    height: 37px;
+    
+    position: absolute;
+    right: 35px;
+    top: 35px;
+
+    cursor: pointer;
+}
+
+.closeHelp-icon {
+    width: 30px;
+    height: 30px;
+}
+
+.sice-w3 {
+    width: 100%;
+    height: 100%;
+}

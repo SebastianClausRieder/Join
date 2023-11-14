@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: desktop-header.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: desktop-header.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>// Desktop and more.
+
+// Desktop
+
+/**
+ * Redirects to clicked side from Join.
+ * @param {string} side ←- Side from Join.
+ */
+function goTo(side) {
+    window.location.href = `${side}`;
+}
+
+// Header
+
+/**
+ * Shows the user menu when clicking on his portrait.
+ */
+function showUserMenu() {
+    const userMenu = element('user-menu');
+    userMenu.classList.toggle('d-show');
+}
+
+/**
+ * Displays either the user profile picture or their initials.
+ * @param {ID} ID Tells the function into which DIV container Add contact should be loaded.
+ */
+async function displayUserImageOrInitials(ID) {
+    const user = joinUsers[userI];
+    if (!user) return;
+
+    const userImage = user['userImage'];
+    const userIcon = element(ID);
+    const initials = extractedInitials(user['userName']);
+
+    if (!userImage) {
+        userIcon.innerHTML = `&lt;span id="user-initials-${ID}" class="user-initials font-inter">${initials}&lt;/span>`;
+    } else {
+        userIcon.innerHTML = `&lt;img src="${userImage}" class="header-user-image">`;
+    }
+}
+
+/**
+ * Creates the user's initials.
+ * @param {string} userName Name of the join user.
+ * @returns Ends the function if "userName" is in empti or not a string.
+ */
+function extractedInitials(userName) {
+    if (!userName || typeof userName !== 'string') {
+        return '';
+    }
+
+    const names = userName.split(" ");
+    const initials = names.map(name => name[0].toUpperCase()).join('');
+
+    return initials;
+}
+
+// Help Center
+
+/**
+ * Shows or hides the help center.
+ */
+function toggleHelpCenter() {
+    const container = element('container');
+    const helpCenter = element('help-center');
+    const w3HelpCenter = element('w3-help-center');
+    const contactsContain = element('contacts-contain');
+
+    container.classList.toggle('d-none');
+    helpCenter.classList.toggle('d-show');
+    w3HelpCenter.classList.toggle('sice-w3');
+
+    if (contactsContain) {
+        contactsContain.classList.toggle('d-none');
+    }
+}
+
+/**
+ * Opens the Help Center and closes the user profile if necessary.
+ */
+function openHelpCenter() {
+    if (element('w3-user-profile').classList.contains('sice-w3')) {
+        closeUserProfile();
+    }
+    if (window.innerWidth &lt;= 600) {
+        showUserMenu();
+    }
+    toggleHelpCenter();
+}
+
+/**
+ * Close the Help Center.
+ */
+function closeHelpCenter() {
+    toggleHelpCenter();
+}
+
+// User Profile
+
+// Globals
+
+let userLocation = 'Not specified.';
+
+// Functions
+
+
+/**
+ * Shows or hides the User Profile.
+ */
+function toggleUserProfile() {
+    const userProfile = element('user-profile');
+    const w3UserProfile = element('w3-user-profile');
+    const contactsContain = element('contacts-contain');
+    const container = element('container');
+    
+    userProfile.classList.toggle('d-show');
+    w3UserProfile.classList.toggle('sice-w3');
+    contactsContain?.classList.toggle('d-none');
+    container.classList.toggle('d-none');
+
+    if (contactsContain) {
+        contactsContain.classList.toggle('d-none');
+    }
+}
+
+/**
+ * Opens the Help Center and closes the Help Center if necessary.
+ */
+function openUserProfile() {
+    if (element('w3-help-center').classList.contains('sice-w3')) {
+        toggleHelpCenter();
+    }
+    toggleUserProfile();
+    showUserMenu();
+    populateUserProfile();
+}
+
+/**
+ * Close the User Profile.
+ */
+function closeUserProfile() {
+    toggleUserProfile();
+}
+
+/**
+ * Fills the user profile with the existing information.
+ */
+function populateUserProfile() {
+    displayUserImageOrInitials('user-image-contain');
+    setInitialSize();
+    loadUserNameAndLocation();
+    loadUserAddress();
+    loadUserMail();
+    loadUserPhone();
+    loadUserColor();
+}
+
+/**
+ * Gives the initials a new size.
+ */
+function setInitialSize() {
+    if (element('user-initials-user-image-contain')) {
+        element('user-initials-user-image-contain').style.fontSize = '75px';
+    }
+}
+
+/**
+ * Loads the user's name and location.
+ */
+function loadUserNameAndLocation() {
+    const user = joinUsers[userI];
+    const userName = user['userName'];
+    const userAddress = user['userAddress'];
+    
+    const userNameElement = element('user-name');
+
+    if (userAddress) {
+        userLocation = extractLocation();
+        userNameElement.innerHTML = /*html */ `
+            &lt;span class="user-profile-name font-inter">${userName}&lt;/span>
+            &lt;span class="user-profile-location font-inter d-flex-start-center">&lt;img src="img/icon/location.png" class="location-icon"> ${userLocation}&lt;/span>
+        `;
+    } else {
+        userNameElement.innerHTML = /*html */ `
+            &lt;span class="user-profile-name font-inter">${userName}&lt;/span>
+        `;
+    }
+}
+
+/**
+ * Extracts the place name from the address.
+ * @returns Returns the extracted place name.
+ */
+function extractLocation() {
+    const address = joinUsers[userI]['userAddress'];
+    const parts = address.split(' ');
+    const desiredWord = parts[parts.length - 1].replace(/[^a-zA-Z-]/g, '');
+
+    return desiredWord;
+}
+
+/**
+ * Loads the specified address.
+ */
+function loadUserAddress() {
+    const userAddress = joinUsers[userI]['userAddress'] || 'No address given';
+    
+    const userAddressHTML = /*html */ `
+        &lt;span class="user-title font-inter d-flex-center">Address: &lt;/span>
+        &lt;span class="user-info-text font-inter d-flex-center" style="margin-bottom: 10px;">${userAddress}&lt;/span>
+    `;
+
+    element('user-address').innerHTML = userAddressHTML;
+}
+
+/**
+ * Loads the specified email address.
+ */
+function loadUserMail() {
+    const userMail = joinUsers[userI]['userMail'];
+
+    const userMailHTML = `
+        &lt;span class="user-title font-inter d-flex-center">Mail: &lt;/span>
+        &lt;span class="user-info-text font-inter d-flex-center" style="color: var(--highlighted-text);">${userMail}&lt;/span>
+    `;
+
+    element('user-mail').innerHTML = userMailHTML;
+}
+
+/**
+ * Loads the specified phone number.
+ */
+function loadUserPhone() {
+    const userPhone = joinUsers[userI]['userPhone'] || 'No phone number given';
+
+    const phoneHTML = /*html */ `
+        &lt;span class="user-title font-inter d-flex-center">Phone: &lt;/span>
+        &lt;span class="user-info-text font-inter d-flex-center">${userPhone}&lt;/span>
+    `;
+
+    element('user-phone').innerHTML = phoneHTML;
+}
+
+/**
+ * Loads the specified user Color.
+ */
+function loadUserColor() {
+    const userColor = joinUsers[userI]['userColor'];
+
+    const userColorHTML = /*html */ `
+        &lt;span class="user-title font-inter d-flex-center">Detection color: &lt;/span>
+        &lt;span class="user-info-text font-inter d-flex-center" style="background-color: ${userColor};">&lt;/span>
+    `;
+
+    element('user-color').innerHTML = userColorHTML;
+}
+
+// Edit Profile
+
+/**
+ * Opens the Profil Editor.
+ */
+async function openProfileEditor() {
+    const profileEditor = element('edit-user-profile');
+    profileEditor.classList.add('d-show');
+    profileEditor.innerHTML = await profileEditorTemp();
+
+    // Eine Liste der Felder, die bearbeitet werden sollen
+    const fieldsToEdit = [
+        { fieldName: 'Name', fieldKey: 'userName', loadFunction: loadNameToEdit },
+        { fieldName: 'Address', fieldKey: 'userAddress', loadFunction: loadAddressToEdit },
+        { fieldName: 'Mail', fieldKey: 'userMail', loadFunction: loadMailToEdit },
+        { fieldName: 'Phone', fieldKey: 'userPhone', loadFunction: loadPhoneToEdit },
+        { fieldName: 'Color', fieldKey: 'userColor', loadFunction: loadColorToEdit }
+    ];
+
+    // Rufen Sie die loadFieldToEdit-Funktion für jedes Feld in der Liste auf
+    for (const field of fieldsToEdit) {
+        loadFieldToEdit(field.fieldKey);
+    }
+
+    loadImageToEdit();
+
+    const selectElementUser = element('select-user-color');
+    selectElementUser.addEventListener('change', handleUserColorChange);
+
+    function loadFieldToEdit(fieldKey) {
+        const fieldInfo = fieldsToEdit.find(field => field.fieldKey === fieldKey);
+        if (fieldInfo) {
+            fieldInfo.loadFunction();
+        }
+    }
+}
+
+async function profileEditorTemp() {
+    return /*html */ `
+        &lt;div class="editor-main-contain d-flex-start-column">
+            &lt;h1>User Profile Editor&lt;/h1>
+            &lt;div class="edit-contain d-flex-start">
+                &lt;span class="user-title font-inter d-flex-center">Name: &lt;/span>
+                &lt;div class="user-input-area d-flex-start-column">
+                    &lt;input id="user-input-first-name" type="text" class="user-input font-inter" placeholder="Edit your first name...">
+                    &lt;input id="user-input-last-name" type="text" class="user-input font-inter" placeholder="Edit your last name...">
+                &lt;/div>
+            &lt;/div>
+            &lt;div class="edit-contain d-flex-start">
+                &lt;span class="user-title font-inter d-flex-center">Address: &lt;/span>
+                &lt;div class="user-input-area d-flex-start-column">
+                    &lt;input id="user-input-street" type="text" class="user-input font-inter" placeholder="Write the street name...">
+                    &lt;input id="user-input-placePostalCode" type="number" class="user-input font-inter" placeholder="Write the place Postal code...">
+                    &lt;input id="user-input-place" type="text" class="user-input font-inter" placeholder="Write the place name...">
+                &lt;/div>
+            &lt;/div>
+            &lt;div class="edit-contain d-flex-start">
+                &lt;span class="user-title font-inter d-flex-center">Mail: &lt;/span>
+                &lt;div class="user-input-area d-flex-start-column">
+                    &lt;input id="user-input-mail" type="text" class="user-input font-inter" placeholder="Edit your E-Mail address...">
+                &lt;/div>
+            &lt;/div>
+            &lt;div class="edit-contain d-flex-start">
+                &lt;span class="user-title font-inter d-flex-center">Phone: &lt;/span>
+                &lt;div class="user-input-area d-flex-start-column">
+                    &lt;input id="user-input-phone" type="number" class="user-input font-inter" placeholder="Edit your Phone number...">
+                &lt;/div>
+            &lt;/div>
+            &lt;div class="edit-contain d-flex-start">
+                &lt;span class="user-title font-inter d-flex-center">Detect color: &lt;/span>
+                &lt;div class="user-input-area d-flex-start-column">
+                    &lt;select id="select-user-color" class="editor-select-color font-inter">
+                        &lt;option value="" disabled selected hidden>Color&lt;/option>
+                        &lt;option value="img/icon/circle-blue.png"
+                            style="background-color: var(--category-blue);">&lt;/option>
+                        &lt;option value="img/icon/circle-green.png"
+                            style="background-color: var(--category-green);">&lt;/option>
+                        &lt;option value="img/icon/circle-pink.png"
+                            style="background-color: var(--category-pink);">&lt;/option>
+                        &lt;option value="img/icon/circle-red.png"
+                            style="background-color: var(--category-red);">&lt;/option>
+                        &lt;option value="img/icon/circle-turquoise.png"
+                            style="background-color: var(--category-turquoise);">&lt;/option>
+                        &lt;option value="img/icon/circle-yellow.png"
+                            style="background-color: var(--category-yellow);">&lt;/option>
+                    &lt;/select>
+                &lt;/div>
+            &lt;/div>
+            &lt;div class="edit-contain d-flex-start">
+                &lt;span class="user-title font-inter d-flex-center">Image: &lt;/span>
+                &lt;div class="user-input-area d-flex-start-column">
+                    &lt;input id="user-input-image" type="text" class="user-input font-inter" placeholder="Direct link to your picture...">
+                &lt;/div>
+            &lt;/div>
+            &lt;div class="edit-contain d-flex-start">
+                &lt;button class="add-contact-clear-btn d-flex-center font-inter" onclick="cancelEdit()" style="margin-right: 35px;">Cancel 
+                    &lt;img src="img/icon/clear-mark.png" class="add-contact-btn-img">
+                    &lt;img src="img/icon/clear-mark-blue.png" class="add-contact-btn-img-blue">
+                &lt;/button>
+                &lt;button class="edit-profile-btn font-inter d-flex-center" onclick="editProfile()">Edit Profile &lt;img src="img/icon/edit.png" class="profile-edit-icon">&lt;/button>
+            &lt;/div>
+        &lt;/div>
+    `;
+}
+
+/**
+ * Load User Name to Editorfield.
+ */
+function loadNameToEdit() {
+    const userName = joinUsers[userI]['userName'];
+    const firstNameInput = element('user-input-first-name');
+    const lastNameInput = element('user-input-last-name');
+    
+    if (userName) {
+        const names = userName.split(" ");
+        firstNameInput.value = names[0];
+        lastNameInput.value = names[1] || '';
+    } else {
+        firstNameInput.value = '';
+        lastNameInput.value = '';
+    }
+}
+
+/**
+ * Load User Adress to Editorfield.
+ */
+function loadAddressToEdit() {
+    const userAddress = joinUsers[userI]['userAddress'];
+    const streetInput = element('user-input-street');
+    const placePostalCodeInput = element('user-input-placePostalCode');
+    const placeInput = element('user-input-place');
+
+    if (userAddress) {
+        const parts = userAddress.split('&lt;br>');
+
+        if (parts.length >= 2) {
+            streetInput.value = parts[0];
+            const postalCodeAndPlaceParts = parts[1].split(' ');
+            if (postalCodeAndPlaceParts.length >= 2) {
+                placePostalCodeInput.value = postalCodeAndPlaceParts[0];
+                placeInput.value = postalCodeAndPlaceParts.slice(1).join(' ');
+            }
+        }
+    } else {
+        streetInput.value = '';
+        placePostalCodeInput.value = '';
+        placeInput.value = '';
+    }
+}
+
+/**
+ * Load User Mail to Editorfield.
+ */
+function loadMailToEdit() {
+    const userMail = joinUsers[userI]['userMail'];
+    const editorFieldMail = element('user-input-mail');
+
+    editorFieldMail.value = userMail;
+}
+
+/**
+ * Load User Phone Number to Editorfield.
+ */
+function loadPhoneToEdit() {
+    const userPhone = joinUsers[userI]['userPhone'];
+    const editorFieldPhone = element('user-input-phone');
+
+    editorFieldPhone.value = userPhone || '';
+}
+
+/**
+ * Load User Profile Color to Editorfield.
+ */
+function loadColorToEdit() {
+    const userColor = joinUsers[userI]['userColor'];
+    const selectElementUser = element('select-user-color');
+    
+    if (userColor) {
+        selectElementUser.style.backgroundColor = userColor;
+        determineColortoIMG(userColor);
+    }
+}
+
+/**
+ * Find the right color using the keyword.
+ * @param {object} userColor Profile color of the user.
+ */
+function determineColortoIMG(userColor) {
+    const colorMap = {
+        'var(--category-blue)': 'img/icon/circle-blue.png',
+        'var(--category-green)': 'img/icon/circle-green.png',
+        'var(--category-pink)': 'img/icon/circle-pink.png',
+        'var(--category-red)': 'img/icon/circle-red.png',
+        'var(--category-turquoise)': 'img/icon/circle-turquoise.png',
+        'var(--category-yellow)': 'img/icon/circle-yellow.png'
+    };
+
+    const extractedColor = element('select-user-color');
+    extractedColor.value = colorMap[userColor] || ''; // Fallback to empty string if color is not in the map
+}
+
+/**
+ * Extracts the color name from the image's link.
+ * @param {image} userColorIMG Color circle that is saved as an image in the profile.
+ * @returns Returns extracted color.
+ */
+function getuserColor(userColorIMG) {
+    const link = userColorIMG;
+    const start = link.lastIndexOf("/") + 1;
+    const end = link.lastIndexOf(".");
+    const extractedUserColor = link.substring(start, end);
+
+    return determineColorfromIMG(extractedUserColor);
+}
+
+/**
+ * Find the right color using the keyword.
+ * @param {object} extractedUserColor Profile color of the user.
+ * @returns Returns the color code for CSS.
+ */
+function determineColorfromIMG(extractedUserColor) {
+    const colorMap = {
+        'circle-blue': 'var(--category-blue)',
+        'circle-green': 'var(--category-green)',
+        'circle-pink': 'var(--category-pink)',
+        'circle-red': 'var(--category-red)',
+        'circle-turquoise': 'var(--category-turquoise)',
+        'circle-yellow': 'var(--category-yellow)'
+    };
+
+    return colorMap[extractedUserColor] || 'default-color'; // default-color if no match was found.
+}
+
+/**
+ * Is responsible for the selectable color in the selector.
+ */
+function handleUserColorChange() {
+    const selectElementUser = element('select-user-color');
+    const selectedOption = selectElementUser.options[selectElementUser.selectedIndex];
+    const selectedColor = selectedOption.getAttribute('style');
+
+    selectElementUser.style = selectedColor;
+}
+
+/**
+ * Load User Image to Editorfield.
+ */
+function loadImageToEdit() {
+    const userImage = joinUsers[userI]['userImage'];
+    const editorFieldImage = element('user-input-image');
+
+    editorFieldImage.value = userImage || '';
+}
+
+/**
+ * Cancel Edit.
+ */
+function cancelEdit() {
+    const userProfil = element('edit-user-profile');
+    userProfil.classList.remove('d-show');
+    populateUserProfile();
+}
+
+/**
+ * Inserts the newly specified data into the user profile and calls it immediately.
+ */
+async function editProfile() {
+    const userProfil = element('edit-user-profile');
+
+    addNameToProfile();
+    addAddressToProfile();
+    joinUsers[userI]['userMail'] = element('user-input-mail').value;
+    joinUsers[userI]['userPhone'] = element('user-input-phone').value;
+    joinUsers[userI]['userColor'] = getuserColor(element('select-user-color').value);
+    joinUsers[userI]['userImage'] = element('user-input-image').value;
+
+    await updateTaskData();
+
+    userProfil.classList.remove('d-show');
+
+    populateUserProfile();
+}
+
+/**
+ * Merges the name.
+ */
+function addNameToProfile() {
+    const firstName = element('user-input-first-name').value;
+    const lastName = element('user-input-last-name').value;
+
+    
+    joinUsers[userI]['userName'] = `${firstName} ${lastName}`;
+}
+
+/**
+ * Creates the address.
+ */
+function addAddressToProfile() {
+    const street = element('user-input-street').value;
+    const placePostalCode = element('user-input-placePostalCode').value;
+    const place = element('user-input-place').value;
+
+    if (street === '' &amp;&amp; placePostalCode === '' &amp;&amp; place === '') {
+        joinUsers[userI]['userAddress'] = /*html */ ``;
+    } else {
+        joinUsers[userI]['userAddress'] = /*html */ `${street}&lt;br>${placePostalCode} ${place}`;
+    }
+}
+
+// Leave Join, for now.
+
+/**
+ * Introduces the option to leave Join.
+ */
+function leaveJoin() {    
+    const masterContainArea = element('master-container-area');
+    masterContainArea.classList.add('d-show');
+}
+
+/**
+ * Gives you another opportunity to decide.
+ * @param {string} answer User's response.
+ */
+function youReallyWantLeaveUs(answer) {
+    if (answer === 'no') {
+        leaveJoinNOW(false);
+    } else if (answer === 'yes') {
+        leaveJoinNOW(true);    
+    }
+}
+
+/**
+ * Permanently deletes the join account or returns the user to the profile interface.
+ * @param {boolean} LEAVE Depending on the user's answer, LEAVE is "true" or "false".
+ */
+async function leaveJoinNOW(LEAVE) {
+
+    if (LEAVE) {
+        joinUsers.splice(userI, 1);
+
+        await updateTaskData();
+
+        goTo('index-login.html');
+    } else {
+        element('master-container-area').classList.remove('d-show');        
+    }
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#action">action</a></li><li><a href="global.html#addAddressToProfile">addAddressToProfile</a></li><li><a href="global.html#addContact">addContact</a></li><li><a href="global.html#addDueDate">addDueDate</a></li><li><a href="global.html#addMe">addMe</a></li><li><a href="global.html#addNameToProfile">addNameToProfile</a></li><li><a href="global.html#addNewCategory">addNewCategory</a></li><li><a href="global.html#addNewContact">addNewContact</a></li><li><a href="global.html#addNewTask">addNewTask</a></li><li><a href="global.html#addNewUserProfil">addNewUserProfil</a></li><li><a href="global.html#addSubtask">addSubtask</a></li><li><a href="global.html#addTaskToSearchArray">addTaskToSearchArray</a></li><li><a href="global.html#addToContacts">addToContacts</a></li><li><a href="global.html#addToField">addToField</a></li><li><a href="global.html#allEnabled">allEnabled</a></li><li><a href="global.html#allowDrop">allowDrop</a></li><li><a href="global.html#back">back</a></li><li><a href="global.html#backContacts">backContacts</a></li><li><a href="global.html#boardAddTask">boardAddTask</a></li><li><a href="global.html#boardAddTaskTo">boardAddTaskTo</a></li><li><a href="global.html#boardSetPrioTo">boardSetPrioTo</a></li><li><a href="global.html#boardTemp">boardTemp</a></li><li><a href="global.html#btnDisabled">btnDisabled</a></li><li><a href="global.html#cancelAddContact">cancelAddContact</a></li><li><a href="global.html#cancelEdit">cancelEdit</a></li><li><a href="global.html#changeAddTask">changeAddTask</a></li><li><a href="global.html#changeGreeting">changeGreeting</a></li><li><a href="global.html#checkDone">checkDone</a></li><li><a href="global.html#checkMailExist">checkMailExist</a></li><li><a href="global.html#checkMailToPW">checkMailToPW</a></li><li><a href="global.html#checkUserIsOnJoin">checkUserIsOnJoin</a></li><li><a href="global.html#clearAddContact">clearAddContact</a></li><li><a href="global.html#clearAddTask">clearAddTask</a></li><li><a href="global.html#clearAddToTask">clearAddToTask</a></li><li><a href="global.html#clearCategory">clearCategory</a></li><li><a href="global.html#clearDragTimer">clearDragTimer</a></li><li><a href="global.html#clearTouchDrag">clearTouchDrag</a></li><li><a href="global.html#closeAddTask">closeAddTask</a></li><li><a href="global.html#closeEditTask">closeEditTask</a></li><li><a href="global.html#closeHelpCenter">closeHelpCenter</a></li><li><a href="global.html#closeTask">closeTask</a></li><li><a href="global.html#closeUserProfile">closeUserProfile</a></li><li><a href="global.html#completeSubtask">completeSubtask</a></li><li><a href="global.html#creatGuestData">creatGuestData</a></li><li><a href="global.html#createNewTask">createNewTask</a></li><li><a href="global.html#createPossibleDropLevels">createPossibleDropLevels</a></li><li><a href="global.html#dNoneCriteria">dNoneCriteria</a></li><li><a href="global.html#deletGuestData">deletGuestData</a></li><li><a href="global.html#deletIndex">deletIndex</a></li><li><a href="global.html#deletLoginData">deletLoginData</a></li><li><a href="global.html#deletUserACC">deletUserACC</a></li><li><a href="global.html#deletUserACCmanuel">deletUserACCmanuel</a></li><li><a href="global.html#deleteContact">deleteContact</a></li><li><a href="global.html#deleteElementById">deleteElementById</a></li><li><a href="global.html#deleteOpenTask">deleteOpenTask</a></li><li><a href="global.html#deletePossibleDropLevels">deletePossibleDropLevels</a></li><li><a href="global.html#deleteRequestMessage">deleteRequestMessage</a></li><li><a href="global.html#deleteTaskbyIndex">deleteTaskbyIndex</a></li><li><a href="global.html#determineColorfromIMG">determineColorfromIMG</a></li><li><a href="global.html#determineColortoIMG">determineColortoIMG</a></li><li><a href="global.html#determineExtractedColor">determineExtractedColor</a></li><li><a href="global.html#displayUserImageOrInitials">displayUserImageOrInitials</a></li><li><a href="global.html#dragTask">dragTask</a></li><li><a href="global.html#editAddTaskTo">editAddTaskTo</a></li><li><a href="global.html#editOpenTask">editOpenTask</a></li><li><a href="global.html#editProfile">editProfile</a></li><li><a href="global.html#editTask">editTask</a></li><li><a href="global.html#element">element</a></li><li><a href="global.html#extractLocation">extractLocation</a></li><li><a href="global.html#extractedInitials">extractedInitials</a></li><li><a href="global.html#extractedWord">extractedWord</a></li><li><a href="global.html#fillAssignUser">fillAssignUser</a></li><li><a href="global.html#fillCategory">fillCategory</a></li><li><a href="global.html#fillDueDate">fillDueDate</a></li><li><a href="global.html#fillInputFields">fillInputFields</a></li><li><a href="global.html#fillLogin">fillLogin</a></li><li><a href="global.html#fillPriority">fillPriority</a></li><li><a href="global.html#fillSubtasks">fillSubtasks</a></li><li><a href="global.html#findNewContactByMail">findNewContactByMail</a></li><li><a href="global.html#findSubtasks">findSubtasks</a></li><li><a href="global.html#findUserByMail">findUserByMail</a></li><li><a href="global.html#findUserByName">findUserByName</a></li><li><a href="global.html#finishMessage">finishMessage</a></li><li><a href="global.html#forgotPW">forgotPW</a></li><li><a href="global.html#formatDate">formatDate</a></li><li><a href="global.html#getCategoryColor">getCategoryColor</a></li><li><a href="global.html#getCategoryIndex">getCategoryIndex</a></li><li><a href="global.html#getContactIndex">getContactIndex</a></li><li><a href="global.html#getEmailUrlParameter">getEmailUrlParameter</a></li><li><a href="global.html#getItem">getItem</a></li><li><a href="global.html#getMostUrgentDeadlineContacts">getMostUrgentDeadlineContacts</a></li><li><a href="global.html#getMyContactIndex">getMyContactIndex</a></li><li><a href="global.html#getSearchIndex">getSearchIndex</a></li><li><a href="global.html#getSubtaskIndex">getSubtaskIndex</a></li><li><a href="global.html#getTaskIndex">getTaskIndex</a></li><li><a href="global.html#getUser">getUser</a></li><li><a href="global.html#getuserColor">getuserColor</a></li><li><a href="global.html#goTo">goTo</a></li><li><a href="global.html#greeting">greeting</a></li><li><a href="global.html#groupContactsByInitial">groupContactsByInitial</a></li><li><a href="global.html#handleCategoryColorChange">handleCategoryColorChange</a></li><li><a href="global.html#handleUserColorChange">handleUserColorChange</a></li><li><a href="global.html#initAddTask">initAddTask</a></li><li><a href="global.html#initBoard">initBoard</a></li><li><a href="global.html#initContacts">initContacts</a></li><li><a href="global.html#initLegalNotice">initLegalNotice</a></li><li><a href="global.html#initLogin">initLogin</a></li><li><a href="global.html#initPrivacyPolicy">initPrivacyPolicy</a></li><li><a href="global.html#initSummary">initSummary</a></li><li><a href="global.html#leaveJoin">leaveJoin</a></li><li><a href="global.html#leaveJoinNOW">leaveJoinNOW</a></li><li><a href="global.html#loadAddEventListener">loadAddEventListener</a></li><li><a href="global.html#loadAddressToEdit">loadAddressToEdit</a></li><li><a href="global.html#loadAssigns">loadAssigns</a></li><li><a href="global.html#loadColorToEdit">loadColorToEdit</a></li><li><a href="global.html#loadContacts">loadContacts</a></li><li><a href="global.html#loadImageToEdit">loadImageToEdit</a></li><li><a href="global.html#loadIndexFrom">loadIndexFrom</a></li><li><a href="global.html#loadJSONfromServer">loadJSONfromServer</a></li><li><a href="global.html#loadJSONtoServer">loadJSONtoServer</a></li><li><a href="global.html#loadLoginDataFrom">loadLoginDataFrom</a></li><li><a href="global.html#loadMailToEdit">loadMailToEdit</a></li><li><a href="global.html#loadNameToEdit">loadNameToEdit</a></li><li><a href="global.html#loadPhoneToEdit">loadPhoneToEdit</a></li><li><a href="global.html#loadSearchResult">loadSearchResult</a></li><li><a href="global.html#loadTasks">loadTasks</a></li><li><a href="global.html#loadUserAddress">loadUserAddress</a></li><li><a href="global.html#loadUserColor">loadUserColor</a></li><li><a href="global.html#loadUserMail">loadUserMail</a></li><li><a href="global.html#loadUserNameAndLocation">loadUserNameAndLocation</a></li><li><a href="global.html#loadUserPhone">loadUserPhone</a></li><li><a href="global.html#loadWatch">loadWatch</a></li><li><a href="global.html#loadWatchContacts">loadWatchContacts</a></li><li><a href="global.html#loadguestDataFrom">loadguestDataFrom</a></li><li><a href="global.html#loginGuest">loginGuest</a></li><li><a href="global.html#lookForUrgentContacts">lookForUrgentContacts</a></li><li><a href="global.html#makeSmallAndNoSpaces">makeSmallAndNoSpaces</a></li><li><a href="global.html#moveTaskTo">moveTaskTo</a></li><li><a href="global.html#moveTouchTask">moveTouchTask</a></li><li><a href="global.html#noticeLoginData">noticeLoginData</a></li><li><a href="global.html#onPageLoad">onPageLoad</a></li><li><a href="global.html#openAddNewContact">openAddNewContact</a></li><li><a href="global.html#openDropDownAddTaskTo">openDropDownAddTaskTo</a></li><li><a href="global.html#openDropDownAssignTo">openDropDownAssignTo</a></li><li><a href="global.html#openDropDownCategory">openDropDownCategory</a></li><li><a href="global.html#openHelpCenter">openHelpCenter</a></li><li><a href="global.html#openProfileEditor">openProfileEditor</a></li><li><a href="global.html#openTask">openTask</a></li><li><a href="global.html#openTaskAssign">openTaskAssign</a></li><li><a href="global.html#openTaskTemp">openTaskTemp</a></li><li><a href="global.html#openUserProfile">openUserProfile</a></li><li><a href="global.html#parseInputDate">parseInputDate</a></li><li><a href="global.html#pleaseCheckFormular">pleaseCheckFormular</a></li><li><a href="global.html#populateUserProfile">populateUserProfile</a></li><li><a href="global.html#pushToArray">pushToArray</a></li><li><a href="global.html#rememberMe">rememberMe</a></li><li><a href="global.html#removeTaskFromSearchArray">removeTaskFromSearchArray</a></li><li><a href="global.html#renderAddContactSearchResult">renderAddContactSearchResult</a></li><li><a href="global.html#renderAddTask">renderAddTask</a></li><li><a href="global.html#renderAddTaskTo">renderAddTaskTo</a></li><li><a href="global.html#renderCategories">renderCategories</a></li><li><a href="global.html#renderCloseBTN">renderCloseBTN</a></li><li><a href="global.html#renderFinishBTN">renderFinishBTN</a></li><li><a href="global.html#renderSearchResult">renderSearchResult</a></li><li><a href="global.html#renderSearchedTasks">renderSearchedTasks</a></li><li><a href="global.html#renderSubtask">renderSubtask</a></li><li><a href="global.html#renderTasks">renderTasks</a></li><li><a href="global.html#resetPW">resetPW</a></li><li><a href="global.html#resetPWMail">resetPWMail</a></li><li><a href="global.html#saveGuestDataTo">saveGuestDataTo</a></li><li><a href="global.html#saveIndexTo">saveIndexTo</a></li><li><a href="global.html#saveLoginDataTo">saveLoginDataTo</a></li><li><a href="global.html#searchByInput">searchByInput</a></li><li><a href="global.html#searchForAssign">searchForAssign</a></li><li><a href="global.html#searchIN">searchIN</a></li><li><a href="global.html#searchTask">searchTask</a></li><li><a href="global.html#selectCategory">selectCategory</a></li><li><a href="global.html#selectContact">selectContact</a></li><li><a href="global.html#selectTask">selectTask</a></li><li><a href="global.html#setInitialSize">setInitialSize</a></li><li><a href="global.html#setItem">setItem</a></li><li><a href="global.html#setPrioTo">setPrioTo</a></li><li><a href="global.html#showAssign">showAssign</a></li><li><a href="global.html#showPW">showPW</a></li><li><a href="global.html#showUserMenu">showUserMenu</a></li><li><a href="global.html#showclickedContact">showclickedContact</a></li><li><a href="global.html#signUp">signUp</a></li><li><a href="global.html#startDragTimer">startDragTimer</a></li><li><a href="global.html#startTouchDrag">startTouchDrag</a></li><li><a href="global.html#subtaskCheck">subtaskCheck</a></li><li><a href="global.html#subtaskDone">subtaskDone</a></li><li><a href="global.html#subtaskReady">subtaskReady</a></li><li><a href="global.html#successfullyAdded">successfullyAdded</a></li><li><a href="global.html#sumTasksByCategory">sumTasksByCategory</a></li><li><a href="global.html#sumTasksByCategoryOnSummary">sumTasksByCategoryOnSummary</a></li><li><a href="global.html#takeCategoryColor">takeCategoryColor</a></li><li><a href="global.html#taskTemp">taskTemp</a></li><li><a href="global.html#thankYou">thankYou</a></li><li><a href="global.html#toggleHelpCenter">toggleHelpCenter</a></li><li><a href="global.html#toggleUserProfile">toggleUserProfile</a></li><li><a href="global.html#uncompleteSubtask">uncompleteSubtask</a></li><li><a href="global.html#updateSubtaskUI">updateSubtaskUI</a></li><li><a href="global.html#updateTaskData">updateTaskData</a></li><li><a href="global.html#validateFormUser">validateFormUser</a></li><li><a href="global.html#validationNewTask">validationNewTask</a></li><li><a href="global.html#watchTasksOnBoard">watchTasksOnBoard</a></li><li><a href="global.html#watchTasksOnBoardContact">watchTasksOnBoardContact</a></li><li><a href="global.html#writeContactList">writeContactList</a></li><li><a href="global.html#writeContacts">writeContacts</a></li><li><a href="global.html#writeDate">writeDate</a></li><li><a href="global.html#writeInContacts">writeInContacts</a></li><li><a href="global.html#writeTime">writeTime</a></li><li><a href="global.html#writeUrgentDateContacts">writeUrgentDateContacts</a></li><li><a href="global.html#writeUserName">writeUserName</a></li><li><a href="global.html#youReallyWantLeaveUs">youReallyWantLeaveUs</a></li><li><a href="global.html#youResetYourPW">youResetYourPW</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Tue Nov 14 2023 15:19:49 GMT+0100 (Mitteleuropäische Normalzeit)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

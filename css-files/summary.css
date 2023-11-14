@@ -1,0 +1,190 @@
+/* Summary Beginn */
+
+.summary-main-contain {
+    width: 90%;
+    height: 100%;
+}
+
+.summary-title-contain {
+    width: 100%;
+    height: fit-content;
+
+    gap: 35px;
+}
+
+.summary-title {
+    width: fit-content;
+    padding-right: 35px;
+    border-right: 5px solid var(--highlighted);
+}
+
+.summary-title-text {
+    font-size: 35px;
+    font-weight: 600;
+}
+
+.summary-parting-line {
+    display: none;
+}
+
+.summary-contain-1 {
+    width: 100%;
+    height: fit-content;
+}
+
+.summary-task-contain-1 {
+    width: 600px;
+    height: 600px;
+
+    gap: 25px;
+}
+
+.summary-task-contain-2 {
+    width: 100%;
+    height: fit-content;
+
+    justify-content: space-between;
+}
+
+.board-tasks {
+    width: 175px;
+    height: 175px;
+
+    background-color: var(--card-color);
+    border: 2px solid var(--card-border);
+    border-radius: 30px;
+    
+    flex: 0 0 auto;
+    cursor: pointer;
+}
+
+.board-tasks:hover {
+    background-color: var(--highlighted);
+    transform: scale(1.1);
+}
+
+.how-many-tasks {
+    font-size: 55px;
+    font-weight: 800;
+}
+
+.board-task-name {
+    font-size: 18px;
+    font-weight: 500;
+    text-align: center;
+}
+
+.summary-prio {
+    width: 100%;
+    height: 175px;
+
+    background-color: var(--card-color);
+    border: 2px solid var(--card-border);
+    border-radius: 30px;
+
+    flex: 0 0 auto;
+    cursor: pointer;
+}
+
+.summary-prio:hover {
+    background-color: var(--highlighted);
+    transform: scale(1.1);
+}
+
+.prio-left {
+    width: 35%;
+    height: 70%;
+
+    border-right: 2px solid var(--card-border);
+}
+
+.prio-left-img {
+    width: 60px;
+}
+
+.prio-left-contain {
+    width: 50%;
+    height: 100%;
+}
+
+.prio-right {
+    width: 50%;
+    height: 70%;
+}
+
+.prio-date {
+    width: 100%;
+    height: 25%;
+
+    font-size: 22px;
+    font-weight: 800;
+    text-align: center;
+}
+
+.prio-date-text {
+    width: 100%;
+    height: 25%;
+
+    font-size: 18px;
+    font-weight: 400;
+    text-align: center;
+}
+
+.summary-watch {
+    width: 275px;
+    height: 175px;
+
+    background-color: var(--card-color);
+    border: 2px solid var(--card-border);
+    border-radius: 30px;
+
+    flex: 0 0 auto;
+    cursor: pointer;
+}
+
+.summary-watch:hover {
+    background-color: var(--highlighted);
+    transform: scale(1.1);
+}
+
+.watch-img {
+    width: 60px;
+}
+
+.watch-contain {
+    width: 20%;
+    height: 100%;
+
+    margin-left: 35px;
+}
+
+.how-many-watch {
+    font-size: 55px;
+    font-weight: 800;   
+}
+
+.watch-text {
+    font-size: 18px;
+    font-weight: 500;
+    text-align: center;
+}
+
+.summary-user-contain-1 {
+    width: calc(100% - 600px);
+    height: 100%;
+    opacity: 1;
+}
+
+.user-greating, .user-full-name {
+    width: 100%;
+    height: 60px;
+
+    font-size: 45px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.user-full-name {
+    font-size: 60px;
+    color: var(--highlighted-text);
+}

@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: board.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: board.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>// JS Board
+
+// Functions
+
+/**
+ * Creates your tasks on your board.
+ */
+async function renderTasks() {
+    const boardTasks = element('render-tasks');
+    boardTasks.innerHTML = '';
+
+    const taskKeys = Object.keys(joinUsers[userI].userTasks);
+
+    for (let b = 0; b &lt; taskKeys.length; b++) {
+        const mainFolder = taskKeys[b];
+
+        boardTasks.innerHTML += boardTemp(mainFolder, b);
+        await loadTasks(mainFolder, b);
+    }
+}
+
+/**
+ * Creates the task folder.
+ * @param {object} mainFolder Current task folder.
+ * @param {index} b Index number of the tasks folder.
+ * @returns 
+ */
+function boardTemp(mainFolder, b) {
+    let boardTaskName = joinUsers[userI].alternativeTaskNames[mainFolder];
+    return /*html */ `
+        &lt;div class="task-main d-flex-start-column" ondrop="moveTaskTo('${mainFolder}')" ontouchstart="moveTouchTask('${mainFolder}')" ondragover="allowDrop(event, ${b})">
+            &lt;div class="task-title-contain d-flex-center">
+                &lt;span class="font-inter">${boardTaskName}&lt;/span>
+                &lt;div class="task-add d-flex-center" onclick="boardAddTaskTo('${mainFolder}')">
+                    &lt;img src="img/icon/plus-task.png" class="task-add-img">
+                    &lt;img src="img/icon/plus-task-blue.png" class="task-add-img-blue">
+                &lt;/div>
+            &lt;/div>
+            &lt;div id="board-task-contain${b}" class="board-task-contain1 d-flex-center-column">
+            &lt;/div>
+            &lt;div id="drop-area${b}" class="drop-area">&lt;/div>
+        &lt;/div>
+    `;
+}
+
+/**
+ * Loads the tasks from the task folder.
+ * @param {object} mainFolder Current task folder.
+ * @param {index} b Index number of the tasks folder.
+ */
+async function loadTasks(mainFolder, b) {
+    const loadedTasks = joinUsers[userI]['userTasks'][mainFolder];
+    const boardTask = element(`board-task-contain${b}`);
+    boardTask.innerHTML = ``;
+
+    for (let t = 0; t &lt; loadedTasks.length; t++) {
+        const loadedTask = loadedTasks[t];
+
+        boardTask.innerHTML += taskTemp(loadedTask, mainFolder, b, t);
+        takeCategoryColor(loadedTask, b, t, 'board');
+        subtaskDone(loadedTask, mainFolder, b, t);
+        loadAssigns(mainFolder, b, t);
+        boardSetPrioTo(mainFolder, b, t);
+    }
+}
+
+/**
+ * Creates the task.
+ * @param {array} loadedTask Array with the tasks from the task folder.
+ * @param {object} mainFolder Current task folder.
+ * @param {index} b Index number of the tasks folder.
+ * @param {index} t Index number of created tasks.
+ * @returns 
+ */
+function taskTemp(loadedTask, mainFolder, b, t) {
+    return /*html */ `
+        &lt;div    id="dragged-task-${b}-${t}"
+                class="board-task-contain2 d-flex-center"
+                onclick="openTask(${b}, ${t})"
+                draggable="true"
+                ondragstart="dragTask(${b}, ${t})"
+                ontouchstart="startDragTimer(event, ${b}, ${t})"
+                ontouchend="clearTouchDrag(${b}, ${t})">
+            &lt;div class="board-task-contain3 d-flex-start-column">
+                &lt;div id="task-category-frame${b}${t}" class="task-category-frame d-flex-center">
+                    &lt;span class="task-category-text font-inter">${loadedTask['category']}&lt;/span>
+                &lt;/div>
+                &lt;span class="task-title-text font-inter">${loadedTask['title']}&lt;/span>
+                &lt;p class="task-description font-inter">${loadedTask['description']}&lt;/p>
+                &lt;div class="in-progress-contain d-flex-start-center">
+                    &lt;div class="progress-bar">
+                        &lt;div id="progress${b}${t}" class="progress">&lt;/div>
+                    &lt;/div>
+                    &lt;span id="progress-ratio${b}${t}" class="progress-ratio font-inter">&lt;/span>
+                &lt;/div>
+                &lt;div class="assign-and-prio d-flex-center" onclick="event.stopPropagation()">
+                    &lt;div id="board-task-assign${b}${t}" class="board-task-assign d-flex-start-center">&lt;/div>
+                    &lt;div class="board-task-prio d-flex-center">
+                        &lt;img id="board-task-prio-img${b}${t}" class="board-task-prio-img">
+                    &lt;/div>
+                &lt;/div>
+            &lt;/div>
+        &lt;/div>
+    `;
+}
+
+// Get Category Color
+
+/**
+ * Gives the correct color to the category.
+ * @param {array} loadedTask Array with the tasks from the task folder.
+ * @param {index} b Index number of the tasks folder.
+ * @param {index} t Index number of created tasks.
+ * @param {ID} frame Requested by.
+ */
+function takeCategoryColor(loadedTask, b, t, frame) {
+    let categoryColor = loadedTask['category-color'];
+    getCategoryColor(categoryColor, b, t, frame);
+}
+
+/**
+ * Extracts the color name.
+ * @param {object} categoryColor Color of the category.
+ * @param {index} b Index number of the tasks folder.
+ * @param {index} t Index number of created tasks.
+ * @param {ID} frame Requested by.
+ */
+function getCategoryColor(categoryColor, b, t, frame) {
+    let link = categoryColor;
+    let start = link.lastIndexOf("/") + 1;
+    let end = link.lastIndexOf(".");
+    let extracted = link.substring(start, end);
+
+    determineExtractedColor(extracted, b, t, frame);
+}
+
+/**
+ * Converts the color name to the correct color and passes this on to the element.
+ * @param {object} extracted Extracted color name.
+ * @param {index} b Index number of the tasks folder.
+ * @param {index} t Index number of created tasks.
+ * @param {ID} frame Requested by.
+ */
+function determineExtractedColor(extracted, b, t, frame) {
+    const colorMap = {
+        'circle-blue': '--category-blue',
+        'circle-green': '--category-green',
+        'circle-pink': '--category-pink',
+        'circle-red': '--category-red',
+        'circle-turquoise': '--category-turquoise',
+        'circle-yellow': '--category-yellow'
+    };
+
+    const extractedCategoryColor = frame === 'board'
+        ? element(`task-category-frame${b}${t}`)
+        : element('open-task-category-frame');
+
+    if (colorMap.hasOwnProperty(extracted)) {
+        extractedCategoryColor.style.backgroundColor = `var(${colorMap[extracted]})`;
+    }
+}
+
+// Check Subtasks Done
+
+/**
+ * Determines how many subtasks are already "Done" and displays this in the form of a line and numbers.
+ * @param {array} loadedTask Array with the tasks from the task folder.
+ * @param {object} mainFolder Current task folder.
+ * @param {index} b Index number of the tasks folder.
+ * @param {index} t Index number of created tasks.
+ * @return End the function here.
+ */
+function subtaskDone(loadedTask, mainFolder, b, t) {
+    const subtasks = joinUsers[userI]?.userTasks?.[mainFolder]?.[t];
+    if (!subtasks) return;
+
+    const subtaskLength = subtasks['subtask-list'].length;
+    const doneSubtasks = subtasks['subtask-done'] ? subtasks['subtask-done'].length : 0;
+
+    const arrayLengthInPercent = (doneSubtasks / subtaskLength) * 100;
+
+    element(`progress-ratio${b}${t}`).innerHTML = `${doneSubtasks} / ${subtaskLength} Done`;
+    element(`progress${b}${t}`).style = `width: ${arrayLengthInPercent}%`;
+}
+
+// Load Assigns
+
+/**
+ * Loads the people working on this task.
+ * @param {object} mainFolder Current task folder.
+ * @param {index} b Index number of the tasks folder.
+ * @param {index} t Index number of created tasks.
+ * @return End the function here.
+ */
+function loadAssigns(mainFolder, b, t) {
+    const taskAssigns = joinUsers[userI]?.userTasks?.[mainFolder]?.[t]?.['assigned-user'];
+    if (!taskAssigns) return;
+
+    const taskAssignContain = element(`board-task-assign${b}${t}`);
+    taskAssignContain.innerHTML = '';
+
+    taskAssigns.forEach(taskAssign => {
+        const contactInfos = findUserByName(taskAssign);
+        if (!contactInfos) return;
+
+        const { userName, userColor } = contactInfos;
+        const initials = extractedInitials(userName);
+
+        taskAssignContain.innerHTML += /*html*/ `
+            &lt;div class="board-task-assign-contact d-flex-center" style="background-color: ${userColor};">&lt;span class="assign-contact-font font-inter">${initials}&lt;/span>&lt;/div>
+        `;
+    });
+}
+
+// Set Prio to
+
+/**
+ * Specifies the priority this task has.
+ * @param {object} mainFolder Current task folder.
+ * @param {index} b Index number of the tasks folder.
+ * @param {index} t Index number of created tasks.
+ */
+function boardSetPrioTo(mainFolder, b, t) {
+    let taskPrio = joinUsers[userI]['userTasks'][mainFolder][t]['priority'];
+    let taskPrioIMG = element(`board-task-prio-img${b}${t}`);
+    taskPrioIMG.src = `${taskPrio}`;
+}
+
+// Open Add Task
+
+/**
+ * Opens Add Task on the board by click on the Add task + button.
+ */
+function boardAddTask() {
+    element('board-add-task').classList.add('scale');
+    renderCloseBTN('closeAddTask()');
+    loadAddEventListener();
+}
+
+/**
+ * Closes Edit Task.
+ */
+function closeEditTask() {
+    element('board-add-task').classList.remove('scale');
+    element('add-task-title').innerText = 'Add Task';
+    renderFinishBTN('createNewTask()', 'Create Task ');
+    clearAddTask();
+}
+
+/**
+ * Closes AddTask.
+ */
+function closeAddTask() {
+    element('board-add-task').classList.remove('scale');
+    clearAddTask();
+}
+
+/**
+ * Opens Add Task on the board by click on the + button from task folder.
+ * @param {object} mainFolder Current task folder.
+ */
+function boardAddTaskTo(mainFolder) {
+    element('board-add-task').classList.add('scale');
+    element('selector-add-to-task-input').classList.add('d-none');
+    element('selector-add-to-task-select-contain').classList.add('d-none');
+    renderCloseBTN('closeAddTask()');
+    loadAddEventListener();
+
+    addTaskTo = mainFolder;
+    const showedName = joinUsers[userI].alternativeTaskNames[mainFolder];
+
+    let taskSelected = element('selector-add-to-task-selected');
+    taskSelected.classList.add('d-show');
+    taskSelected.innerHTML = `&lt;span class="add-to-task-name font-inter">${showedName}&lt;/span>`;
+}
+
+/**
+ * Opens Edit Task on the board by click on the Edit button on open task.
+ * @param {object} mainFolder Current task folder.
+ */
+function editAddTaskTo(mainFolder) {
+    element('board-add-task').classList.add('scale');
+    element('selector-add-to-task-input').classList.add('d-none');
+    element('selector-add-to-task-select-contain').classList.add('d-none');
+
+    addTaskTo = mainFolder;
+    const showedName = joinUsers[userI].alternativeTaskNames[mainFolder];
+
+    let taskSelected = element('selector-add-to-task-selected');
+    taskSelected.classList.add('d-show');
+    taskSelected.innerHTML = `&lt;span class="add-to-task-name font-inter">${showedName}&lt;/span>`;
+}
+
+// Search Task
+
+// Globals
+
+let searchArray = [];
+
+// Functions
+
+/**
+ * Search function for the board.
+ */
+function searchTask() {
+    let searchInput = element('search-task').value.toLowerCase();
+
+    if (searchInput !== '') {
+        for (let t = 0; t &lt; Object.keys(joinUsers[userI].userTasks).length; t++) {
+            const mainFolder = Object.keys(joinUsers[userI].userTasks)[t];
+
+            for (let i = 0; i &lt; joinUsers[userI]['userTasks'][mainFolder].length; i++) {
+                const inTask = joinUsers[userI]['userTasks'][mainFolder][i];
+
+                searchByInput(searchInput, inTask, t, i);
+            }
+        }
+        renderSearchedTasks();
+    } else {
+        renderTasks();
+    }
+}
+
+/**
+ * Searches all tasks and content after entering it in the search field.
+ * @param {object} searchInput Search field content.
+ * @param {object} inTask Tasks from the Tasks folder.
+ * @param {index} t Index number of created tasks.
+ * @param {index} i Index number of tasks.
+ */
+function searchByInput(searchInput, inTask, t, i) {
+    if ([inTask.title, inTask.priority, inTask.description, inTask.category].some(item => item.toLowerCase().includes(searchInput)) || searchForAssign(inTask, searchInput)) {
+        addTaskToSearchArray(t, i);
+    } else {
+        removeTaskFromSearchArray(t, i);
+    }
+}
+
+/**
+ * Searches for people contributing to a task.
+ * @param {object} inTask Tasks from the Tasks folder.
+ * @param {object} searchInput Search field content.
+ * @returns Returns true.
+ */
+function searchForAssign(inTask, searchInput) {
+    for (let a = 0; a &lt; inTask['assigned-user'].length; a++) {
+        const assignedUser = inTask['assigned-user'][a];
+        if (assignedUser.toLowerCase().includes(searchInput)) {
+            return true;
+        }
+    }
+}
+
+/**
+ * Adds matching tasks to the searchArray.
+ * @param {index} t Index number of created tasks.
+ * @param {index} i Index number of tasks.
+ */
+function addTaskToSearchArray(t, i) {
+    let searchIndex = `${t}, ${i}`;
+    if (getSearchIndex(searchIndex) == -1) searchArray.push(searchIndex);
+}
+
+/**
+ * Deletes unmatched tasks from the "searchArray".
+ * @param {index} t Index number of created tasks.
+ * @param {index} i Index number of tasks.
+ */
+function removeTaskFromSearchArray(t, i) {
+    let searchIndex = `${t}, ${i}`;
+    let arrayIndex = getSearchIndex(searchIndex);
+    if (arrayIndex >= 0) {
+        searchArray.splice(arrayIndex, 1);
+    }
+}
+
+/**
+ * Checks whether a task already exists in the "searchArray".
+ * @param {object} searchIndex Task.
+ * @returns Return the result.
+ */
+function getSearchIndex(searchIndex) {
+    return searchArray.indexOf(searchIndex);
+}
+
+/**
+ * Rendering Task folrders.
+ */
+async function renderSearchedTasks() {
+    let boardTasks = element('render-tasks');
+    boardTasks.innerHTML = ``;
+
+    for (let b = 0; b &lt; Object.keys(joinUsers[userI].userTasks).length; b++) {
+        const mainFolder = Object.keys(joinUsers[userI].userTasks)[b];
+
+        boardTasks.innerHTML += boardTemp(mainFolder, b);
+    }
+
+    renderSearchResult();
+}
+
+/**
+ * Splits the Index IDs from the "searchArray".
+ */
+async function renderSearchResult() {
+    for (let sa = 0; sa &lt; searchArray.length; sa++) {
+        const taskIndex = searchArray[sa];
+        let indexArray = taskIndex.split(',');
+
+        let t = parseInt(indexArray[0]);
+        let i = parseInt(indexArray[1]);
+
+        let mainFolder = Object.keys(joinUsers[userI].userTasks)[t];
+        await loadSearchResult(mainFolder, t, i);
+    }
+}
+
+/**
+ * Renders all tasks from the "searchArray".
+ * @param {object} mainFolder Current task folder.
+ * @param {index} t Index number of created tasks.
+ * @param {index} i Index number of tasks.
+ */
+async function loadSearchResult(mainFolder, t, i) {
+    const searchTask = joinUsers[userI]['userTasks'][mainFolder][i];
+
+    let boardTask = element(`board-task-contain${t}`);
+    boardTask.innerHTML = ``;
+
+    boardTask.innerHTML += taskTemp(searchTask, mainFolder, t, i);
+    takeCategoryColor(searchTask, t, i, 'board');
+    subtaskDone(searchTask, mainFolder, t, i);
+    loadAssigns(mainFolder, t, i);
+    boardSetPrioTo(mainFolder, t, i);
+}
+
+// Drag and Drop
+
+// Globals
+
+let fromMainFolder;
+let draggedTask;
+let draggedTaskIndex;
+
+// Funktions
+
+/**
+ * Start drag.
+ * @param {index} b Index number of the tasks folder.
+ * @param {index} t Index number of created tasks.
+ */
+function dragTask(b, t) {
+    fromMainFolder = Object.keys(joinUsers[userI].userTasks)[b];
+    draggedTask = joinUsers[userI]['userTasks'][fromMainFolder][t];
+    draggedTaskIndex = t;
+
+    element(`dragged-task-${b}-${t}`).classList.add('rotate');
+    createPossibleDropLevels(b);
+}
+
+/**
+ * Shows possible fields in which the task can be dropped.
+ * @param {event} ev 
+ * @param {index} b Index number of the tasks folder.
+ */
+function allowDrop(ev, b) {
+    ev.preventDefault();
+
+    let droppableArea = element(`drop-area${b}`);
+
+    droppableArea.addEventListener('dragover', (event) => {
+        event.preventDefault();
+        droppableArea.classList.add('bg-dark-blue');
+    });
+
+    droppableArea.addEventListener('dragleave', (event) => {
+        event.preventDefault();
+        droppableArea.classList.remove('bg-dark-blue');
+    });
+}
+
+/**
+ * Drops the task in the appropriate folder.
+ * @param {object} mainFolder 
+ */
+async function moveTaskTo(mainFolder) {
+    joinUsers[userI]['userTasks'][mainFolder].push(draggedTask);
+    joinUsers[userI]['userTasks'][fromMainFolder].splice(draggedTaskIndex, 1);
+    await updateTaskData();
+    deletePossibleDropLevels();
+    await renderTasks();
+}
+
+/**
+ * Creates possible drop fields in the respective folders.
+ * @param {index} b Index number of the tasks folder.
+ */
+function createPossibleDropLevels(b) {
+    for (let b = 0; b &lt; Object.keys(joinUsers[userI].userTasks).length; b++) {
+
+        element(`drop-area${b}`).classList.add('d-show');
+    }
+    element(`drop-area${b}`).classList.remove('d-show');
+}
+
+/**
+ * Deletes possible drop fields in the respective folders after the drop.
+ */
+function deletePossibleDropLevels() {
+    for (let b = 0; b &lt; Object.keys(joinUsers[userI].userTasks).length; b++) {
+        element(`drop-area${b}`).classList.remove('d-show');
+    }
+}
+
+/* Touch to Touch */
+
+let touchDragging = false;
+
+/**
+ * Starts moving the element after a long touch.
+ * @param {event} event 
+ * @param {index} b Index number of the tasks folder.
+ * @param {index} t Index number of created tasks.
+ */
+function startTouchDrag(event, b, t) {
+    event.preventDefault();
+    touchDragging = true;
+
+    fromMainFolder = Object.keys(joinUsers[userI].userTasks)[b];
+    draggedTask = joinUsers[userI]['userTasks'][fromMainFolder][t];
+    draggedTaskIndex = t;
+
+    element(`dragged-task-${b}-${t}`).classList.add('rotate');
+    createPossibleDropLevels(b);
+}
+
+/**
+ * Inserts the previously selected element into the typed area.
+ * @param {object} mainFolder 
+ */
+async function moveTouchTask(mainFolder) {
+    if (touchDragging) {
+        joinUsers[userI]['userTasks'][mainFolder].push(draggedTask);
+        joinUsers[userI]['userTasks'][fromMainFolder].splice(draggedTaskIndex, 1);
+        touchDragging = false;
+        dragIsStartet = false;
+        await new Promise((resolve) => setTimeout(resolve, 500));
+        await updateTaskData();
+        deletePossibleDropLevels();
+        await renderTasks();
+    }
+}
+
+/**
+ * Cancels the move process.
+ * @param {index} b Index number of the tasks folder.
+ * @param {index} t Index number of created tasks.
+ */
+async function clearTouchDrag(b, t) {
+    if (!dragIsStartet) {
+        touchDragging = false;
+        clearDragTimer();
+        await renderTasks();
+        openTask(b, t);
+    }
+}
+
+/* Drag Timer */
+
+let dragTimer;
+let dragIsStartet = false;
+
+/**
+ * Starts the “drag timer”.
+ * @param {event} event 
+ * @param {index} b Index number of the tasks folder.
+ * @param {index} t Index number of created tasks.
+ */
+function startDragTimer(event, b, t) {
+    dragTimer = setTimeout(function() {
+        dragIsStartet = true;
+        startTouchDrag(event, b, t);
+    }, 500);
+}
+
+/**
+ * Clears the “drag timer”.
+ */
+function clearDragTimer() {
+    if (dragTimer) {
+        clearTimeout(dragTimer);
+    }
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#action">action</a></li><li><a href="global.html#addAddressToProfile">addAddressToProfile</a></li><li><a href="global.html#addContact">addContact</a></li><li><a href="global.html#addDueDate">addDueDate</a></li><li><a href="global.html#addMe">addMe</a></li><li><a href="global.html#addNameToProfile">addNameToProfile</a></li><li><a href="global.html#addNewCategory">addNewCategory</a></li><li><a href="global.html#addNewContact">addNewContact</a></li><li><a href="global.html#addNewTask">addNewTask</a></li><li><a href="global.html#addNewUserProfil">addNewUserProfil</a></li><li><a href="global.html#addSubtask">addSubtask</a></li><li><a href="global.html#addTaskToSearchArray">addTaskToSearchArray</a></li><li><a href="global.html#addToContacts">addToContacts</a></li><li><a href="global.html#addToField">addToField</a></li><li><a href="global.html#allEnabled">allEnabled</a></li><li><a href="global.html#allowDrop">allowDrop</a></li><li><a href="global.html#back">back</a></li><li><a href="global.html#backContacts">backContacts</a></li><li><a href="global.html#boardAddTask">boardAddTask</a></li><li><a href="global.html#boardAddTaskTo">boardAddTaskTo</a></li><li><a href="global.html#boardSetPrioTo">boardSetPrioTo</a></li><li><a href="global.html#boardTemp">boardTemp</a></li><li><a href="global.html#btnDisabled">btnDisabled</a></li><li><a href="global.html#cancelAddContact">cancelAddContact</a></li><li><a href="global.html#cancelEdit">cancelEdit</a></li><li><a href="global.html#changeAddTask">changeAddTask</a></li><li><a href="global.html#changeGreeting">changeGreeting</a></li><li><a href="global.html#checkDone">checkDone</a></li><li><a href="global.html#checkMailExist">checkMailExist</a></li><li><a href="global.html#checkMailToPW">checkMailToPW</a></li><li><a href="global.html#checkUserIsOnJoin">checkUserIsOnJoin</a></li><li><a href="global.html#clearAddContact">clearAddContact</a></li><li><a href="global.html#clearAddTask">clearAddTask</a></li><li><a href="global.html#clearAddToTask">clearAddToTask</a></li><li><a href="global.html#clearCategory">clearCategory</a></li><li><a href="global.html#clearDragTimer">clearDragTimer</a></li><li><a href="global.html#clearTouchDrag">clearTouchDrag</a></li><li><a href="global.html#closeAddTask">closeAddTask</a></li><li><a href="global.html#closeEditTask">closeEditTask</a></li><li><a href="global.html#closeHelpCenter">closeHelpCenter</a></li><li><a href="global.html#closeTask">closeTask</a></li><li><a href="global.html#closeUserProfile">closeUserProfile</a></li><li><a href="global.html#completeSubtask">completeSubtask</a></li><li><a href="global.html#creatGuestData">creatGuestData</a></li><li><a href="global.html#createNewTask">createNewTask</a></li><li><a href="global.html#createPossibleDropLevels">createPossibleDropLevels</a></li><li><a href="global.html#dNoneCriteria">dNoneCriteria</a></li><li><a href="global.html#deletGuestData">deletGuestData</a></li><li><a href="global.html#deletIndex">deletIndex</a></li><li><a href="global.html#deletLoginData">deletLoginData</a></li><li><a href="global.html#deletUserACC">deletUserACC</a></li><li><a href="global.html#deletUserACCmanuel">deletUserACCmanuel</a></li><li><a href="global.html#deleteContact">deleteContact</a></li><li><a href="global.html#deleteElementById">deleteElementById</a></li><li><a href="global.html#deleteOpenTask">deleteOpenTask</a></li><li><a href="global.html#deletePossibleDropLevels">deletePossibleDropLevels</a></li><li><a href="global.html#deleteRequestMessage">deleteRequestMessage</a></li><li><a href="global.html#deleteTaskbyIndex">deleteTaskbyIndex</a></li><li><a href="global.html#determineColorfromIMG">determineColorfromIMG</a></li><li><a href="global.html#determineColortoIMG">determineColortoIMG</a></li><li><a href="global.html#determineExtractedColor">determineExtractedColor</a></li><li><a href="global.html#displayUserImageOrInitials">displayUserImageOrInitials</a></li><li><a href="global.html#dragTask">dragTask</a></li><li><a href="global.html#editAddTaskTo">editAddTaskTo</a></li><li><a href="global.html#editOpenTask">editOpenTask</a></li><li><a href="global.html#editProfile">editProfile</a></li><li><a href="global.html#editTask">editTask</a></li><li><a href="global.html#element">element</a></li><li><a href="global.html#extractLocation">extractLocation</a></li><li><a href="global.html#extractedInitials">extractedInitials</a></li><li><a href="global.html#extractedWord">extractedWord</a></li><li><a href="global.html#fillAssignUser">fillAssignUser</a></li><li><a href="global.html#fillCategory">fillCategory</a></li><li><a href="global.html#fillDueDate">fillDueDate</a></li><li><a href="global.html#fillInputFields">fillInputFields</a></li><li><a href="global.html#fillLogin">fillLogin</a></li><li><a href="global.html#fillPriority">fillPriority</a></li><li><a href="global.html#fillSubtasks">fillSubtasks</a></li><li><a href="global.html#findNewContactByMail">findNewContactByMail</a></li><li><a href="global.html#findSubtasks">findSubtasks</a></li><li><a href="global.html#findUserByMail">findUserByMail</a></li><li><a href="global.html#findUserByName">findUserByName</a></li><li><a href="global.html#finishMessage">finishMessage</a></li><li><a href="global.html#forgotPW">forgotPW</a></li><li><a href="global.html#formatDate">formatDate</a></li><li><a href="global.html#getCategoryColor">getCategoryColor</a></li><li><a href="global.html#getCategoryIndex">getCategoryIndex</a></li><li><a href="global.html#getContactIndex">getContactIndex</a></li><li><a href="global.html#getEmailUrlParameter">getEmailUrlParameter</a></li><li><a href="global.html#getItem">getItem</a></li><li><a href="global.html#getMostUrgentDeadlineContacts">getMostUrgentDeadlineContacts</a></li><li><a href="global.html#getMyContactIndex">getMyContactIndex</a></li><li><a href="global.html#getSearchIndex">getSearchIndex</a></li><li><a href="global.html#getSubtaskIndex">getSubtaskIndex</a></li><li><a href="global.html#getTaskIndex">getTaskIndex</a></li><li><a href="global.html#getUser">getUser</a></li><li><a href="global.html#getuserColor">getuserColor</a></li><li><a href="global.html#goTo">goTo</a></li><li><a href="global.html#greeting">greeting</a></li><li><a href="global.html#groupContactsByInitial">groupContactsByInitial</a></li><li><a href="global.html#handleCategoryColorChange">handleCategoryColorChange</a></li><li><a href="global.html#handleUserColorChange">handleUserColorChange</a></li><li><a href="global.html#initAddTask">initAddTask</a></li><li><a href="global.html#initBoard">initBoard</a></li><li><a href="global.html#initContacts">initContacts</a></li><li><a href="global.html#initLegalNotice">initLegalNotice</a></li><li><a href="global.html#initLogin">initLogin</a></li><li><a href="global.html#initPrivacyPolicy">initPrivacyPolicy</a></li><li><a href="global.html#initSummary">initSummary</a></li><li><a href="global.html#leaveJoin">leaveJoin</a></li><li><a href="global.html#leaveJoinNOW">leaveJoinNOW</a></li><li><a href="global.html#loadAddEventListener">loadAddEventListener</a></li><li><a href="global.html#loadAddressToEdit">loadAddressToEdit</a></li><li><a href="global.html#loadAssigns">loadAssigns</a></li><li><a href="global.html#loadColorToEdit">loadColorToEdit</a></li><li><a href="global.html#loadContacts">loadContacts</a></li><li><a href="global.html#loadImageToEdit">loadImageToEdit</a></li><li><a href="global.html#loadIndexFrom">loadIndexFrom</a></li><li><a href="global.html#loadJSONfromServer">loadJSONfromServer</a></li><li><a href="global.html#loadJSONtoServer">loadJSONtoServer</a></li><li><a href="global.html#loadLoginDataFrom">loadLoginDataFrom</a></li><li><a href="global.html#loadMailToEdit">loadMailToEdit</a></li><li><a href="global.html#loadNameToEdit">loadNameToEdit</a></li><li><a href="global.html#loadPhoneToEdit">loadPhoneToEdit</a></li><li><a href="global.html#loadSearchResult">loadSearchResult</a></li><li><a href="global.html#loadTasks">loadTasks</a></li><li><a href="global.html#loadUserAddress">loadUserAddress</a></li><li><a href="global.html#loadUserColor">loadUserColor</a></li><li><a href="global.html#loadUserMail">loadUserMail</a></li><li><a href="global.html#loadUserNameAndLocation">loadUserNameAndLocation</a></li><li><a href="global.html#loadUserPhone">loadUserPhone</a></li><li><a href="global.html#loadWatch">loadWatch</a></li><li><a href="global.html#loadWatchContacts">loadWatchContacts</a></li><li><a href="global.html#loadguestDataFrom">loadguestDataFrom</a></li><li><a href="global.html#loginGuest">loginGuest</a></li><li><a href="global.html#lookForUrgentContacts">lookForUrgentContacts</a></li><li><a href="global.html#makeSmallAndNoSpaces">makeSmallAndNoSpaces</a></li><li><a href="global.html#moveTaskTo">moveTaskTo</a></li><li><a href="global.html#moveTouchTask">moveTouchTask</a></li><li><a href="global.html#noticeLoginData">noticeLoginData</a></li><li><a href="global.html#onPageLoad">onPageLoad</a></li><li><a href="global.html#openAddNewContact">openAddNewContact</a></li><li><a href="global.html#openDropDownAddTaskTo">openDropDownAddTaskTo</a></li><li><a href="global.html#openDropDownAssignTo">openDropDownAssignTo</a></li><li><a href="global.html#openDropDownCategory">openDropDownCategory</a></li><li><a href="global.html#openHelpCenter">openHelpCenter</a></li><li><a href="global.html#openProfileEditor">openProfileEditor</a></li><li><a href="global.html#openTask">openTask</a></li><li><a href="global.html#openTaskAssign">openTaskAssign</a></li><li><a href="global.html#openTaskTemp">openTaskTemp</a></li><li><a href="global.html#openUserProfile">openUserProfile</a></li><li><a href="global.html#parseInputDate">parseInputDate</a></li><li><a href="global.html#pleaseCheckFormular">pleaseCheckFormular</a></li><li><a href="global.html#populateUserProfile">populateUserProfile</a></li><li><a href="global.html#pushToArray">pushToArray</a></li><li><a href="global.html#rememberMe">rememberMe</a></li><li><a href="global.html#removeTaskFromSearchArray">removeTaskFromSearchArray</a></li><li><a href="global.html#renderAddContactSearchResult">renderAddContactSearchResult</a></li><li><a href="global.html#renderAddTask">renderAddTask</a></li><li><a href="global.html#renderAddTaskTo">renderAddTaskTo</a></li><li><a href="global.html#renderCategories">renderCategories</a></li><li><a href="global.html#renderCloseBTN">renderCloseBTN</a></li><li><a href="global.html#renderFinishBTN">renderFinishBTN</a></li><li><a href="global.html#renderSearchResult">renderSearchResult</a></li><li><a href="global.html#renderSearchedTasks">renderSearchedTasks</a></li><li><a href="global.html#renderSubtask">renderSubtask</a></li><li><a href="global.html#renderTasks">renderTasks</a></li><li><a href="global.html#resetPW">resetPW</a></li><li><a href="global.html#resetPWMail">resetPWMail</a></li><li><a href="global.html#saveGuestDataTo">saveGuestDataTo</a></li><li><a href="global.html#saveIndexTo">saveIndexTo</a></li><li><a href="global.html#saveLoginDataTo">saveLoginDataTo</a></li><li><a href="global.html#searchByInput">searchByInput</a></li><li><a href="global.html#searchForAssign">searchForAssign</a></li><li><a href="global.html#searchIN">searchIN</a></li><li><a href="global.html#searchTask">searchTask</a></li><li><a href="global.html#selectCategory">selectCategory</a></li><li><a href="global.html#selectContact">selectContact</a></li><li><a href="global.html#selectTask">selectTask</a></li><li><a href="global.html#setInitialSize">setInitialSize</a></li><li><a href="global.html#setItem">setItem</a></li><li><a href="global.html#setPrioTo">setPrioTo</a></li><li><a href="global.html#showAssign">showAssign</a></li><li><a href="global.html#showPW">showPW</a></li><li><a href="global.html#showUserMenu">showUserMenu</a></li><li><a href="global.html#showclickedContact">showclickedContact</a></li><li><a href="global.html#signUp">signUp</a></li><li><a href="global.html#startDragTimer">startDragTimer</a></li><li><a href="global.html#startTouchDrag">startTouchDrag</a></li><li><a href="global.html#subtaskCheck">subtaskCheck</a></li><li><a href="global.html#subtaskDone">subtaskDone</a></li><li><a href="global.html#subtaskReady">subtaskReady</a></li><li><a href="global.html#successfullyAdded">successfullyAdded</a></li><li><a href="global.html#sumTasksByCategory">sumTasksByCategory</a></li><li><a href="global.html#sumTasksByCategoryOnSummary">sumTasksByCategoryOnSummary</a></li><li><a href="global.html#takeCategoryColor">takeCategoryColor</a></li><li><a href="global.html#taskTemp">taskTemp</a></li><li><a href="global.html#thankYou">thankYou</a></li><li><a href="global.html#toggleHelpCenter">toggleHelpCenter</a></li><li><a href="global.html#toggleUserProfile">toggleUserProfile</a></li><li><a href="global.html#uncompleteSubtask">uncompleteSubtask</a></li><li><a href="global.html#updateSubtaskUI">updateSubtaskUI</a></li><li><a href="global.html#updateTaskData">updateTaskData</a></li><li><a href="global.html#validateFormUser">validateFormUser</a></li><li><a href="global.html#validationNewTask">validationNewTask</a></li><li><a href="global.html#watchTasksOnBoard">watchTasksOnBoard</a></li><li><a href="global.html#watchTasksOnBoardContact">watchTasksOnBoardContact</a></li><li><a href="global.html#writeContactList">writeContactList</a></li><li><a href="global.html#writeContacts">writeContacts</a></li><li><a href="global.html#writeDate">writeDate</a></li><li><a href="global.html#writeInContacts">writeInContacts</a></li><li><a href="global.html#writeTime">writeTime</a></li><li><a href="global.html#writeUrgentDateContacts">writeUrgentDateContacts</a></li><li><a href="global.html#writeUserName">writeUserName</a></li><li><a href="global.html#youReallyWantLeaveUs">youReallyWantLeaveUs</a></li><li><a href="global.html#youResetYourPW">youResetYourPW</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Tue Nov 14 2023 15:19:49 GMT+0100 (Mitteleuropäische Normalzeit)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Fonts -->
+    <link rel="stylesheet" href="css-files/font_inter.css">
+
+    <!-- embedded Files -->
+    <!-- CSS -->
+
+    <!-- Global -->
+    <link rel="stylesheet" href="css-files/global-css.css">
+
+    <!-- Header, Footer and Help Center by IncludeHTML -->
+    <link rel="stylesheet" href="css-files/desktop-template.css">
+    <link rel="stylesheet" href="css-files/header-template.css">
+    <link rel="stylesheet" href="css-files/help-center-template.css">
+
+    <!--  -->
+
+    <!-- Java Script -->
+    <script src="js-files/init.js"></script>
+    <script src="js-files/global-functions.js"></script>
+    <script src="js-files/storage.js"></script>
+    <script src="js-files/user-json.js"></script>
+    <script src="js-files/includeHTML.js"></script>
+    <script src="js-files/desktop-header.js"></script>
+    <script src=""></script>
+
+    <!-- Title and Favicon -->
+    <link rel="shortcut icon" href="img/join-logo.png" type="image/x-icon">
+    <title>Join</title>
+
+</head>
+<body onload="init()">
+    <div class="d-flex-center">
+        <div w3-include-html="include-templates/desktop-template.html"></div>
+        <div class="rightContent d-flex-start-center-column">
+            <div w3-include-html="include-templates/header-template.html" style="width: 100%; height: fit-content;"></div>
+            <div class="mainContainer d-flex-start-center-column">
+                <div id="w3-help-center" w3-include-html="include-templates/help-center-template.html"></div>
+                    <div id="container" class="">
+                        <!-- hier beginnen mit Coden -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,250 @@
+.user-profile {
+    width: 100%;
+    height: 100%;
+
+    display: none;
+
+    overflow: scroll;
+}
+
+.user-profile-contain {
+    width: 90%;
+    height: fit-content;
+
+    margin-bottom: 25px;
+}
+
+.user-contain1 {
+    width: 100%;
+    height: 190px;
+
+    justify-content: space-between;
+}
+
+.user-name {
+    width: fit-content;
+    height: 100%;
+}
+
+.user-profile-name {
+    font-size: 55px;
+    text-decoration: underline;
+    text-decoration-color: var(--highlighted);
+}
+
+.user-profile-location {
+    font-size: 35px;
+    font-weight: 400;
+
+    margin-top: 25px;
+}
+
+.location-icon {
+    width: 35px;
+    margin-right: 25px;
+}
+
+.user-edit-btn {
+    width: 200px;
+    height: 50px;
+
+    border: 0;
+    background-color: var(--filled-button);
+    border-radius: 10px;
+
+    color: var(--filled-button-font);
+    cursor: pointer;
+}
+
+.user-edit-btn:hover {
+    background-color: var(--filled-button-hover);
+}
+
+.user-image-contain {
+    width: 180px;
+    height: 180px;
+    
+    background-color: var(--user-background);
+    border-radius: 50%;
+    border: 5px solid var(--user-border);
+    
+    object-fit: cover;
+    overflow: hidden;
+}
+
+.user-contain2 {
+    width: 100%;
+    height: fit-content;
+}
+
+.user-address-contain {
+    width: 100%;
+    min-height: 40px;
+}
+
+.user-title {
+    width: 200px;
+    min-height: 25px;
+
+    justify-content: flex-end;
+    font-size: 23px;
+    font-weight: 800;
+    margin-right: 15px;
+}
+
+.user-info-text {
+    min-width: 50px;
+    min-height: 25px;
+
+    border-radius: 25px;
+
+    font-size: 23px;
+    font-weight: 400;
+}
+
+.leave-join-btn {
+    width: 250px;
+    height: 50px;
+
+    border: 0;
+    background-color: var(--filled-button);
+    border-radius: 10px;
+    color: var(--filled-button-font);
+
+    margin-top: 50px;
+    cursor: pointer;
+}
+
+.leave-join-btn:hover {
+    background-color: var(--filled-button-hover);
+}
+
+/* Edit Profile */
+
+.edit-user-profile {
+    position: absolute;
+    top: 0; right: 0; bottom: 0; left: 0;
+    display: none;
+
+    background-color: var(--main-background);
+    overflow: scroll;
+}
+
+.editor-main-contain {
+    width: 90%;
+    height: fit-content;
+}
+
+.edit-contain {
+    width: 100%;
+    height: fit-content;
+
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.editor-select-color {
+    width: 150px;
+    height: 25px;
+
+    color: var(--input-font-placeholder);
+
+    background-color: var(--main-background);
+    outline: none;
+    border: 0;
+    border-bottom: 1px solid var(--user-input-border);
+}
+
+.user-input-area {
+    width: fit-content;
+    height: fit-content;
+
+    gap: 10px;
+}
+
+.user-input {
+    width: 350px;
+    height: 25px;
+
+    background-color: var(--main-background);
+    outline: none;
+    border: 0;
+    border-bottom: 1px solid var(--user-input-border);
+}
+
+.user-input::placeholder {
+    color: var(--input-font-placeholder);
+}
+
+.user-input::placeholder {
+    /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: var(--input-font-placeholder);
+    opacity: 1;
+    /* Firefox */
+}
+
+.user-input:-ms-input-placeholder {
+    /* Internet Explorer 10-11 */
+    color: var(--input-font-placeholder);
+}
+
+.user-input::-ms-input-placeholder {
+    /* Microsoft Edge */
+    color: var(--input-font-placeholder);
+}
+
+/* Verberge die auf und ab Pfeile im input[type="number"] */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+/*
+input[type="number"] {
+    -moz-appearance: textfield; /* Firefox 
+}*/
+
+.edit-profile-btn {
+    width: 250px;
+    height: 51px;
+
+    border: 0;
+    background-color: var(--filled-button);
+    border-radius: 10px;
+
+    color: var(--filled-button-font);
+    font-size: 28px;
+
+    cursor: pointer;
+    margin-left: 2px;
+}
+
+.edit-profile-btn:hover {
+    background-color: var(--filled-button-hover);    
+}
+
+.profile-edit-icon {
+    width: 30px;
+    margin-left: 10px;
+}
+
+.closeUserProfile-contain {
+    width: 37px;
+    height: 37px;
+    
+    position: absolute;
+    right: 35px;
+    top: 35px;
+
+    cursor: pointer;
+}
+
+.closeUserProfile-icon {
+    width: 30px;
+    height: 30px;
+}
+
+.sice-w3 {
+    width: 100%;
+    height: 100%;
+}
