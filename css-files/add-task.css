@@ -145,6 +145,10 @@
     background-color: var(--background-hover);
 }
 
+.empty-contain {
+    width: 50px;
+}
+
 .add-task-btn-img {
     width: 20px;
 }

@@ -69,7 +69,7 @@ function renderAddTask(ID) {
                     <span class="font-inter">Assigned to</span>
                     <div class="input-fields-contain d-flex-center-column">
                         <div class="selector-assign-to-input-contain d-flex-center">
-                            <div class="selector-assign-to-selected d-flex-center">
+                            <div class="selector-assign-to-selected d-flex-start-center">
                                 <span id="selector-assign-to-selected"
                                     class="assign-to-selected-text d-flex-start-center font-inter">Select
                                     contacts to assign</span>
@@ -137,6 +137,7 @@ function renderAddTask(ID) {
                             <input type="text" id="subtasks-input"
                                 class="input-fields-input font-inter subtask-input"
                                 placeholder="Add new subtask">
+                            <div class="empty-contain"></div>
                             <div class="selector-btn d-flex-center" onclick="addSubtask()">
                                 <img src="img/icon/plus.png" class="selector-btn-img">
                             </div>
@@ -165,7 +166,7 @@ function renderAddTask(ID) {
         </div>
     `;
 
-    renderFinishBTN('createNewTask()', 'Create Task ');
+    renderFinishBTN("createNewTask('Task has been created.')", 'Create Task ');
 
     const scriptElement = document.createElement("script");
     scriptElement.src = "js-files/addTask.js";

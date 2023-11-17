@@ -14,6 +14,7 @@ let subtasksArray = [];
 let subtasksReadyArray = [];
 let subtasksCheckArray = [];
 let addTaskCheck;
+let dropDownMenuIsOpen = false;
 
 // Add new Category
 
@@ -71,6 +72,10 @@ function openDropDownCategory() {
         }
 
         dropDownCategory.appendChild(fragment);
+
+        setTimeout(function() {
+            dropDownMenuIsOpen = true;
+        }, 100);
     } else {
         dropDownCategory.classList.remove('d-show');
         showCategory = false;
@@ -230,6 +235,10 @@ function openDropDownAssignTo() {
                 </div>
             `;
         }
+
+        setTimeout(function() {
+            dropDownMenuIsOpen = true;
+        }, 100);
     } else {
         dropDownContacts.classList.remove('d-show');
         showContacts = false;
@@ -352,6 +361,10 @@ function openDropDownAddTaskTo() {
         element('selector-add-to-task-selected').classList.remove('d-show');
         dropDownAddTaskTo.innerHTML = ``;
         renderAddTaskTo();
+
+        setTimeout(function() {
+            dropDownMenuIsOpen = true;
+        }, 100);
     } else {
         dropDownAddTaskTo.classList.remove('d-show');
         showAddTaskTo = false;
@@ -518,7 +531,7 @@ function getSubtaskIndex(subtask) {
 /**
  * Creates a new task on your board and redirects you to your board.
  */
-async function createNewTask() {
+async function createNewTask(finishText) {
     addTaskTitle = element('title-input').value;
     addTaskDescription = element('description-input').value;
     addTaskCheck = [];
@@ -542,7 +555,7 @@ async function createNewTask() {
         });
         await updateTaskData();
         clearAddTask();
-        finishMessage();
+        finishMessage(finishText);
     } else {
         pleaseCheckFormular();
     }
@@ -700,11 +713,11 @@ function pleaseCheckFormular() {
 /**
  * Tells you that you have successfully created a new task.
  */
-function finishMessage() {
+function finishMessage(finishText) {
     let messageContain = element('addTask-message-area');
     let messageText = element('addTask-message');
 
-    messageText.innerText = 'Task has been created.';
+    messageText.innerText = finishText;
     messageContain.classList.add('scale');
     setTimeout(() => {
         messageContain.classList.remove('scale');
@@ -713,3 +726,24 @@ function finishMessage() {
         element('board-add-task').classList.remove('scale');
     }, 5000);
 }
+
+/**
+ * Closes the dropdown menus when clicked outside the dropdown menu.
+ */
+document.addEventListener('click', function(event) {
+    if (dropDownMenuIsOpen) {
+        dropDownMenuIsOpen = false;
+        showCategory = false;
+        showContacts = false;
+        showAddTaskTo = false;
+        const dropdowns = document.querySelectorAll('.drop-down-menu');
+
+        dropdowns.forEach(function(dropdown) {
+            const target = event.target;
+    
+            if (!dropdown.contains(target)) {
+                dropdown.classList.remove('d-show');
+            }
+        });
+    }
+});

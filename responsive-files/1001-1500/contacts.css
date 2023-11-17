@@ -1,24 +1,19 @@
 @media all and (min-width: 1001px) and (max-width: 1500px) {
-    .contacts-main-contain {
-        width: 93%;
-    }
-
-    .contacts-title-contain {    
-        gap: 5%;
+    .contacts-title-contain {
+        width: 90%;
     }
 
     .contacts-title {
-        width: 22%;
-        border-right: 5px solid var(--highlighted);
+        width: 200px;
     }
 
     .contacts-contain {
         width: 100%;
-        height: calc(100vh - 264px);
+        height: calc(100vh - 269px);
     }
 
     .contacts-contain-left1 {
-        width: 24%;
+        width: 275px;
     }
 
     .file {
@@ -44,14 +39,15 @@
     /* Contact Ad Area */
     
     .contact-contain-right1 {
-        width: 76%;
+        width: calc(100% - 275px);
     }
 
     /* Add Contact */
     
     .add-contact-main {
-        width: 725px;
-        height: 275px;
+        width: 950px;
+        height: 325px;
+        left: 25px;
     }
 
     .add-contact-left {
@@ -83,7 +79,7 @@
     /* Contact */
     
     .contact-contain-right2 {
-        width: 95%;
+        width: 90%;
         height: 95%;
     
         gap: 35px;

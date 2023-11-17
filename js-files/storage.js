@@ -97,7 +97,7 @@ async function loadIndexFrom() {
  */
 async function deletUserACC(mail) {
     for (let i = 0; i < joinUsers.length; i++) {
-        if (joinUsers[i]['user-mail'] === mail) {
+        if (joinUsers[i]['userMail'] === mail) {
             joinUsers.splice(i, 1);
             await updateTaskData();
         }

@@ -1,19 +1,20 @@
 /* Contacts Beginn */
 
 .contacts-main-contain {
-    width: 90%;
+    width: 100%;
     height: fit-content;
 }
 
 .contacts-title-contain {
-    width: 100%;
+    width: 95%;
     height: fit-content;
 
-    gap: 35px;
+    gap: 45px;
+    margin-left: 75px;
 }
 
 .contacts-title {
-    width: 25.4%;
+    width: 375px;
     border-right: 5px solid var(--highlighted);
 }
 
@@ -28,11 +29,11 @@
 
 .contacts-contain {
     width: 100%;
-    height: calc(100vh - 275px);
+    height: calc(100vh - 283px);
 }
 
 .contacts-contain-left1 {
-    width: 28%;
+    width: 450px;
     height: 100%;
 
     background-color: var(--card-color);
@@ -118,7 +119,7 @@
 /* Contact Ad Area */
 
 .contact-contain-right1 {
-    width: 72%;
+    width: calc(100% - 450px);
     height: 100%;
 
     opacity: 0;
@@ -140,6 +141,8 @@
     box-shadow: 0px 0px 14px 3px var(--login-box-shadow);
     border-radius: 30px;
 
+    position: absolute;
+    top: 250px; left: 85px;
     pointer-events: none;
     z-index: 999;
 }
@@ -195,19 +198,19 @@
 }
 
 .add-contact-img-contain {
-    width: 100px;
-    height: 100px;
+    width: 150px;
+    height: 150px;
 
     background-color: var(--add-contact);
     border-radius: 50%;
 }
 
 .add-contact-img {
-    width: 55px;
+    width: 100px;
 }
 
 .add-contact-input-fields {
-    width: fit-content;
+    width: 350px;
     height: fit-content;
 
     gap: 10px;
@@ -346,7 +349,7 @@
 }
 
 .contact-name {
-    font-size: 45px;
+    font-size: 35px;
     text-decoration: underline;
     text-decoration-color: var(--highlighted);
 }
@@ -461,6 +464,7 @@ a {
     width: 100%;
     height: fit-content;
 
+    flex-wrap: wrap;
     gap: 15px;
 }
 

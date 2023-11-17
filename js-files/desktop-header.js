@@ -297,14 +297,14 @@ async function profileEditorTemp() {
         <div class="editor-main-contain d-flex-start-column">
             <h1>User Profile Editor</h1>
             <div class="edit-contain d-flex-start">
-                <span class="user-title font-inter d-flex-center">Name: </span>
+                <span class="user-title-edit font-inter d-flex-center">Name: </span>
                 <div class="user-input-area d-flex-start-column">
                     <input id="user-input-first-name" type="text" class="user-input font-inter" placeholder="Edit your first name...">
                     <input id="user-input-last-name" type="text" class="user-input font-inter" placeholder="Edit your last name...">
                 </div>
             </div>
             <div class="edit-contain d-flex-start">
-                <span class="user-title font-inter d-flex-center">Address: </span>
+                <span class="user-title-edit font-inter d-flex-center">Address: </span>
                 <div class="user-input-area d-flex-start-column">
                     <input id="user-input-street" type="text" class="user-input font-inter" placeholder="Write the street name...">
                     <input id="user-input-placePostalCode" type="number" class="user-input font-inter" placeholder="Write the place Postal code...">
@@ -312,19 +312,19 @@ async function profileEditorTemp() {
                 </div>
             </div>
             <div class="edit-contain d-flex-start">
-                <span class="user-title font-inter d-flex-center">Mail: </span>
+                <span class="user-title-edit font-inter d-flex-center">Mail: </span>
                 <div class="user-input-area d-flex-start-column">
                     <input id="user-input-mail" type="text" class="user-input font-inter" placeholder="Edit your E-Mail address...">
                 </div>
             </div>
             <div class="edit-contain d-flex-start">
-                <span class="user-title font-inter d-flex-center">Phone: </span>
+                <span class="user-title-edit font-inter d-flex-center">Phone: </span>
                 <div class="user-input-area d-flex-start-column">
                     <input id="user-input-phone" type="number" class="user-input font-inter" placeholder="Edit your Phone number...">
                 </div>
             </div>
             <div class="edit-contain d-flex-start">
-                <span class="user-title font-inter d-flex-center">Detect color: </span>
+                <span class="user-title-edit font-inter d-flex-center">Detect color: </span>
                 <div class="user-input-area d-flex-start-column">
                     <select id="select-user-color" class="editor-select-color font-inter">
                         <option value="" disabled selected hidden>Color</option>
@@ -344,7 +344,7 @@ async function profileEditorTemp() {
                 </div>
             </div>
             <div class="edit-contain d-flex-start">
-                <span class="user-title font-inter d-flex-center">Image: </span>
+                <span class="user-title-edit font-inter d-flex-center">Image: </span>
                 <div class="user-input-area d-flex-start-column">
                     <input id="user-input-image" type="text" class="user-input font-inter" placeholder="Direct link to your picture...">
                 </div>

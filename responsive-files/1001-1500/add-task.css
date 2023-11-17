@@ -72,6 +72,10 @@
     .selector-assign-to-input-contain {
         height: 32px;
     }
+
+    .selector-assign-to-selected {
+        margin-left: 15px;
+    }
     
     /* Formvalidation right side */
 

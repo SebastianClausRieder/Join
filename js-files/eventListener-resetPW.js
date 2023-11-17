@@ -1,3 +1,6 @@
+/**
+ * Shows the criteria for a password.
+ */
 document.addEventListener("DOMContentLoaded", function () {
     const passwordInput = element('new-pw-input');
     passwordInput.addEventListener('input', checkPassword);

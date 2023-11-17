@@ -135,7 +135,7 @@
         align-items: center;
     }
 
-    .user-title {
+    .user-title, .user-title-edit {
         width: fit-content;
         min-height: 20px;
 
@@ -157,10 +157,17 @@
 
     .edit-contain {
         width: 100%;
-        justify-content: flex-end;
 
         padding-top: 10px;
         padding-bottom: 10px;
+    }
+
+    .user-title-edit {
+        width: 125px;
+        min-height: 20px;
+
+        font-size: 19px;
+        margin-right: 0;        
     }
 
     .user-input {
@@ -181,8 +188,8 @@
         margin-left: 10px;
     }
 
-                    .add-contact-clear-btn {
-                        width: 150px !important;
-                        height: 35px !important;
-                    }
+    .add-contact-clear-btn {
+        width: 150px !important;
+        height: 35px !important;
+    }
 }

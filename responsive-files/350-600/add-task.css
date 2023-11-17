@@ -81,6 +81,10 @@
         height: 37px;
     }
 
+    .selector-assign-to-selected {
+        margin-left: 15px;
+    }
+
     /* Formvalidation right side */
     
     .formvalidation-right {

@@ -31,15 +31,18 @@ async function addNewUserProfil() {
     signMailRequest = element("sign-mail-request");
     signPWRequest = element("sign-pw-request");
 
-    if (nameInput === "") { // Name field is empty, show error message.
+    if (nameInput === "") { 
         signNameRequest.innerText = "Please enter your full Name.";
     } else if (nameInput.length < 5) {
         signNameRequest.innerText = "Your full name should be at least 5 characters long.";
     } else { newUserName = nameInput; }
-
-    if (mailInput === "") { // E-Mail field is empty, show error message.
+    
+    if (mailInput === "") { // Name field is empty, show error message.
         signMailRequest.innerText = "Please enter your E-Mail.";
+    } else if (!isValidEmail(mailInput)) { // Input is not an email.
+        signMailRequest.innerText = "Please enter a valid E-Mail.";
     } else { // E-Mail has been entered, verifying existence.
+        signMailRequest.innerText = "";
         newUserMail = mailInput;
         findUserByMail(mailInput);
     }
@@ -47,6 +50,15 @@ async function addNewUserProfil() {
     if (pwInput === "") { // PW field is empty, show error message.
         signPWRequest.innerText = "Please enter a Password.";
     } else { newUserPW = pwInput; }
+
+    if (pwInput === "") { // PW field is empty, show error message.
+        signPWRequest.innerText = "Please enter a Password.";
+    } else if (!checkPasswordValidity(pwInput)) { // Password does not meet the criteria, show error message.
+        signPWRequest.innerText = "Please look at the criteria list.";
+    } else { // Password meets the criteria, save it.
+        signPWRequest.innerText = "";
+        newUserPW = pwInput;
+    }
 
     if (nameInput === "" || mailInput === "" || pwInput === "") {
 
@@ -56,7 +68,35 @@ async function addNewUserProfil() {
     } else { // E-Mail existe, show error message.
         signMailRequest.innerText = "This E-Mail already exists.";
     }
+}
 
+/**
+ * Checks whether the input is an email address.
+ * @param {string} email 
+ * @returns Returns true or false.
+ */
+function isValidEmail(email) {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailPattern.test(email);
+}
+
+/**
+ * Checks whether the password entered corresponds to the default.
+ * @param {string} password 
+ * @returns Returns true or false.
+ */
+function checkPasswordValidity(password) {
+    let isValidPW = true;
+
+      if (password.length < 8) {
+        isValidPW = false;
+    } if (!/[A-Z]/.test(password)) {
+        isValidPW = false;
+    } if (!/\d/.test(password)) {
+        isValidPW = false;
+    }
+
+    return isValidPW;
 }
 
 /**
@@ -96,7 +136,7 @@ async function pushToArray() {
 }
 
 /**
- * Creates a message with a thank you.
+ * Creates a message with a thank you and bring you back to the Login side.
  */
 function thankYou() {
     const messages = element('messages');
@@ -107,6 +147,10 @@ function thankYou() {
     signUpArea.classList.remove('d-show');
     messages.classList.add('d-show');
     messagesContain.innerHTML = thxTemp();
+    
+    setTimeout(function() {
+        goTo('index-login.html');
+    }, 3000);
 }
 
 function thxTemp() {

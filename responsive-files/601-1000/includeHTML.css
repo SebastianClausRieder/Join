@@ -189,6 +189,13 @@
         padding-bottom: 10px;
     }
 
+    .user-title-edit {
+        width: 125px;
+        min-height: 18px;
+        font-size: 14px;
+        margin-right: 8px;        
+    }
+
     .editor-select-color {
         width: 75px;
         height: 18px;
@@ -224,10 +231,10 @@
         margin-left: 10px;
     }
 
-                .add-contact-clear-btn {
-                    width: 150px !important;
-                    height: 35px !important;
-                }
+    .add-contact-clear-btn {
+        width: 150px !important;
+        height: 35px !important;
+    }
 
     .closeUserProfile-contain {
         width: 25px;

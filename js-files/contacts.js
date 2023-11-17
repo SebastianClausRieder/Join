@@ -350,10 +350,7 @@ function clearAddContact() {
     element(`add-contact-result-mail`).value = '';
     element('add-contact-name-request').innerText = '';
     element('add-contact-mail-request').innerText = '';
-
-    if (window.innerWidth <= 1000) {
-        element("add-contact-main").classList.remove('pointer-event');
-    }
+    element("add-contact-main").classList.remove('pointer-event');
 }
 
 // Contact added successfully.

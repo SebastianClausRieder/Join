@@ -19,7 +19,7 @@ function forgotPW() {
 async function resetPWMail(event) {
   event.preventDefault();
   const toResetMail = element('forgot-pw-mail-input').value;
-  const isJoinGuestMail = toResetMail === 'join-guest@join.tirol';
+  const isJoinGuestMail = toResetMail === 'join-guest@join.tirol'; //For developer only!! /reset-pw.html?email=join-guest@join.tirol Copy this link and paste it into your browser line. DANGER!! the IP and port must be at the front.
 
   if (isJoinGuestMail) {
     const link = `https://sebastian-rieder.developerakademie.net/Join/reset-pw.html?email=${toResetMail}`;
@@ -169,10 +169,19 @@ async function resetPW() {
   const confirmRequest = element('confirm-pw-request');
 
   if (newPW === confirmPW) {
-    resetUser['userPW'] = newPW;
-    dNoneCriteria();
-    await updateTaskData();
-    youResetYourPW();
+    if (!checkPasswordValidity(confirmPW)) { // Password does not meet the criteria, show error message.
+      confirmRequest.innerText = "Please look at the criteria list.";
+    } else {
+      confirmRequest.innerText = "";
+      resetUser['userPW'] = newPW;
+      dNoneCriteria();
+      await updateTaskData();
+      youResetYourPW();
+    
+      setTimeout(function() {
+          goTo('index-login.html');
+      }, 3000);
+    }
   } else {
     confirmRequest.innerText = 'The passwords do not match.';
   }

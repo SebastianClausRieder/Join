@@ -341,5 +341,5 @@ function fillSubtasks(openTaskContent) {
  */
 function editTask(TASK, t) {
     joinUsers[userI]['userTasks'][TASK].splice(t, 1);
-    createNewTask();    
+    createNewTask('Task has been Edit.');    
 }
