@@ -71,14 +71,29 @@ function findUserByName(name) {
     return false;
 }
 
+// Globals
+
+let userContacts = [];
+
 /**
- * Checks whether the E-Mail is in JSON and outputs the User Name.
+ * Checks whether the E-Mail is in JSON and outputs the index position if necessary.
  * @param {string} mail ←- E-Mail from Input.
  */
-function findNewContactByMail(mail) {
+function findContactByMail(mail) {
+  for (let i = 0; i < joinUsers.length; i++) {
+    if (joinUsers[i]['userMail'] === mail) {
+      userContacts.push(joinUsers[i]['userName']);
+    }}
+}
+
+/**
+ * Checks whether the E-Mail is in JSON and outputs the User Name.
+ * @param {string} cName ←- Name from Input.
+ */
+function findContactByName(cName) {
     for (let i = 0; i < joinUsers.length; i++) {
-        if (joinUsers[i]['userMail'] === mail) {
-            return joinUsers[i]['userName'];
+        if (joinUsers[i]['userName'] === cName) {
+            return joinUsers[i]['userMail'];
         }
     }
 }

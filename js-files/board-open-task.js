@@ -194,10 +194,14 @@ function extractedWord(img) {
  */
 function openTaskAssign(clickedTask) {
     const taskAssigns = clickedTask['assigned-user'];
+    userContacts = [];
+    taskAssigns.forEach((cMail) => {
+        findContactByMail(cMail);
+    });
     const taskAssignContain = element('open-task-assign');
     taskAssignContain.innerHTML = '';
 
-    taskAssigns.forEach(taskAssign => {
+    userContacts.forEach(taskAssign => {
         const contactInfos = findUserByName(taskAssign);
         const initials = extractedInitials(contactInfos['userName']);
         const taskAssignColor = contactInfos['userColor'];
@@ -295,6 +299,11 @@ function fillCategory(openTaskContent) {
  */
 function fillAssignUser(openTaskContent) {
     assignContacts = openTaskContent['assigned-user'];
+    userContacts = [];
+    assignContacts.forEach((cMail) => {
+        findContactByMail(cMail);
+    });
+    assignContactsByName = userContacts;
     showAssign();
 }
 

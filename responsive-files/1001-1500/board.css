@@ -1,7 +1,6 @@
 @media all and (min-width: 1001px) and (max-width: 1500px) {
 
     .board-main {
-        width: 93%;
         height: 100%;
     }
 
@@ -16,6 +15,7 @@
     /* Tasks */
 
     .render-tasks {
+        max-width: 90%;
         height: calc(100vh - 305px);
         gap: 25px;
     }

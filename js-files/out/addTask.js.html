@@ -34,6 +34,7 @@ let addTaskTitle;
 let addTaskDescription;
 let addTaskCategory;
 let addTaskCategoryColor;
+let assignContactsByName = [];
 let assignContacts = [];
 let addTaskDueDate;
 let addTaskPrio;
@@ -42,6 +43,7 @@ let subtasksArray = [];
 let subtasksReadyArray = [];
 let subtasksCheckArray = [];
 let addTaskCheck;
+let dropDownMenuIsOpen = false;
 
 // Add new Category
 
@@ -56,6 +58,8 @@ let selectElement;
  * Opens the category drop down menu.
  */
 function openDropDownCategory() {
+    dropDownMenuIsOpen = false;
+    element('drop-down-menu-assign-to').classList.remove('d-show');
     let dropDownCategory = element('drop-down-menu-category');
 
     if (!showCategory) {
@@ -68,40 +72,52 @@ function openDropDownCategory() {
         dropDownCategory.innerHTML = ``;
         const fragment = document.createDocumentFragment();
 
-        for (let c = 0; c &lt; joinUsers[userI]['category']['categoryName'].length; c++) {
-            const taskCategoryName = joinUsers[userI]['category']['categoryName'][c];
-            const taskCategoryColor = joinUsers[userI]['category']['categoryColor'][c];
-
-            const categoryContainer = document.createElement('div');
-            categoryContainer.classList.add('category-contain', 'd-flex-center');
-
-            const categoryNameSpan = document.createElement('span');
-            categoryNameSpan.classList.add('category-name', 'd-flex-start-center', 'font-inter');
-            categoryNameSpan.innerText = taskCategoryName;
-
-            const categoryColorImg = document.createElement('img');
-            categoryColorImg.classList.add('category-color');
-            categoryColorImg.src = taskCategoryColor;
-
-            categoryNameSpan.appendChild(categoryColorImg);
-
-            const clearCategoryImg = document.createElement('img');
-            clearCategoryImg.classList.add('clear-category');
-            clearCategoryImg.src = 'img/icon/clear-mark.png';
-            clearCategoryImg.onclick = () => clearCategory(c);
-
-            categoryNameSpan.onclick = () => selectCategory(taskCategoryName, taskCategoryColor);
-
-            categoryContainer.appendChild(categoryNameSpan);
-            categoryContainer.appendChild(clearCategoryImg);
-
-            fragment.appendChild(categoryContainer);
-        }
+        buildCategoryDropDownMenu(fragment);
 
         dropDownCategory.appendChild(fragment);
+
+        setTimeout(function() {
+            dropDownMenuIsOpen = true;
+        }, 100);
     } else {
         dropDownCategory.classList.remove('d-show');
         showCategory = false;
+        dropDownMenuIsOpen = false;
+    }
+}
+
+/**
+ * Creates the Dropdown menu for category.
+ */
+function buildCategoryDropDownMenu(fragment) {
+    for (let c = 0; c &lt; joinUsers[userI]['category']['categoryName'].length; c++) {
+        const taskCategoryName = joinUsers[userI]['category']['categoryName'][c];
+        const taskCategoryColor = joinUsers[userI]['category']['categoryColor'][c];
+
+        const categoryContainer = document.createElement('div');
+        categoryContainer.classList.add('category-contain', 'd-flex-center');
+
+        const categoryNameSpan = document.createElement('span');
+        categoryNameSpan.classList.add('category-name', 'd-flex-start-center', 'font-inter');
+        categoryNameSpan.innerText = taskCategoryName;
+
+        const categoryColorImg = document.createElement('img');
+        categoryColorImg.classList.add('category-color');
+        categoryColorImg.src = taskCategoryColor;
+
+        categoryNameSpan.appendChild(categoryColorImg);
+
+        const clearCategoryImg = document.createElement('img');
+        clearCategoryImg.classList.add('clear-category');
+        clearCategoryImg.src = 'img/icon/clear-mark.png';
+        clearCategoryImg.onclick = () => clearCategory(c);
+
+        categoryNameSpan.onclick = () => selectCategory(taskCategoryName, taskCategoryColor);
+
+        categoryContainer.appendChild(categoryNameSpan);
+        categoryContainer.appendChild(clearCategoryImg);
+
+        fragment.appendChild(categoryContainer);
     }
 }
 
@@ -125,6 +141,7 @@ function selectCategory(selectedCategory, categoryColor) {
     addTaskCategoryColor = categoryColor;
 
     element('category-request').innerText = "";
+    dropDownMenuIsOpen = false;
 }
 
 /**
@@ -240,15 +257,20 @@ let showContacts = false;
  */
 function openDropDownAssignTo() {
     const dropDownContacts = element('drop-down-menu-assign-to');
-    const contactNames = joinUsers[userI]['userContacts']['contactName'];
+    const contactMail = joinUsers[userI]['userContacts']['contactMail'];
+    userContacts = [];
+
+    contactMail.forEach((cMail) => {
+        findContactByMail(cMail);
+    });
 
     if (!showContacts) {
         showContacts = true;
         dropDownContacts.classList.add('d-show');
         addMe(dropDownContacts);
 
-        for (let co = 0; co &lt; contactNames.length; co++) {
-            const contactName = contactNames[co];
+        for (let co = 0; co &lt; userContacts.length; co++) {
+            const contactName = userContacts[co];
             const isChecked = getContactIndex(contactName) === -1 ? '' : 'img/icon/check-mark.png';
 
             dropDownContacts.innerHTML += /*html */ `                    
@@ -258,9 +280,14 @@ function openDropDownAssignTo() {
                 &lt;/div>
             `;
         }
+
+        setTimeout(function() {
+            dropDownMenuIsOpen = true;
+        }, 100);
     } else {
         dropDownContacts.classList.remove('d-show');
         showContacts = false;
+        dropDownMenuIsOpen = false;
     }
 }
 
@@ -306,11 +333,14 @@ function selectContact(name, co) {
     element(`assign-to-checked${co}`).src = isChecked ? 'img/icon/check-mark.png' : '';
 
     if (isChecked) {
-        assignContacts.push(assignContact);
+        assignContactsByName.push(assignContact);
+        assignContacts.push(findContactByName(assignContact));
     } else {
+        assignContactsByName.splice(contactIndex, 1);
         assignContacts.splice(contactIndex, 1);
     }
 
+    element('assign-to-request').innerText = '';
     showAssign();
 }
 
@@ -319,8 +349,8 @@ function selectContact(name, co) {
  */
 function showAssign() {
     let selectedContact = element('selector-assign-to-selected');
-    selectedContact.innerText = assignContacts.length > 0 ? assignContacts.map(assign => ` ${assign} -`).join('') : 'Select contacts to assign';
-    selectedContact.classList.toggle('color-black', assignContacts.length > 0);
+    selectedContact.innerText = assignContactsByName.length > 0 ? assignContactsByName.map(assign => ` ${assign} -`).join('') : 'Select contacts to assign';
+    selectedContact.classList.toggle('color-black', assignContactsByName.length > 0);
 }
 
 
@@ -330,7 +360,7 @@ function showAssign() {
  * @returns // Returns the result of the verification.
  */
 function getContactIndex(contactName) {
-    return assignContacts.indexOf(contactName);
+    return assignContactsByName.indexOf(contactName);
 }
 
 // Add Task Prio Button
@@ -352,6 +382,7 @@ function setPrioTo(prio) {
         const btn = element(`prio-btn-${option}`);
         if (prio === option) {
             btn.classList.add('bg-light-blue');
+            element('prio-request').innerText = '';
         } else {
             btn.classList.remove('bg-light-blue');
         }
@@ -370,6 +401,8 @@ let showAddTaskTo = false;
  * Opens the Add Task drop down menu.
  */
 function openDropDownAddTaskTo() {
+    dropDownMenuIsOpen = false;
+    element('drop-down-menu-assign-to').classList.remove('d-show');
     let dropDownAddTaskTo = element('drop-down-menu-add-to-task');
 
     if (!showAddTaskTo) {
@@ -380,9 +413,14 @@ function openDropDownAddTaskTo() {
         element('selector-add-to-task-selected').classList.remove('d-show');
         dropDownAddTaskTo.innerHTML = ``;
         renderAddTaskTo();
+
+        setTimeout(function() {
+            dropDownMenuIsOpen = true;
+        }, 100);
     } else {
         dropDownAddTaskTo.classList.remove('d-show');
         showAddTaskTo = false;
+        dropDownMenuIsOpen = false;
     }
 }
 
@@ -413,6 +451,7 @@ function selectTask(selectedTask, keyName) {
     element('selector-add-to-task-select-contain').classList.add('d-none');
 
     showAddTaskTo = false;
+    dropDownMenuIsOpen = false;
 
     let taskSelected = element('selector-add-to-task-selected');
     taskSelected.classList.add('d-show');
@@ -492,6 +531,7 @@ function addSubtask() {
             subtasksCheckArray.push('not checked');
             subtask.value = '';
             showSubtasks = false;
+            element('subtask-request').innerText = '';
             renderSubtask();
         } else {
             subtaskRequest.innerText = "You have already created this subtask.";
@@ -527,8 +567,11 @@ function renderSubtask() {
     let subtasksContain = element('your-subtasks');
     subtasksContain.innerHTML = ``;
 
-    subtasksContain.innerHTML = subtasksArray.map(subtask => /*html */ `
-        &lt;div class="your-subtask d-flex-start-center">  &lt;span class="font-inter">${subtask}&lt;/span>  &lt;/div>
+    subtasksContain.innerHTML = subtasksArray.map((subtask, index) => /*html */ `
+        &lt;div class="your-subtask d-flex-start-center">
+            &lt;span class="font-inter">${subtask}&lt;/span>
+            &lt;img src="img/icon/clear-mark.png" alt="" class="clear-category" onclick=(clearSubtask(${index}))>
+        &lt;/div>
     `).join('');
 }
 
@@ -541,12 +584,24 @@ function getSubtaskIndex(subtask) {
     return subtasksArray.indexOf(subtask);
 }
 
+/**
+ * Deletes the subtask from your subtasks array.
+ * @param {Array Position} index 
+ */
+async function clearSubtask(index) {
+    subtasksArray.splice(index, 1);
+    subtasksReadyArray.splice(index, 1);
+    subtasksCheckArray.splice(index, 1);
+
+    renderSubtask();
+}
+
 // Formvalidation Add Task
 
 /**
  * Creates a new task on your board and redirects you to your board.
  */
-async function createNewTask() {
+async function createNewTask(finishText) {
     addTaskTitle = element('title-input').value;
     addTaskDescription = element('description-input').value;
     addTaskCheck = [];
@@ -555,24 +610,39 @@ async function createNewTask() {
     validationNewTask();
 
     if (addTaskCheck.filter(item => item === 'ok').length === 9) {
-        joinUsers[userI]['userTasks'][addTaskTo].push({
-            "title": addTaskTitle,
-            "description": addTaskDescription,
-            "category": addTaskCategory,
-            "category-color": addTaskCategoryColor,
-            "assigned-user": assignContacts,
-            "due-date": addTaskDueDate,
-            "priority": addTaskPrio,
-            "subtask-list": subtasksArray,
-            "subtask-done": [],
-            "subtask-checkd": subtasksCheckArray,
-            "ready-subtask": subtasksReadyArray
+        assignContacts.forEach((assignContact) => {
+            joinUsers[findUserID(assignContact)]['userTasks'][addTaskTo].push({
+                "title": addTaskTitle,
+                "description": addTaskDescription,
+                "category": addTaskCategory,
+                "category-color": addTaskCategoryColor,
+                "assigned-user": assignContacts,
+                "due-date": addTaskDueDate,
+                "priority": addTaskPrio,
+                "subtask-list": subtasksArray,
+                "subtask-done": [],
+                "subtask-checkd": subtasksCheckArray,
+                "ready-subtask": subtasksReadyArray
+            });          
         });
         await updateTaskData();
         clearAddTask();
-        finishMessage();
+        finishMessage(finishText);  
     } else {
         pleaseCheckFormular();
+    }
+}
+
+/**
+ * Find the index from your Contact
+ * @param {string} assignContact 
+ * @returns Contact index.
+ */
+function findUserID(assignContact) {
+    for (let i = 0; i &lt; joinUsers.length; i++) {
+        if (joinUsers[i]['userMail'] === assignContact) {
+            return [i];
+        }
     }
 }
 
@@ -590,8 +660,8 @@ function addDueDate() {
 
         if (addTaskDueDate > formattedDate) {
             addTaskCheck[5] = 'ok';
+            element('due-date-request').innerText = '';
             writeDate(addTaskDueDate);
-            element('due-date-request').innerText = "";
         } else {
             element('due-date-request').innerText = "Please enter a future date.";
         }
@@ -680,6 +750,20 @@ function clearAddTask() {
 }
 
 /**
+ * Deletes the request info when the input field has been filled out.
+ * @param {string} inputID 
+ * @param {string} requestID 
+ */
+function clearRequest(inputID, requestID) {
+    const inputField = document.getElementById(inputID);
+    const infoField = document.getElementById(requestID);
+
+    inputField.addEventListener('input', () => {
+        infoField.innerText = '';
+    });
+}
+
+/**
  * Clears all request fields.
  */
 function deleteRequestMessage() {
@@ -728,19 +812,47 @@ function pleaseCheckFormular() {
 /**
  * Tells you that you have successfully created a new task.
  */
-function finishMessage() {
+function finishMessage(finishText) {
     let messageContain = element('addTask-message-area');
+    let messageArea = element('addTask-finish-message-contain');
     let messageText = element('addTask-message');
 
-    messageText.innerText = 'Task has been created.';
+    messageText.innerText = finishText;
     messageContain.classList.add('scale');
+    messageArea.classList.add('d-show');
     setTimeout(() => {
         messageContain.classList.remove('scale');
+        messageArea.classList.remove('d-show');
         messageText.innerText = '';
         goTo('board.html');
         element('board-add-task').classList.remove('scale');
-    }, 5000);
-}</code></pre>
+    }, 2500);
+}
+
+/**
+ * Closes the dropdown menus when clicked outside the dropdown menu.
+ */
+document.addEventListener('click', function(event) {
+    if (dropDownMenuIsOpen) {
+        const dropdowns = document.querySelectorAll('.drop-down-menu');
+
+        dropdowns.forEach(function(dropdown) {
+            const target = event.target;
+            
+            if (dropdown.classList.contains('d-show')) {
+
+                if (!dropdown.contains(target)) {
+                    dropdown.classList.remove('d-show');
+                    dropDownMenuIsOpen = false;
+                }
+            }
+        });
+
+        showCategory = false;
+        showContacts = false;
+        showAddTaskTo = false;
+    }
+});</code></pre>
         </article>
     </section>
 
@@ -750,13 +862,13 @@ function finishMessage() {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#action">action</a></li><li><a href="global.html#addAddressToProfile">addAddressToProfile</a></li><li><a href="global.html#addContact">addContact</a></li><li><a href="global.html#addDueDate">addDueDate</a></li><li><a href="global.html#addMe">addMe</a></li><li><a href="global.html#addNameToProfile">addNameToProfile</a></li><li><a href="global.html#addNewCategory">addNewCategory</a></li><li><a href="global.html#addNewContact">addNewContact</a></li><li><a href="global.html#addNewTask">addNewTask</a></li><li><a href="global.html#addNewUserProfil">addNewUserProfil</a></li><li><a href="global.html#addSubtask">addSubtask</a></li><li><a href="global.html#addTaskToSearchArray">addTaskToSearchArray</a></li><li><a href="global.html#addToContacts">addToContacts</a></li><li><a href="global.html#addToField">addToField</a></li><li><a href="global.html#allEnabled">allEnabled</a></li><li><a href="global.html#allowDrop">allowDrop</a></li><li><a href="global.html#back">back</a></li><li><a href="global.html#backContacts">backContacts</a></li><li><a href="global.html#boardAddTask">boardAddTask</a></li><li><a href="global.html#boardAddTaskTo">boardAddTaskTo</a></li><li><a href="global.html#boardSetPrioTo">boardSetPrioTo</a></li><li><a href="global.html#boardTemp">boardTemp</a></li><li><a href="global.html#btnDisabled">btnDisabled</a></li><li><a href="global.html#cancelAddContact">cancelAddContact</a></li><li><a href="global.html#cancelEdit">cancelEdit</a></li><li><a href="global.html#changeAddTask">changeAddTask</a></li><li><a href="global.html#changeGreeting">changeGreeting</a></li><li><a href="global.html#checkDone">checkDone</a></li><li><a href="global.html#checkMailExist">checkMailExist</a></li><li><a href="global.html#checkMailToPW">checkMailToPW</a></li><li><a href="global.html#checkUserIsOnJoin">checkUserIsOnJoin</a></li><li><a href="global.html#clearAddContact">clearAddContact</a></li><li><a href="global.html#clearAddTask">clearAddTask</a></li><li><a href="global.html#clearAddToTask">clearAddToTask</a></li><li><a href="global.html#clearCategory">clearCategory</a></li><li><a href="global.html#clearDragTimer">clearDragTimer</a></li><li><a href="global.html#clearTouchDrag">clearTouchDrag</a></li><li><a href="global.html#closeAddTask">closeAddTask</a></li><li><a href="global.html#closeEditTask">closeEditTask</a></li><li><a href="global.html#closeHelpCenter">closeHelpCenter</a></li><li><a href="global.html#closeTask">closeTask</a></li><li><a href="global.html#closeUserProfile">closeUserProfile</a></li><li><a href="global.html#completeSubtask">completeSubtask</a></li><li><a href="global.html#creatGuestData">creatGuestData</a></li><li><a href="global.html#createNewTask">createNewTask</a></li><li><a href="global.html#createPossibleDropLevels">createPossibleDropLevels</a></li><li><a href="global.html#dNoneCriteria">dNoneCriteria</a></li><li><a href="global.html#deletGuestData">deletGuestData</a></li><li><a href="global.html#deletIndex">deletIndex</a></li><li><a href="global.html#deletLoginData">deletLoginData</a></li><li><a href="global.html#deletUserACC">deletUserACC</a></li><li><a href="global.html#deletUserACCmanuel">deletUserACCmanuel</a></li><li><a href="global.html#deleteContact">deleteContact</a></li><li><a href="global.html#deleteElementById">deleteElementById</a></li><li><a href="global.html#deleteOpenTask">deleteOpenTask</a></li><li><a href="global.html#deletePossibleDropLevels">deletePossibleDropLevels</a></li><li><a href="global.html#deleteRequestMessage">deleteRequestMessage</a></li><li><a href="global.html#deleteTaskbyIndex">deleteTaskbyIndex</a></li><li><a href="global.html#determineColorfromIMG">determineColorfromIMG</a></li><li><a href="global.html#determineColortoIMG">determineColortoIMG</a></li><li><a href="global.html#determineExtractedColor">determineExtractedColor</a></li><li><a href="global.html#displayUserImageOrInitials">displayUserImageOrInitials</a></li><li><a href="global.html#dragTask">dragTask</a></li><li><a href="global.html#editAddTaskTo">editAddTaskTo</a></li><li><a href="global.html#editOpenTask">editOpenTask</a></li><li><a href="global.html#editProfile">editProfile</a></li><li><a href="global.html#editTask">editTask</a></li><li><a href="global.html#element">element</a></li><li><a href="global.html#extractLocation">extractLocation</a></li><li><a href="global.html#extractedInitials">extractedInitials</a></li><li><a href="global.html#extractedWord">extractedWord</a></li><li><a href="global.html#fillAssignUser">fillAssignUser</a></li><li><a href="global.html#fillCategory">fillCategory</a></li><li><a href="global.html#fillDueDate">fillDueDate</a></li><li><a href="global.html#fillInputFields">fillInputFields</a></li><li><a href="global.html#fillLogin">fillLogin</a></li><li><a href="global.html#fillPriority">fillPriority</a></li><li><a href="global.html#fillSubtasks">fillSubtasks</a></li><li><a href="global.html#findNewContactByMail">findNewContactByMail</a></li><li><a href="global.html#findSubtasks">findSubtasks</a></li><li><a href="global.html#findUserByMail">findUserByMail</a></li><li><a href="global.html#findUserByName">findUserByName</a></li><li><a href="global.html#finishMessage">finishMessage</a></li><li><a href="global.html#forgotPW">forgotPW</a></li><li><a href="global.html#formatDate">formatDate</a></li><li><a href="global.html#getCategoryColor">getCategoryColor</a></li><li><a href="global.html#getCategoryIndex">getCategoryIndex</a></li><li><a href="global.html#getContactIndex">getContactIndex</a></li><li><a href="global.html#getEmailUrlParameter">getEmailUrlParameter</a></li><li><a href="global.html#getItem">getItem</a></li><li><a href="global.html#getMostUrgentDeadlineContacts">getMostUrgentDeadlineContacts</a></li><li><a href="global.html#getMyContactIndex">getMyContactIndex</a></li><li><a href="global.html#getSearchIndex">getSearchIndex</a></li><li><a href="global.html#getSubtaskIndex">getSubtaskIndex</a></li><li><a href="global.html#getTaskIndex">getTaskIndex</a></li><li><a href="global.html#getUser">getUser</a></li><li><a href="global.html#getuserColor">getuserColor</a></li><li><a href="global.html#goTo">goTo</a></li><li><a href="global.html#greeting">greeting</a></li><li><a href="global.html#groupContactsByInitial">groupContactsByInitial</a></li><li><a href="global.html#handleCategoryColorChange">handleCategoryColorChange</a></li><li><a href="global.html#handleUserColorChange">handleUserColorChange</a></li><li><a href="global.html#initAddTask">initAddTask</a></li><li><a href="global.html#initBoard">initBoard</a></li><li><a href="global.html#initContacts">initContacts</a></li><li><a href="global.html#initLegalNotice">initLegalNotice</a></li><li><a href="global.html#initLogin">initLogin</a></li><li><a href="global.html#initPrivacyPolicy">initPrivacyPolicy</a></li><li><a href="global.html#initSummary">initSummary</a></li><li><a href="global.html#leaveJoin">leaveJoin</a></li><li><a href="global.html#leaveJoinNOW">leaveJoinNOW</a></li><li><a href="global.html#loadAddEventListener">loadAddEventListener</a></li><li><a href="global.html#loadAddressToEdit">loadAddressToEdit</a></li><li><a href="global.html#loadAssigns">loadAssigns</a></li><li><a href="global.html#loadColorToEdit">loadColorToEdit</a></li><li><a href="global.html#loadContacts">loadContacts</a></li><li><a href="global.html#loadImageToEdit">loadImageToEdit</a></li><li><a href="global.html#loadIndexFrom">loadIndexFrom</a></li><li><a href="global.html#loadJSONfromServer">loadJSONfromServer</a></li><li><a href="global.html#loadJSONtoServer">loadJSONtoServer</a></li><li><a href="global.html#loadLoginDataFrom">loadLoginDataFrom</a></li><li><a href="global.html#loadMailToEdit">loadMailToEdit</a></li><li><a href="global.html#loadNameToEdit">loadNameToEdit</a></li><li><a href="global.html#loadPhoneToEdit">loadPhoneToEdit</a></li><li><a href="global.html#loadSearchResult">loadSearchResult</a></li><li><a href="global.html#loadTasks">loadTasks</a></li><li><a href="global.html#loadUserAddress">loadUserAddress</a></li><li><a href="global.html#loadUserColor">loadUserColor</a></li><li><a href="global.html#loadUserMail">loadUserMail</a></li><li><a href="global.html#loadUserNameAndLocation">loadUserNameAndLocation</a></li><li><a href="global.html#loadUserPhone">loadUserPhone</a></li><li><a href="global.html#loadWatch">loadWatch</a></li><li><a href="global.html#loadWatchContacts">loadWatchContacts</a></li><li><a href="global.html#loadguestDataFrom">loadguestDataFrom</a></li><li><a href="global.html#loginGuest">loginGuest</a></li><li><a href="global.html#lookForUrgentContacts">lookForUrgentContacts</a></li><li><a href="global.html#makeSmallAndNoSpaces">makeSmallAndNoSpaces</a></li><li><a href="global.html#moveTaskTo">moveTaskTo</a></li><li><a href="global.html#moveTouchTask">moveTouchTask</a></li><li><a href="global.html#noticeLoginData">noticeLoginData</a></li><li><a href="global.html#onPageLoad">onPageLoad</a></li><li><a href="global.html#openAddNewContact">openAddNewContact</a></li><li><a href="global.html#openDropDownAddTaskTo">openDropDownAddTaskTo</a></li><li><a href="global.html#openDropDownAssignTo">openDropDownAssignTo</a></li><li><a href="global.html#openDropDownCategory">openDropDownCategory</a></li><li><a href="global.html#openHelpCenter">openHelpCenter</a></li><li><a href="global.html#openProfileEditor">openProfileEditor</a></li><li><a href="global.html#openTask">openTask</a></li><li><a href="global.html#openTaskAssign">openTaskAssign</a></li><li><a href="global.html#openTaskTemp">openTaskTemp</a></li><li><a href="global.html#openUserProfile">openUserProfile</a></li><li><a href="global.html#parseInputDate">parseInputDate</a></li><li><a href="global.html#pleaseCheckFormular">pleaseCheckFormular</a></li><li><a href="global.html#populateUserProfile">populateUserProfile</a></li><li><a href="global.html#pushToArray">pushToArray</a></li><li><a href="global.html#rememberMe">rememberMe</a></li><li><a href="global.html#removeTaskFromSearchArray">removeTaskFromSearchArray</a></li><li><a href="global.html#renderAddContactSearchResult">renderAddContactSearchResult</a></li><li><a href="global.html#renderAddTask">renderAddTask</a></li><li><a href="global.html#renderAddTaskTo">renderAddTaskTo</a></li><li><a href="global.html#renderCategories">renderCategories</a></li><li><a href="global.html#renderCloseBTN">renderCloseBTN</a></li><li><a href="global.html#renderFinishBTN">renderFinishBTN</a></li><li><a href="global.html#renderSearchResult">renderSearchResult</a></li><li><a href="global.html#renderSearchedTasks">renderSearchedTasks</a></li><li><a href="global.html#renderSubtask">renderSubtask</a></li><li><a href="global.html#renderTasks">renderTasks</a></li><li><a href="global.html#resetPW">resetPW</a></li><li><a href="global.html#resetPWMail">resetPWMail</a></li><li><a href="global.html#saveGuestDataTo">saveGuestDataTo</a></li><li><a href="global.html#saveIndexTo">saveIndexTo</a></li><li><a href="global.html#saveLoginDataTo">saveLoginDataTo</a></li><li><a href="global.html#searchByInput">searchByInput</a></li><li><a href="global.html#searchForAssign">searchForAssign</a></li><li><a href="global.html#searchIN">searchIN</a></li><li><a href="global.html#searchTask">searchTask</a></li><li><a href="global.html#selectCategory">selectCategory</a></li><li><a href="global.html#selectContact">selectContact</a></li><li><a href="global.html#selectTask">selectTask</a></li><li><a href="global.html#setInitialSize">setInitialSize</a></li><li><a href="global.html#setItem">setItem</a></li><li><a href="global.html#setPrioTo">setPrioTo</a></li><li><a href="global.html#showAssign">showAssign</a></li><li><a href="global.html#showPW">showPW</a></li><li><a href="global.html#showUserMenu">showUserMenu</a></li><li><a href="global.html#showclickedContact">showclickedContact</a></li><li><a href="global.html#signUp">signUp</a></li><li><a href="global.html#startDragTimer">startDragTimer</a></li><li><a href="global.html#startTouchDrag">startTouchDrag</a></li><li><a href="global.html#subtaskCheck">subtaskCheck</a></li><li><a href="global.html#subtaskDone">subtaskDone</a></li><li><a href="global.html#subtaskReady">subtaskReady</a></li><li><a href="global.html#successfullyAdded">successfullyAdded</a></li><li><a href="global.html#sumTasksByCategory">sumTasksByCategory</a></li><li><a href="global.html#sumTasksByCategoryOnSummary">sumTasksByCategoryOnSummary</a></li><li><a href="global.html#takeCategoryColor">takeCategoryColor</a></li><li><a href="global.html#taskTemp">taskTemp</a></li><li><a href="global.html#thankYou">thankYou</a></li><li><a href="global.html#toggleHelpCenter">toggleHelpCenter</a></li><li><a href="global.html#toggleUserProfile">toggleUserProfile</a></li><li><a href="global.html#uncompleteSubtask">uncompleteSubtask</a></li><li><a href="global.html#updateSubtaskUI">updateSubtaskUI</a></li><li><a href="global.html#updateTaskData">updateTaskData</a></li><li><a href="global.html#validateFormUser">validateFormUser</a></li><li><a href="global.html#validationNewTask">validationNewTask</a></li><li><a href="global.html#watchTasksOnBoard">watchTasksOnBoard</a></li><li><a href="global.html#watchTasksOnBoardContact">watchTasksOnBoardContact</a></li><li><a href="global.html#writeContactList">writeContactList</a></li><li><a href="global.html#writeContacts">writeContacts</a></li><li><a href="global.html#writeDate">writeDate</a></li><li><a href="global.html#writeInContacts">writeInContacts</a></li><li><a href="global.html#writeTime">writeTime</a></li><li><a href="global.html#writeUrgentDateContacts">writeUrgentDateContacts</a></li><li><a href="global.html#writeUserName">writeUserName</a></li><li><a href="global.html#youReallyWantLeaveUs">youReallyWantLeaveUs</a></li><li><a href="global.html#youResetYourPW">youResetYourPW</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#action">action</a></li><li><a href="global.html#addAddressToProfile">addAddressToProfile</a></li><li><a href="global.html#addContact">addContact</a></li><li><a href="global.html#addContactTemp">addContactTemp</a></li><li><a href="global.html#addDueDate">addDueDate</a></li><li><a href="global.html#addMe">addMe</a></li><li><a href="global.html#addNameToProfile">addNameToProfile</a></li><li><a href="global.html#addNewCategory">addNewCategory</a></li><li><a href="global.html#addNewContact">addNewContact</a></li><li><a href="global.html#addNewTask">addNewTask</a></li><li><a href="global.html#addNewUserProfil">addNewUserProfil</a></li><li><a href="global.html#addSubtask">addSubtask</a></li><li><a href="global.html#addTaskToSearchArray">addTaskToSearchArray</a></li><li><a href="global.html#addToContacts">addToContacts</a></li><li><a href="global.html#addToField">addToField</a></li><li><a href="global.html#allEnabled">allEnabled</a></li><li><a href="global.html#allowDrop">allowDrop</a></li><li><a href="global.html#back">back</a></li><li><a href="global.html#backContacts">backContacts</a></li><li><a href="global.html#boardAddTask">boardAddTask</a></li><li><a href="global.html#boardAddTaskTo">boardAddTaskTo</a></li><li><a href="global.html#boardSetPrioTo">boardSetPrioTo</a></li><li><a href="global.html#boardTemp">boardTemp</a></li><li><a href="global.html#btnDisabled">btnDisabled</a></li><li><a href="global.html#buildCategoryDropDownMenu">buildCategoryDropDownMenu</a></li><li><a href="global.html#cancelAddContact">cancelAddContact</a></li><li><a href="global.html#cancelEdit">cancelEdit</a></li><li><a href="global.html#changeAddTask">changeAddTask</a></li><li><a href="global.html#changeGreeting">changeGreeting</a></li><li><a href="global.html#checkDone">checkDone</a></li><li><a href="global.html#checkMailExist">checkMailExist</a></li><li><a href="global.html#checkMailToPW">checkMailToPW</a></li><li><a href="global.html#checkPasswordValidity">checkPasswordValidity</a></li><li><a href="global.html#checkUserIsOnJoin">checkUserIsOnJoin</a></li><li><a href="global.html#clearAddContact">clearAddContact</a></li><li><a href="global.html#clearAddTask">clearAddTask</a></li><li><a href="global.html#clearAddToTask">clearAddToTask</a></li><li><a href="global.html#clearCategory">clearCategory</a></li><li><a href="global.html#clearDragTimer">clearDragTimer</a></li><li><a href="global.html#clearRequest">clearRequest</a></li><li><a href="global.html#clearSubtask">clearSubtask</a></li><li><a href="global.html#clearTouchDrag">clearTouchDrag</a></li><li><a href="global.html#clickedContactTemp">clickedContactTemp</a></li><li><a href="global.html#closeAddTask">closeAddTask</a></li><li><a href="global.html#closeEditTask">closeEditTask</a></li><li><a href="global.html#closeHelpCenter">closeHelpCenter</a></li><li><a href="global.html#closeTask">closeTask</a></li><li><a href="global.html#closeUserProfile">closeUserProfile</a></li><li><a href="global.html#completeSubtask">completeSubtask</a></li><li><a href="global.html#creatGuestData">creatGuestData</a></li><li><a href="global.html#createNewTask">createNewTask</a></li><li><a href="global.html#createPossibleDropLevels">createPossibleDropLevels</a></li><li><a href="global.html#dNoneCriteria">dNoneCriteria</a></li><li><a href="global.html#deletGuestData">deletGuestData</a></li><li><a href="global.html#deletIndex">deletIndex</a></li><li><a href="global.html#deletLoginData">deletLoginData</a></li><li><a href="global.html#deletUserACC">deletUserACC</a></li><li><a href="global.html#deletUserACCmanuel">deletUserACCmanuel</a></li><li><a href="global.html#deleteContact">deleteContact</a></li><li><a href="global.html#deleteElementById">deleteElementById</a></li><li><a href="global.html#deleteOpenTask">deleteOpenTask</a></li><li><a href="global.html#deletePossibleDropLevels">deletePossibleDropLevels</a></li><li><a href="global.html#deleteRequestMessage">deleteRequestMessage</a></li><li><a href="global.html#deleteTaskbyIndex">deleteTaskbyIndex</a></li><li><a href="global.html#determineColorfromIMG">determineColorfromIMG</a></li><li><a href="global.html#determineColortoIMG">determineColortoIMG</a></li><li><a href="global.html#determineExtractedColor">determineExtractedColor</a></li><li><a href="global.html#displayUserImageOrInitials">displayUserImageOrInitials</a></li><li><a href="global.html#dragTask">dragTask</a></li><li><a href="global.html#editAddTaskTo">editAddTaskTo</a></li><li><a href="global.html#editOpenTask">editOpenTask</a></li><li><a href="global.html#editProfile">editProfile</a></li><li><a href="global.html#editTask">editTask</a></li><li><a href="global.html#element">element</a></li><li><a href="global.html#extractLocation">extractLocation</a></li><li><a href="global.html#extractedInitials">extractedInitials</a></li><li><a href="global.html#extractedWord">extractedWord</a></li><li><a href="global.html#fillAssignUser">fillAssignUser</a></li><li><a href="global.html#fillCategory">fillCategory</a></li><li><a href="global.html#fillDueDate">fillDueDate</a></li><li><a href="global.html#fillInputFields">fillInputFields</a></li><li><a href="global.html#fillLogin">fillLogin</a></li><li><a href="global.html#fillPriority">fillPriority</a></li><li><a href="global.html#fillSubtasks">fillSubtasks</a></li><li><a href="global.html#findContactByMail">findContactByMail</a></li><li><a href="global.html#findContactByName">findContactByName</a></li><li><a href="global.html#findSubtasks">findSubtasks</a></li><li><a href="global.html#findUserByMail">findUserByMail</a></li><li><a href="global.html#findUserByName">findUserByName</a></li><li><a href="global.html#findUserID">findUserID</a></li><li><a href="global.html#finishMessage">finishMessage</a></li><li><a href="global.html#forgotPW">forgotPW</a></li><li><a href="global.html#formatDate">formatDate</a></li><li><a href="global.html#getCategoryColor">getCategoryColor</a></li><li><a href="global.html#getCategoryIndex">getCategoryIndex</a></li><li><a href="global.html#getContactIndex">getContactIndex</a></li><li><a href="global.html#getEmailUrlParameter">getEmailUrlParameter</a></li><li><a href="global.html#getItem">getItem</a></li><li><a href="global.html#getMostUrgentDeadlineContacts">getMostUrgentDeadlineContacts</a></li><li><a href="global.html#getMyContactIndex">getMyContactIndex</a></li><li><a href="global.html#getSearchIndex">getSearchIndex</a></li><li><a href="global.html#getSubtaskIndex">getSubtaskIndex</a></li><li><a href="global.html#getTaskIndex">getTaskIndex</a></li><li><a href="global.html#getUser">getUser</a></li><li><a href="global.html#getuserColor">getuserColor</a></li><li><a href="global.html#goTo">goTo</a></li><li><a href="global.html#greeting">greeting</a></li><li><a href="global.html#groupContactsByInitial">groupContactsByInitial</a></li><li><a href="global.html#handleCategoryColorChange">handleCategoryColorChange</a></li><li><a href="global.html#handleUserColorChange">handleUserColorChange</a></li><li><a href="global.html#includeHTML">includeHTML</a></li><li><a href="global.html#initAddTask">initAddTask</a></li><li><a href="global.html#initBoard">initBoard</a></li><li><a href="global.html#initContacts">initContacts</a></li><li><a href="global.html#initLegalNotice">initLegalNotice</a></li><li><a href="global.html#initLogin">initLogin</a></li><li><a href="global.html#initPrivacyPolicy">initPrivacyPolicy</a></li><li><a href="global.html#initSummary">initSummary</a></li><li><a href="global.html#isValidEmail">isValidEmail</a></li><li><a href="global.html#leaveJoin">leaveJoin</a></li><li><a href="global.html#leaveJoinNOW">leaveJoinNOW</a></li><li><a href="global.html#loadAddEventListener">loadAddEventListener</a></li><li><a href="global.html#loadAddressToEdit">loadAddressToEdit</a></li><li><a href="global.html#loadAssigns">loadAssigns</a></li><li><a href="global.html#loadColorToEdit">loadColorToEdit</a></li><li><a href="global.html#loadContacts">loadContacts</a></li><li><a href="global.html#loadImageToEdit">loadImageToEdit</a></li><li><a href="global.html#loadIndexFrom">loadIndexFrom</a></li><li><a href="global.html#loadJSONfromServer">loadJSONfromServer</a></li><li><a href="global.html#loadJSONtoServer">loadJSONtoServer</a></li><li><a href="global.html#loadLoginDataFrom">loadLoginDataFrom</a></li><li><a href="global.html#loadMailToEdit">loadMailToEdit</a></li><li><a href="global.html#loadNameToEdit">loadNameToEdit</a></li><li><a href="global.html#loadPhoneToEdit">loadPhoneToEdit</a></li><li><a href="global.html#loadSearchResult">loadSearchResult</a></li><li><a href="global.html#loadTasks">loadTasks</a></li><li><a href="global.html#loadUserAddress">loadUserAddress</a></li><li><a href="global.html#loadUserColor">loadUserColor</a></li><li><a href="global.html#loadUserMail">loadUserMail</a></li><li><a href="global.html#loadUserNameAndLocation">loadUserNameAndLocation</a></li><li><a href="global.html#loadUserPhone">loadUserPhone</a></li><li><a href="global.html#loadWatch">loadWatch</a></li><li><a href="global.html#loadWatchContacts">loadWatchContacts</a></li><li><a href="global.html#loadguestDataFrom">loadguestDataFrom</a></li><li><a href="global.html#loginGuest">loginGuest</a></li><li><a href="global.html#lookForUrgentContacts">lookForUrgentContacts</a></li><li><a href="global.html#mailNotSendTemp">mailNotSendTemp</a></li><li><a href="global.html#mailSendTemp">mailSendTemp</a></li><li><a href="global.html#makeSmallAndNoSpaces">makeSmallAndNoSpaces</a></li><li><a href="global.html#moveTaskTo">moveTaskTo</a></li><li><a href="global.html#moveTouchTask">moveTouchTask</a></li><li><a href="global.html#noticeLoginData">noticeLoginData</a></li><li><a href="global.html#onPageLoad">onPageLoad</a></li><li><a href="global.html#openAddNewContact">openAddNewContact</a></li><li><a href="global.html#openDropDownAddTaskTo">openDropDownAddTaskTo</a></li><li><a href="global.html#openDropDownAssignTo">openDropDownAssignTo</a></li><li><a href="global.html#openDropDownCategory">openDropDownCategory</a></li><li><a href="global.html#openHelpCenter">openHelpCenter</a></li><li><a href="global.html#openProfileEditor">openProfileEditor</a></li><li><a href="global.html#openTask">openTask</a></li><li><a href="global.html#openTaskAssign">openTaskAssign</a></li><li><a href="global.html#openTaskTemp">openTaskTemp</a></li><li><a href="global.html#openUserProfile">openUserProfile</a></li><li><a href="global.html#parseInputDate">parseInputDate</a></li><li><a href="global.html#pleaseCheckFormular">pleaseCheckFormular</a></li><li><a href="global.html#populateUserProfile">populateUserProfile</a></li><li><a href="global.html#profileEditorTemp">profileEditorTemp</a></li><li><a href="global.html#pushToArray">pushToArray</a></li><li><a href="global.html#rememberMe">rememberMe</a></li><li><a href="global.html#removeTaskFromSearchArray">removeTaskFromSearchArray</a></li><li><a href="global.html#renderAddContactSearchResult">renderAddContactSearchResult</a></li><li><a href="global.html#renderAddTask">renderAddTask</a></li><li><a href="global.html#renderAddTaskTo">renderAddTaskTo</a></li><li><a href="global.html#renderCategories">renderCategories</a></li><li><a href="global.html#renderCloseBTN">renderCloseBTN</a></li><li><a href="global.html#renderFinishBTN">renderFinishBTN</a></li><li><a href="global.html#renderSearchResult">renderSearchResult</a></li><li><a href="global.html#renderSearchedTasks">renderSearchedTasks</a></li><li><a href="global.html#renderSubtask">renderSubtask</a></li><li><a href="global.html#renderTasks">renderTasks</a></li><li><a href="global.html#resetPW">resetPW</a></li><li><a href="global.html#resetPWMail">resetPWMail</a></li><li><a href="global.html#saveGuestDataTo">saveGuestDataTo</a></li><li><a href="global.html#saveIndexTo">saveIndexTo</a></li><li><a href="global.html#saveLoginDataTo">saveLoginDataTo</a></li><li><a href="global.html#searchByInput">searchByInput</a></li><li><a href="global.html#searchForAssign">searchForAssign</a></li><li><a href="global.html#searchIN">searchIN</a></li><li><a href="global.html#searchTask">searchTask</a></li><li><a href="global.html#selectCategory">selectCategory</a></li><li><a href="global.html#selectContact">selectContact</a></li><li><a href="global.html#selectTask">selectTask</a></li><li><a href="global.html#setInitialSize">setInitialSize</a></li><li><a href="global.html#setItem">setItem</a></li><li><a href="global.html#setPrioTo">setPrioTo</a></li><li><a href="global.html#showAssign">showAssign</a></li><li><a href="global.html#showPW">showPW</a></li><li><a href="global.html#showUserMenu">showUserMenu</a></li><li><a href="global.html#showclickedContact">showclickedContact</a></li><li><a href="global.html#signUp">signUp</a></li><li><a href="global.html#startDragTimer">startDragTimer</a></li><li><a href="global.html#startTouchDrag">startTouchDrag</a></li><li><a href="global.html#subtaskCheck">subtaskCheck</a></li><li><a href="global.html#subtaskDone">subtaskDone</a></li><li><a href="global.html#subtaskReady">subtaskReady</a></li><li><a href="global.html#successfullyAdded">successfullyAdded</a></li><li><a href="global.html#successfullyAddedTemp">successfullyAddedTemp</a></li><li><a href="global.html#sumTasksByCategory">sumTasksByCategory</a></li><li><a href="global.html#sumTasksByCategoryOnSummary">sumTasksByCategoryOnSummary</a></li><li><a href="global.html#takeCategoryColor">takeCategoryColor</a></li><li><a href="global.html#taskTemp">taskTemp</a></li><li><a href="global.html#thankYou">thankYou</a></li><li><a href="global.html#thxTemp">thxTemp</a></li><li><a href="global.html#toggleHelpCenter">toggleHelpCenter</a></li><li><a href="global.html#toggleUserProfile">toggleUserProfile</a></li><li><a href="global.html#uncompleteSubtask">uncompleteSubtask</a></li><li><a href="global.html#updateSubtaskUI">updateSubtaskUI</a></li><li><a href="global.html#updateTaskData">updateTaskData</a></li><li><a href="global.html#validateFormUser">validateFormUser</a></li><li><a href="global.html#validationNewTask">validationNewTask</a></li><li><a href="global.html#watchTasksOnBoard">watchTasksOnBoard</a></li><li><a href="global.html#watchTasksOnBoardContact">watchTasksOnBoardContact</a></li><li><a href="global.html#writeContactList">writeContactList</a></li><li><a href="global.html#writeContacts">writeContacts</a></li><li><a href="global.html#writeDate">writeDate</a></li><li><a href="global.html#writeInContacts">writeInContacts</a></li><li><a href="global.html#writeTime">writeTime</a></li><li><a href="global.html#writeUrgentDateContacts">writeUrgentDateContacts</a></li><li><a href="global.html#writeUserName">writeUserName</a></li><li><a href="global.html#wrongMailTemp">wrongMailTemp</a></li><li><a href="global.html#youReallyWantLeaveUs">youReallyWantLeaveUs</a></li><li><a href="global.html#youResetYourPW">youResetYourPW</a></li><li><a href="global.html#youResetYourPWTemp">youResetYourPWTemp</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Tue Nov 14 2023 15:19:49 GMT+0100 (Mitteleuropäische Normalzeit)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Mon Nov 20 2023 12:27:56 GMT+0100 (Mitteleuropäische Normalzeit)
 </footer>
 
 <script> prettyPrint(); </script>

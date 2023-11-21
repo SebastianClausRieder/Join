@@ -1,15 +1,16 @@
 /* Summary Beginn */
 
 .summary-main-contain {
-    width: 90%;
+    width: 100%;
     height: 100%;
 }
 
 .summary-title-contain {
-    width: 100%;
+    width: 95%;
     height: fit-content;
 
     gap: 35px;
+    margin-left: 75px;
 }
 
 .summary-title {
@@ -28,8 +29,9 @@
 }
 
 .summary-contain-1 {
-    width: 100%;
+    width: 90%;
     height: fit-content;
+    margin-left: 75px;
 }
 
 .summary-task-contain-1 {

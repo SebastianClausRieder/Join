@@ -37,6 +37,9 @@ function boardTemp(mainFolder, b) {
                 </div>
             </div>
             <div id="board-task-contain${b}" class="board-task-contain1 d-flex-center-column">
+                <div class="board-task-empty d-flex-center font-inter">
+                    <h5>No Task<br>${boardTaskName}</h5>
+                </div>
             </div>
             <div id="drop-area${b}" class="drop-area"></div>
         </div>
@@ -51,7 +54,8 @@ function boardTemp(mainFolder, b) {
 async function loadTasks(mainFolder, b) {
     const loadedTasks = joinUsers[userI]['userTasks'][mainFolder];
     const boardTask = element(`board-task-contain${b}`);
-    boardTask.innerHTML = ``;
+    
+    if ( loadedTasks.length ) { boardTask.innerHTML = ``; }
 
     for (let t = 0; t < loadedTasks.length; t++) {
         const loadedTask = loadedTasks[t];
@@ -195,11 +199,16 @@ function subtaskDone(loadedTask, mainFolder, b, t) {
 function loadAssigns(mainFolder, b, t) {
     const taskAssigns = joinUsers[userI]?.userTasks?.[mainFolder]?.[t]?.['assigned-user'];
     if (!taskAssigns) return;
+    userContacts = [];
+
+    taskAssigns.forEach((cMail) => {
+        findContactByMail(cMail);
+    });
 
     const taskAssignContain = element(`board-task-assign${b}${t}`);
     taskAssignContain.innerHTML = '';
 
-    taskAssigns.forEach(taskAssign => {
+    userContacts.forEach(taskAssign => {
         const contactInfos = findUserByName(taskAssign);
         if (!contactInfos) return;
 

@@ -1,6 +1,6 @@
 @media all and (min-width: 1001px) and (max-width: 1500px) {
-    .summary-main-contain {
-        width: 95%;
+    .summary-title-contain {
+        width: 90%;
     }
 
     .summary-title-text {
@@ -47,8 +47,8 @@
     }
 
     .summary-user-contain-1 {
-        width: 100%;
-        height: 400px;
+        width: 99%;
+        height: calc(100vh - 270px);
         position: absolute;
         background: var(--main-background);
         opacity: 1;

@@ -6,6 +6,7 @@ let addTaskTitle;
 let addTaskDescription;
 let addTaskCategory;
 let addTaskCategoryColor;
+let assignContactsByName = [];
 let assignContacts = [];
 let addTaskDueDate;
 let addTaskPrio;
@@ -29,6 +30,8 @@ let selectElement;
  * Opens the category drop down menu.
  */
 function openDropDownCategory() {
+    dropDownMenuIsOpen = false;
+    element('drop-down-menu-assign-to').classList.remove('d-show');
     let dropDownCategory = element('drop-down-menu-category');
 
     if (!showCategory) {
@@ -41,35 +44,7 @@ function openDropDownCategory() {
         dropDownCategory.innerHTML = ``;
         const fragment = document.createDocumentFragment();
 
-        for (let c = 0; c < joinUsers[userI]['category']['categoryName'].length; c++) {
-            const taskCategoryName = joinUsers[userI]['category']['categoryName'][c];
-            const taskCategoryColor = joinUsers[userI]['category']['categoryColor'][c];
-
-            const categoryContainer = document.createElement('div');
-            categoryContainer.classList.add('category-contain', 'd-flex-center');
-
-            const categoryNameSpan = document.createElement('span');
-            categoryNameSpan.classList.add('category-name', 'd-flex-start-center', 'font-inter');
-            categoryNameSpan.innerText = taskCategoryName;
-
-            const categoryColorImg = document.createElement('img');
-            categoryColorImg.classList.add('category-color');
-            categoryColorImg.src = taskCategoryColor;
-
-            categoryNameSpan.appendChild(categoryColorImg);
-
-            const clearCategoryImg = document.createElement('img');
-            clearCategoryImg.classList.add('clear-category');
-            clearCategoryImg.src = 'img/icon/clear-mark.png';
-            clearCategoryImg.onclick = () => clearCategory(c);
-
-            categoryNameSpan.onclick = () => selectCategory(taskCategoryName, taskCategoryColor);
-
-            categoryContainer.appendChild(categoryNameSpan);
-            categoryContainer.appendChild(clearCategoryImg);
-
-            fragment.appendChild(categoryContainer);
-        }
+        buildCategoryDropDownMenu(fragment);
 
         dropDownCategory.appendChild(fragment);
 
@@ -79,6 +54,42 @@ function openDropDownCategory() {
     } else {
         dropDownCategory.classList.remove('d-show');
         showCategory = false;
+        dropDownMenuIsOpen = false;
+    }
+}
+
+/**
+ * Creates the Dropdown menu for category.
+ */
+function buildCategoryDropDownMenu(fragment) {
+    for (let c = 0; c < joinUsers[userI]['category']['categoryName'].length; c++) {
+        const taskCategoryName = joinUsers[userI]['category']['categoryName'][c];
+        const taskCategoryColor = joinUsers[userI]['category']['categoryColor'][c];
+
+        const categoryContainer = document.createElement('div');
+        categoryContainer.classList.add('category-contain', 'd-flex-center');
+
+        const categoryNameSpan = document.createElement('span');
+        categoryNameSpan.classList.add('category-name', 'd-flex-start-center', 'font-inter');
+        categoryNameSpan.innerText = taskCategoryName;
+
+        const categoryColorImg = document.createElement('img');
+        categoryColorImg.classList.add('category-color');
+        categoryColorImg.src = taskCategoryColor;
+
+        categoryNameSpan.appendChild(categoryColorImg);
+
+        const clearCategoryImg = document.createElement('img');
+        clearCategoryImg.classList.add('clear-category');
+        clearCategoryImg.src = 'img/icon/clear-mark.png';
+        clearCategoryImg.onclick = () => clearCategory(c);
+
+        categoryNameSpan.onclick = () => selectCategory(taskCategoryName, taskCategoryColor);
+
+        categoryContainer.appendChild(categoryNameSpan);
+        categoryContainer.appendChild(clearCategoryImg);
+
+        fragment.appendChild(categoryContainer);
     }
 }
 
@@ -102,6 +113,7 @@ function selectCategory(selectedCategory, categoryColor) {
     addTaskCategoryColor = categoryColor;
 
     element('category-request').innerText = "";
+    dropDownMenuIsOpen = false;
 }
 
 /**
@@ -217,15 +229,20 @@ let showContacts = false;
  */
 function openDropDownAssignTo() {
     const dropDownContacts = element('drop-down-menu-assign-to');
-    const contactNames = joinUsers[userI]['userContacts']['contactName'];
+    const contactMail = joinUsers[userI]['userContacts']['contactMail'];
+    userContacts = [];
+
+    contactMail.forEach((cMail) => {
+        findContactByMail(cMail);
+    });
 
     if (!showContacts) {
         showContacts = true;
         dropDownContacts.classList.add('d-show');
         addMe(dropDownContacts);
 
-        for (let co = 0; co < contactNames.length; co++) {
-            const contactName = contactNames[co];
+        for (let co = 0; co < userContacts.length; co++) {
+            const contactName = userContacts[co];
             const isChecked = getContactIndex(contactName) === -1 ? '' : 'img/icon/check-mark.png';
 
             dropDownContacts.innerHTML += /*html */ `                    
@@ -242,6 +259,7 @@ function openDropDownAssignTo() {
     } else {
         dropDownContacts.classList.remove('d-show');
         showContacts = false;
+        dropDownMenuIsOpen = false;
     }
 }
 
@@ -287,11 +305,14 @@ function selectContact(name, co) {
     element(`assign-to-checked${co}`).src = isChecked ? 'img/icon/check-mark.png' : '';
 
     if (isChecked) {
-        assignContacts.push(assignContact);
+        assignContactsByName.push(assignContact);
+        assignContacts.push(findContactByName(assignContact));
     } else {
+        assignContactsByName.splice(contactIndex, 1);
         assignContacts.splice(contactIndex, 1);
     }
 
+    element('assign-to-request').innerText = '';
     showAssign();
 }
 
@@ -300,8 +321,8 @@ function selectContact(name, co) {
  */
 function showAssign() {
     let selectedContact = element('selector-assign-to-selected');
-    selectedContact.innerText = assignContacts.length > 0 ? assignContacts.map(assign => ` ${assign} -`).join('') : 'Select contacts to assign';
-    selectedContact.classList.toggle('color-black', assignContacts.length > 0);
+    selectedContact.innerText = assignContactsByName.length > 0 ? assignContactsByName.map(assign => ` ${assign} -`).join('') : 'Select contacts to assign';
+    selectedContact.classList.toggle('color-black', assignContactsByName.length > 0);
 }
 
 
@@ -311,7 +332,7 @@ function showAssign() {
  * @returns // Returns the result of the verification.
  */
 function getContactIndex(contactName) {
-    return assignContacts.indexOf(contactName);
+    return assignContactsByName.indexOf(contactName);
 }
 
 // Add Task Prio Button
@@ -333,6 +354,7 @@ function setPrioTo(prio) {
         const btn = element(`prio-btn-${option}`);
         if (prio === option) {
             btn.classList.add('bg-light-blue');
+            element('prio-request').innerText = '';
         } else {
             btn.classList.remove('bg-light-blue');
         }
@@ -351,6 +373,8 @@ let showAddTaskTo = false;
  * Opens the Add Task drop down menu.
  */
 function openDropDownAddTaskTo() {
+    dropDownMenuIsOpen = false;
+    element('drop-down-menu-assign-to').classList.remove('d-show');
     let dropDownAddTaskTo = element('drop-down-menu-add-to-task');
 
     if (!showAddTaskTo) {
@@ -368,6 +392,7 @@ function openDropDownAddTaskTo() {
     } else {
         dropDownAddTaskTo.classList.remove('d-show');
         showAddTaskTo = false;
+        dropDownMenuIsOpen = false;
     }
 }
 
@@ -398,6 +423,7 @@ function selectTask(selectedTask, keyName) {
     element('selector-add-to-task-select-contain').classList.add('d-none');
 
     showAddTaskTo = false;
+    dropDownMenuIsOpen = false;
 
     let taskSelected = element('selector-add-to-task-selected');
     taskSelected.classList.add('d-show');
@@ -477,6 +503,7 @@ function addSubtask() {
             subtasksCheckArray.push('not checked');
             subtask.value = '';
             showSubtasks = false;
+            element('subtask-request').innerText = '';
             renderSubtask();
         } else {
             subtaskRequest.innerText = "You have already created this subtask.";
@@ -491,17 +518,19 @@ function addSubtask() {
  */
 function subtaskCheck() {
     let subtasksContain = element('your-subtasks');
-    let subtaskCheckmark = element('subtask-checkmark');
 
     if (!showSubtasks) {
         showSubtasks = true;
-        subtaskCheckmark.src = `img/icon/check-mark.png`;
         subtasksContain.classList.add('d-show');
-        renderSubtask();
+        renderSubtask();        
+        
+        setTimeout(function() {
+            dropDownMenuIsOpen = true;
+        }, 100);
     } else {
         showSubtasks = false;
+        dropDownMenuIsOpen = false;
         subtasksContain.classList.remove('d-show');
-        subtaskCheckmark.src = ``;
     }
 }
 
@@ -512,8 +541,11 @@ function renderSubtask() {
     let subtasksContain = element('your-subtasks');
     subtasksContain.innerHTML = ``;
 
-    subtasksContain.innerHTML = subtasksArray.map(subtask => /*html */ `
-        <div class="your-subtask d-flex-start-center">  <span class="font-inter">${subtask}</span>  </div>
+    subtasksContain.innerHTML = subtasksArray.map((subtask, index) => /*html */ `
+        <div class="your-subtask d-flex-start-center">
+            <span class="font-inter">${subtask}</span>
+            <img src="img/icon/clear-mark.png" alt="" class="clear-category" onclick=(clearSubtask(${index}))>
+        </div>
     `).join('');
 }
 
@@ -524,6 +556,18 @@ function renderSubtask() {
  */
 function getSubtaskIndex(subtask) {
     return subtasksArray.indexOf(subtask);
+}
+
+/**
+ * Deletes the subtask from your subtasks array.
+ * @param {Array Position} index 
+ */
+async function clearSubtask(index) {
+    subtasksArray.splice(index, 1);
+    subtasksReadyArray.splice(index, 1);
+    subtasksCheckArray.splice(index, 1);
+
+    renderSubtask();
 }
 
 // Formvalidation Add Task
@@ -540,24 +584,39 @@ async function createNewTask(finishText) {
     validationNewTask();
 
     if (addTaskCheck.filter(item => item === 'ok').length === 9) {
-        joinUsers[userI]['userTasks'][addTaskTo].push({
-            "title": addTaskTitle,
-            "description": addTaskDescription,
-            "category": addTaskCategory,
-            "category-color": addTaskCategoryColor,
-            "assigned-user": assignContacts,
-            "due-date": addTaskDueDate,
-            "priority": addTaskPrio,
-            "subtask-list": subtasksArray,
-            "subtask-done": [],
-            "subtask-checkd": subtasksCheckArray,
-            "ready-subtask": subtasksReadyArray
+        assignContacts.forEach((assignContact) => {
+            joinUsers[findUserID(assignContact)]['userTasks'][addTaskTo].push({
+                "title": addTaskTitle,
+                "description": addTaskDescription,
+                "category": addTaskCategory,
+                "category-color": addTaskCategoryColor,
+                "assigned-user": assignContacts,
+                "due-date": addTaskDueDate,
+                "priority": addTaskPrio,
+                "subtask-list": subtasksArray,
+                "subtask-done": [],
+                "subtask-checkd": subtasksCheckArray,
+                "ready-subtask": subtasksReadyArray
+            });          
         });
         await updateTaskData();
         clearAddTask();
-        finishMessage(finishText);
+        finishMessage(finishText);  
     } else {
         pleaseCheckFormular();
+    }
+}
+
+/**
+ * Find the index from your Contact
+ * @param {string} assignContact 
+ * @returns Contact index.
+ */
+function findUserID(assignContact) {
+    for (let i = 0; i < joinUsers.length; i++) {
+        if (joinUsers[i]['userMail'] === assignContact) {
+            return [i];
+        }
     }
 }
 
@@ -575,8 +634,8 @@ function addDueDate() {
 
         if (addTaskDueDate > formattedDate) {
             addTaskCheck[5] = 'ok';
+            element('due-date-request').innerText = '';
             writeDate(addTaskDueDate);
-            element('due-date-request').innerText = "";
         } else {
             element('due-date-request').innerText = "Please enter a future date.";
         }
@@ -665,6 +724,20 @@ function clearAddTask() {
 }
 
 /**
+ * Deletes the request info when the input field has been filled out.
+ * @param {string} inputID 
+ * @param {string} requestID 
+ */
+function clearRequest(inputID, requestID) {
+    const inputField = document.getElementById(inputID);
+    const infoField = document.getElementById(requestID);
+
+    inputField.addEventListener('input', () => {
+        infoField.innerText = '';
+    });
+}
+
+/**
  * Clears all request fields.
  */
 function deleteRequestMessage() {
@@ -715,16 +788,19 @@ function pleaseCheckFormular() {
  */
 function finishMessage(finishText) {
     let messageContain = element('addTask-message-area');
+    let messageArea = element('addTask-finish-message-contain');
     let messageText = element('addTask-message');
 
     messageText.innerText = finishText;
     messageContain.classList.add('scale');
+    messageArea.classList.add('d-show');
     setTimeout(() => {
         messageContain.classList.remove('scale');
+        messageArea.classList.remove('d-show');
         messageText.innerText = '';
         goTo('board.html');
         element('board-add-task').classList.remove('scale');
-    }, 5000);
+    }, 2500);
 }
 
 /**
@@ -732,18 +808,22 @@ function finishMessage(finishText) {
  */
 document.addEventListener('click', function(event) {
     if (dropDownMenuIsOpen) {
-        dropDownMenuIsOpen = false;
-        showCategory = false;
-        showContacts = false;
-        showAddTaskTo = false;
         const dropdowns = document.querySelectorAll('.drop-down-menu');
 
         dropdowns.forEach(function(dropdown) {
             const target = event.target;
-    
-            if (!dropdown.contains(target)) {
-                dropdown.classList.remove('d-show');
+            
+            if (dropdown.classList.contains('d-show')) {
+
+                if (!dropdown.contains(target)) {
+                    dropdown.classList.remove('d-show');
+                    dropDownMenuIsOpen = false;
+                }
             }
         });
+
+        showCategory = false;
+        showContacts = false;
+        showAddTaskTo = false;
     }
 });

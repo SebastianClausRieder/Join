@@ -102,6 +102,7 @@ h2 {
     --transparent: #00000000;
     --add-contact: #97999b;
     --join-background: #29ABE2;
+    --empty-task: #97999b3c;
 
     /* Border */
     --scrollbar-hover: #1111C5;

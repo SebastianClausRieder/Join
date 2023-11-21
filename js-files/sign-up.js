@@ -35,12 +35,14 @@ async function addNewUserProfil() {
         signNameRequest.innerText = "Please enter your full Name.";
     } else if (nameInput.length < 5) {
         signNameRequest.innerText = "Your full name should be at least 5 characters long.";
+        newUserName = "";
     } else { newUserName = nameInput; }
     
     if (mailInput === "") { // Name field is empty, show error message.
         signMailRequest.innerText = "Please enter your E-Mail.";
     } else if (!isValidEmail(mailInput)) { // Input is not an email.
         signMailRequest.innerText = "Please enter a valid E-Mail.";
+        newUserMail = "";
     } else { // E-Mail has been entered, verifying existence.
         signMailRequest.innerText = "";
         newUserMail = mailInput;
@@ -49,18 +51,15 @@ async function addNewUserProfil() {
 
     if (pwInput === "") { // PW field is empty, show error message.
         signPWRequest.innerText = "Please enter a Password.";
-    } else { newUserPW = pwInput; }
-
-    if (pwInput === "") { // PW field is empty, show error message.
-        signPWRequest.innerText = "Please enter a Password.";
     } else if (!checkPasswordValidity(pwInput)) { // Password does not meet the criteria, show error message.
         signPWRequest.innerText = "Please look at the criteria list.";
+        newUserPW = "";
     } else { // Password meets the criteria, save it.
         signPWRequest.innerText = "";
         newUserPW = pwInput;
     }
 
-    if (nameInput === "" || mailInput === "" || pwInput === "") {
+    if (newUserName === "" || newUserMail === "" || newUserPW === "") {
 
     } else if (mailExiste === null) {
         pushToArray();
@@ -128,7 +127,7 @@ async function pushToArray() {
             categoryColor: ['img/icon/circle-pink.png', 'img/icon/circle-blue.png', 'img/icon/circle-turquoise.png']
         },
         userContacts: {
-                contactName: []
+                contactMail: []
             }
     });
 
@@ -153,6 +152,10 @@ function thankYou() {
     }, 3000);
 }
 
+/**
+ * Render info Message.
+ * @returns Returns the HTML construct.
+ */
 function thxTemp() {
     return /*html */ `
         <span class="message-sign-up">Thank you for registering with Join.</span>

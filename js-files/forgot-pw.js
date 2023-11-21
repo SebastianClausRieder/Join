@@ -88,6 +88,10 @@ function action(formData) {
 
 // Message Temps
 
+/**
+ * Render Mail send Info.
+ * @returns Returns the HTML construct.
+ */
 function mailSendTemp() {
   return /*html */ `
     <div class="mail-check-contain d-flex-center">
@@ -100,6 +104,10 @@ function mailSendTemp() {
 `;
 }
 
+/**
+ * Render Mail send Info.
+ * @returns Returns the HTML construct.
+ */
 function mailNotSendTemp() {
   return /*html */ `
     <div class="mail-check-contain d-flex-center">
@@ -112,6 +120,10 @@ function mailNotSendTemp() {
 `;
 }
 
+/**
+ * Render Mail send Info.
+ * @returns Returns the HTML construct.
+ */
 function wrongMailTemp() {
   return /*html */ `
     <div class="mail-check-contain d-flex-center">
@@ -130,6 +142,7 @@ function wrongMailTemp() {
 
 let resetMail;
 let resetUser;
+
 /**
  * Performs a series of functions after the page loads.
  */
@@ -200,6 +213,10 @@ function youResetYourPW() {
   message.innerHTML = youResetYourPWTemp();
 }
 
+/**
+ * Render Info Message.
+ * @returns Returns the HTML construct.
+ */
 function youResetYourPWTemp() {
   return /*html */ `
   <div class="YRYPW-contain d-flex-center">

@@ -292,6 +292,10 @@ async function openProfileEditor() {
     }
 }
 
+/**
+ * Render Profile Editor.
+ * @returns Returns the HTML construct.
+ */
 async function profileEditorTemp() {
     return /*html */ `
         <div class="editor-main-contain d-flex-start-column">

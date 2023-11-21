@@ -5,6 +5,10 @@
         height: calc(100vh - 50px);
     }
 
+    .add-task-title {
+        margin-left: 25px;
+    }
+
     /* Formvalidation */
     
     .add-task-formvalidation {
@@ -13,6 +17,7 @@
         flex-direction: column;
     
         margin-top: -10px;
+        margin-left: 25px;
     }
 
     /* Formvalidation left side */
@@ -107,7 +112,7 @@
     /* Prio */
     
     .prio-btn-contain {
-        width: 95%;
+        width: 90%;
         height: 37px;
     }
 
@@ -139,15 +144,16 @@
     }
 
     .your-subtasks-contain {
-        width: 100%;
+        width: 90%;
         height: 50px;
     }
 
     /* Finish Buttons */
     
     .addTask-finish-btn-contain1 {
-        width: 100%;
+        width: 90%;
         height: fit-content;
+        margin-left: 25px;
     }
 
     .addTask-finish-btn-contain2 {    

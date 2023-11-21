@@ -10,8 +10,13 @@ let myContatcsArray = [];
  * Loads the user's contacts.
  */
 function loadContacts() {
-    const userContacts = joinUsers[userI]['userContacts']['contactName'];
-    
+    const userContactsByMail = joinUsers[userI]['userContacts']['contactMail'];
+    userContacts = [];
+
+    userContactsByMail.forEach((cMail) => {
+        findContactByMail(cMail);
+    });
+
     if (userContacts && userContacts.length > 0) {
         const sortedContacts = userContacts.sort();
         myContatcsArray = groupContactsByInitial(sortedContacts);
@@ -145,6 +150,11 @@ async function addNewContact(ID) {
     rightSideOpen = true;
 }
 
+/**
+ * Renders Add Contact.
+ * @param {string} ID 
+ * @returns Returns the HTML construct.
+ */
 async function addContactTemp(ID) {
     return /*html */ `
         <div id="add-contact-main" class="add-contact-main d-flex-center">
@@ -277,7 +287,7 @@ function addContact(ID) {
     const newContactMail = element('add-contact-mail-input').value;
 
     if (newContactName !== '' && newContactMail !== '') {
-        element('add-contact-name-request').innerText = 'You can only search for a name or an mail.';
+        element('add-contact-name-request').innerText = 'Only name or mail.';
     } else {
         if (newContactName !== '' || newContactMail !== '') {
             const checked = checkUserIsOnJoin(newContactName, newContactMail);
@@ -318,10 +328,10 @@ function checkUserIsOnJoin(newContactName, newContactMail) {
  * @param {ID} ID Tells the function into which DIV container Add contact should be loaded.
  */
 async function addToContacts(newContactName, newContactMail, ID) {
-    let foundName = newContactMail ? findNewContactByMail(newContactMail) : newContactName;
+    let foundMail = newContactName ? findContactByName(newContactName) : newContactMail;
     
     if (!getMyContactIndex(foundName)) {
-        joinUsers[userI]['userContacts']['contactName'].push(foundName);
+        joinUsers[userI]['userContacts']['contactMail'].push(foundMail);
         clearAddContact();
         successfullyAdded(ID);
         loadContacts();
@@ -333,11 +343,11 @@ async function addToContacts(newContactName, newContactMail, ID) {
 
 /**
  * Checks if the Contact already exists in your Contacts array.
- * @param {string} foundName // Name from Contact.
+ * @param {string} foundMail // Mail from Contact.
  * @returns // Returns the result of the verification.
  */
-function getMyContactIndex(foundName) {
-    return joinUsers[userI].userContacts.contactName.includes(foundName);
+function getMyContactIndex(foundMail) {
+    return joinUsers[userI].userContacts.contactMail.includes(foundMail);
 }
 
 /**
@@ -378,6 +388,10 @@ async function successfullyAdded(ID) {
     }, 5000));
 }
 
+/**
+ * Render Successfully Info.
+ * @returns Returns the HTML construct.
+ */
 async function successfullyAddedTemp() {
     return /*html */ `        
         <div class="add-contact-main d-flex-center">
@@ -427,7 +441,7 @@ async function cancelAddContact(ID) {
  * @param {opject} contact Name of the selected contact.
  */
 async function deleteContact(contact) {
-    const userContactsArray = joinUsers[userI]['userContacts']['contactName'];
+    const userContactsArray = joinUsers[userI]['userContacts']['contactMail'];
     const index = userContactsArray.indexOf(contact);
 
     if (index !== -1) {
@@ -471,6 +485,11 @@ async function showclickedContact(contact) {
     loadWatchContacts(contact);
 }
 
+/**
+ * Render Contact Infos.
+ * @param {string} contact 
+ * @returns Returns the HTML construct.
+ */
 async function clickedContactTemp(contact) {
     let contactInfos = findUserByName(contact);
     let contactInitials = extractedInitials(contactInfos['userName']);
@@ -481,7 +500,7 @@ async function clickedContactTemp(contact) {
                     <div class="contact-name-contain2 d-flex-start-center">
                         <span class="contact-name font-inter">${contactInfos['userName']}</span>
                     </div>
-                    <button class="delete-contact font-inter d-flex-start-center" onclick="deleteContact('${contactInfos['userName']}')"><img src="img/icon/delete.png" class="delete-contact-icon"><img src="img/icon/delete-blue.png" class="delete-contact-icon-blue"> Delete Contact</button>
+                    <button class="delete-contact font-inter d-flex-start-center" onclick="deleteContact('${contactInfos['userMail']}')"><img src="img/icon/delete.png" class="delete-contact-icon"><img src="img/icon/delete-blue.png" class="delete-contact-icon-blue"> Delete Contact</button>
                 </div>
                 <div class="contact-name-contain-right d-flex-center">
                     <div class="contact-initials-bg d-flex-center font-inter" style="background-color: ${contactInfos['userColor']};">${contactInitials}</div>
